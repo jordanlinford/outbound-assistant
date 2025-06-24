@@ -22,14 +22,34 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  campaigns     Campaign[]
-  calendarEvents CalendarEvent[]
-  createdAt     DateTime  @default(now())
-  updatedAt     DateTime  @updatedAt
+  
+  // Subscription fields
+  stripeCustomerId     String?
+  stripeSubscriptionId String?
+  serviceLevelId       String   @default("free")
+  subscriptionStatus   String?  // active, canceled, past_due, etc.
+  currentPeriodStart   DateTime?
+  currentPeriodEnd     DateTime?
+  
+  // Relations
+  campaigns            Campaign[]
+  lists                List[]
+  calendarEvents       CalendarEvent[]
+  emailInteractions    EmailInteraction[]
+  usageRecords         UsageRecord[]
+  
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
   googleAccessToken   String? @db.Text
   googleRefreshToken  String? @db.Text
   googleTokenExpiresAt DateTime?
   googleEmail         String?
+  
+  // Microsoft/Outlook integration fields
+  microsoftAccessToken   String? @db.Text
+  microsoftRefreshToken  String? @db.Text
+  microsoftTokenExpiresAt DateTime?
+  microsoftEmail         String?
 }
 
 model Account {
@@ -59,6 +79,25 @@ model Session {
   user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
 }
 
+model List {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  color       String?  // hex color for UI
+  isDefault   Boolean  @default(false)
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Relations
+  prospects   ProspectList[]
+  campaigns   CampaignList[]
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([userId, name])
+}
+
 model Campaign {
   id          String   @id @default(cuid())
   name        String
@@ -68,9 +107,29 @@ model Campaign {
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   sequences   Sequence[]
   prospects   Prospect[]
+  lists       CampaignList[]
   calendarEvents CalendarEvent[]
+  
+  // Auto-enrollment settings
+  autoEnrollFromLists Boolean @default(false)
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+}
+
+model CampaignList {
+  id         String   @id @default(cuid())
+  campaignId String
+  listId     String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  list       List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  
+  // Auto-enrollment settings for this specific list-campaign relationship
+  autoEnroll Boolean  @default(true)
+  
+  createdAt  DateTime @default(now())
+  
+  @@unique([campaignId, listId])
 }
 
 model Sequence {
@@ -95,10 +154,32 @@ model Prospect {
   status      String   @default("new") // new, contacted, responded, qualified, unqualified
   campaignId  String
   campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  interactions Interaction[]
-  calendarEvents CalendarEvent[]
+  
+  // Relations
+  interactions    Interaction[]
+  calendarEvents  CalendarEvent[]
+  lists           ProspectList[]
+  
   createdAt   DateTime @default(now())
   updatedAt   DateTime @updatedAt
+  
+  @@unique([email, campaignId])
+}
+
+model ProspectList {
+  id         String   @id @default(cuid())
+  prospectId String
+  listId     String
+  prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  list       List     @relation(fields: [listId], references: [id], onDelete: Cascade)
+  
+  // Metadata
+  addedBy    String?  // user who added this prospect to the list
+  tags       String[] // additional tags for this prospect in this list
+  
+  createdAt  DateTime @default(now())
+  
+  @@unique([prospectId, listId])
 }
 
 model Interaction {
@@ -130,4 +211,112 @@ model CalendarEvent {
   attendees     String?   @db.Text // JSON array of attendee emails
   createdAt     DateTime  @default(now())
   updatedAt     DateTime  @updatedAt
-} 
+}
+
+model EmailSequence {
+  id           String   @id @default(cuid())
+  toEmail      String
+  subject      String
+  body         String   @db.Text
+  scheduledFor DateTime
+  sequenceType String   // value-add, check-in, social-proof, final-ask, queued_response
+  status       String   @default("scheduled") // scheduled, sent, failed
+  sentAt       DateTime?
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
+}
+
+model EmailInteraction {
+  id              String   @id @default(cuid())
+  fromEmail       String
+  subject         String
+  body            String   @db.Text
+  threadId        String?
+  intent          String?
+  sentiment       String?  // positive, neutral, negative
+  urgency         String?  // low, medium, high
+  responseSubject String?
+  responseBody    String?  @db.Text
+  responseType    String   // automated, manual, human_review_needed
+  confidence      Float?
+  routingReason   String?
+  priority        String?  // low, medium, high
+  userId          String?
+  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
+  
+  createdAt       DateTime @default(now())
+  updatedAt       DateTime @updatedAt
+}
+
+model UsageRecord {
+  id          String   @id @default(cuid())
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  
+  // Usage tracking
+  month       Int      // 1-12
+  year        Int      // 2024, 2025, etc.
+  
+  emailsSent           Int @default(0)
+  campaignsCreated     Int @default(0)
+  linkedinPostsGenerated Int @default(0)
+  aiResponsesGenerated   Int @default(0)
+  
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+  
+  @@unique([userId, month, year])
+}
+
+model PaymentRecord {
+  id                String   @id @default(cuid())
+  userId            String
+  stripePaymentId   String   @unique
+  amount            Int      // Amount in cents
+  currency          String   @default("usd")
+  status            String   // succeeded, pending, failed
+  serviceLevelId    String
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model LeadScore {
+  id                    String   @id @default(cuid())
+  email                 String   @unique
+  firstName             String?
+  lastName              String?
+  company               String?
+  title                 String?
+  overallScore          Int      // 0-100
+  qualification         String   // hot, warm, cold, unqualified
+  reasons               String[] // array of scoring reasons
+  buyingSignals         String[] // array of positive indicators
+  redFlags              String[] // array of concerns
+  suggestedApproach     String?  @db.Text
+  estimatedBudget       String?
+  decisionMakerLevel    String?  // high, medium, low
+  urgency               String?  // high, medium, low
+  personalizedMessage   String?  @db.Text
+  
+  createdAt             DateTime @default(now())
+  updatedAt             DateTime @updatedAt
+}
+
+model EmailWarmup {
+  id                String   @id @default(cuid())
+  userId            String
+  email             String
+  phase             String   // initializing, warming_up, warmed_up
+  dailyLimit        Int
+  currentVolume     Int      @default(0)
+  targetReplyRate   Float
+  startDate         DateTime
+  status            String   // active, paused, completed
+  
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+  
+  @@unique([userId, email])
+}

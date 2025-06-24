@@ -1,6 +1,6 @@
 'use client';
 
-import React, { useState } from 'react';
+import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 
 interface MicrosoftLoginButtonProps {
@@ -29,7 +29,7 @@ export function MicrosoftLoginButton({
     
     try {
       // Use server-side OAuth flow instead of MSAL
-      const clientId = '51053a02-c0b5-4531-a846-0babd33be3e1'; // Direct client ID to avoid process.env issues
+      const clientId = process.env.NEXT_PUBLIC_MICROSOFT_CLIENT_ID;
       const redirectUri = encodeURIComponent(`${window.location.origin}/api/auth/microsoft/callback`);
       const scopes = encodeURIComponent([
         'openid',
@@ -43,8 +43,7 @@ export function MicrosoftLoginButton({
         'https://graph.microsoft.com/Calendars.ReadWrite',
       ].join(' '));
       
-      // Use a simple, reliable state parameter
-      const state = encodeURIComponent(`user_${session.user.email?.replace(/[^a-zA-Z0-9]/g, '_')}_${Date.now()}`);
+      const state = session.user.id; // Use user ID as state for security
       
       const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?` +
         `client_id=${clientId}&` +
@@ -53,12 +52,6 @@ export function MicrosoftLoginButton({
         `scope=${scopes}&` +
         `state=${state}&` +
         `response_mode=query`;
-      
-      console.log('Microsoft OAuth URL:', authUrl);
-      console.log('State parameter:', state);
-      
-      // Store state in sessionStorage for validation
-      sessionStorage.setItem('microsoft_oauth_state', decodeURIComponent(state));
       
       // Redirect to Microsoft OAuth
       window.location.href = authUrl;
