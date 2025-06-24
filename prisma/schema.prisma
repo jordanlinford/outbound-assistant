@@ -1,0 +1,133 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Looking for ways to speed up your queries, or scale easily with your serverless or edge functions?
+// Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
+
+generator client {
+  provider = "prisma-client-js"
+  output   = "../src/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String    @id @default(cuid())
+  name          String?
+  email         String    @unique
+  emailVerified DateTime?
+  image         String?
+  accounts      Account[]
+  sessions      Session[]
+  campaigns     Campaign[]
+  calendarEvents CalendarEvent[]
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  googleAccessToken   String? @db.Text
+  googleRefreshToken  String? @db.Text
+  googleTokenExpiresAt DateTime?
+  googleEmail         String?
+}
+
+model Account {
+  id                String  @id @default(cuid())
+  userId            String
+  type              String
+  provider          String
+  providerAccountId String
+  refresh_token     String? @db.Text
+  access_token      String? @db.Text
+  expires_at        Int?
+  token_type        String?
+  scope             String?
+  id_token          String? @db.Text
+  session_state     String?
+
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([provider, providerAccountId])
+}
+
+model Session {
+  id           String   @id @default(cuid())
+  sessionToken String   @unique
+  userId       String
+  expires      DateTime
+  user         User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+}
+
+model Campaign {
+  id          String   @id @default(cuid())
+  name        String
+  description String?
+  status      String   @default("draft") // draft, active, paused, completed
+  userId      String
+  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sequences   Sequence[]
+  prospects   Prospect[]
+  calendarEvents CalendarEvent[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Sequence {
+  id          String   @id @default(cuid())
+  name        String
+  type        String   // email, linkedin
+  content     String   @db.Text
+  delay       Int      // delay in hours before sending
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  order       Int
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Prospect {
+  id          String   @id @default(cuid())
+  email       String
+  name        String?
+  company     String?
+  title       String?
+  status      String   @default("new") // new, contacted, responded, qualified, unqualified
+  campaignId  String
+  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  interactions Interaction[]
+  calendarEvents CalendarEvent[]
+  createdAt   DateTime @default(now())
+  updatedAt   DateTime @updatedAt
+}
+
+model Interaction {
+  id          String   @id @default(cuid())
+  type        String   // email_sent, email_opened, email_replied, linkedin_sent, linkedin_replied
+  content     String?  @db.Text
+  prospectId  String
+  prospect    Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  createdAt   DateTime @default(now())
+}
+
+model CalendarEvent {
+  id            String    @id @default(cuid())
+  title         String
+  description   String?   @db.Text
+  startTime     DateTime
+  endTime       DateTime
+  type          String    // meeting, call, follow-up, demo, networking, etc.
+  status        String    @default("scheduled") // scheduled, completed, cancelled, rescheduled
+  location      String?   // physical address, zoom link, phone number, etc.
+  prospectId    String?
+  prospect      Prospect? @relation(fields: [prospectId], references: [id], onDelete: SetNull)
+  campaignId    String?
+  campaign      Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
+  userId        String
+  user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  googleEventId String?   // for Google Calendar sync
+  reminders     String?   @db.Text // JSON array of reminder times
+  attendees     String?   @db.Text // JSON array of attendee emails
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+} 

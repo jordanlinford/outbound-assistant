@@ -1,0 +1,19 @@
+{
+  "name": "startup-assistant",
+  "version": "1.0.0",
+  "private": true,
+  "scripts": {
+    "dev": "cd outbound-assistant && npm run dev",
+    "dev:frontend": "cd outbound-assistant && npm run dev:frontend",
+    "dev:backend": "cd outbound-assistant && npm run dev:backend",
+    "build": "cd outbound-assistant && npm run build",
+    "start": "cd outbound-assistant && npm run start",
+    "install:all": "cd outbound-assistant && npm install",
+    "prisma:generate": "cd outbound-assistant && npx prisma generate",
+    "prisma:migrate": "cd outbound-assistant && npx prisma migrate dev",
+    "prisma:studio": "cd outbound-assistant && npx prisma studio"
+  },
+  "workspaces": [
+    "outbound-assistant"
+  ]
+} 
