@@ -2,6 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
+import InviteCodeRedeemer from '@/components/InviteCodeRedeemer';
 import SubscriptionManager from '@/components/SubscriptionManager';
 
 interface SubscriptionDetails {
@@ -186,6 +187,14 @@ export default function SubscriptionPage() {
             </div>
           </div>
         </div>
+      )}
+
+      {/* Invite Code Section for Free Users */}
+      {!isPro && (
+        <InviteCodeRedeemer 
+          onSuccess={() => window.location.reload()} 
+          className="mb-6"
+        />
       )}
 
       {/* Free Plan Information */}

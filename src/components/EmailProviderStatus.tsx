@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useSession } from 'next-auth/react';
 import { CheckCircleIcon, XCircleIcon, ExclamationTriangleIcon, QuestionMarkCircleIcon } from '@heroicons/react/24/outline';
 import { MicrosoftLoginButton } from './MicrosoftLoginButton';
+import { GmailAuthButton, useIncrementalAuthCallback } from './IncrementalAuthButton';
 
 interface EmailProviderStatus {
   gmail: {
@@ -51,11 +52,28 @@ export function EmailProviderStatus() {
   const [loading, setLoading] = useState(true);
   const [connecting, setConnecting] = useState<string | null>(null);
 
+  // Handle incremental auth callbacks
+  useIncrementalAuthCallback();
+
   useEffect(() => {
     if (session) {
       checkProviderStatus();
     }
   }, [session]);
+
+  // Listen for incremental auth success
+  useEffect(() => {
+    const handleAuthSuccess = (event: CustomEvent) => {
+      const scopes = event.detail.scopes;
+      if (scopes.includes('gmail')) {
+        // Refresh status after Gmail authorization
+        setTimeout(() => checkProviderStatus(), 1000);
+      }
+    };
+
+    window.addEventListener('incrementalAuthSuccess', handleAuthSuccess as EventListener);
+    return () => window.removeEventListener('incrementalAuthSuccess', handleAuthSuccess as EventListener);
+  }, []);
 
   const checkProviderStatus = async () => {
     setLoading(true);
@@ -78,15 +96,15 @@ export function EmailProviderStatus() {
     setLoading(false);
   };
 
-  const handleConnect = async (provider: 'gmail' | 'outlook') => {
-    setConnecting(provider);
-    
-    if (provider === 'gmail') {
-      window.location.href = '/api/auth/signin/google';
-    } else {
-      // Outlook connection is handled by MicrosoftLoginButton
-      setConnecting(null);
-    }
+  const handleGmailSuccess = (scopes: string[]) => {
+    console.log('Gmail authorized with scopes:', scopes);
+    setConnecting(null);
+    // Status will be refreshed by the event listener
+  };
+
+  const handleGmailError = (error: string) => {
+    console.error('Gmail authorization failed:', error);
+    setConnecting(null);
   };
 
   const handleMicrosoftSuccess = () => {
@@ -209,13 +227,11 @@ export function EmailProviderStatus() {
           <div className="flex items-center space-x-3">
             {getStatusIcon(status.gmail)}
             {status.gmail.status !== 'ready' && (
-              <button
-                onClick={() => handleConnect('gmail')}
-                disabled={connecting === 'gmail'}
+              <GmailAuthButton
                 className="inline-flex items-center px-3 py-1 border border-gray-300 shadow-sm text-sm leading-4 font-medium rounded-md text-gray-700 bg-white hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500 disabled:opacity-50"
-              >
-                {connecting === 'gmail' ? 'Connecting...' : 'Connect'}
-              </button>
+                onSuccess={handleGmailSuccess}
+                onError={handleGmailError}
+              />
             )}
           </div>
         </div>

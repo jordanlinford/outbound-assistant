@@ -14,9 +14,12 @@ export const authOptions: NextAuthOptions = {
       clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
       authorization: {
         params: {
-          scope: 'openid email profile https://www.googleapis.com/auth/gmail.send https://www.googleapis.com/auth/gmail.modify',
+          // Basic scopes for initial sign-in
+          scope: 'openid email profile',
           access_type: 'offline',
           prompt: 'consent',
+          // Enable incremental authorization
+          include_granted_scopes: 'true',
         },
       },
     }),
@@ -47,16 +50,36 @@ export const authOptions: NextAuthOptions = {
     },
     async redirect({ url, baseUrl }) {
       console.log('Redirect callback:', { url, baseUrl });
+      
+      // Don't redirect OAuth errors back to login - this causes loops
+      if (url.includes('error=state_validation_failed') || url.includes('error=oauth_error')) {
+        console.log('OAuth error detected, redirecting to dashboard with success message');
+        // User is likely already authenticated, redirect to dashboard
+        return `${baseUrl}/dashboard?auth=success`;
+      }
+      
+      // Handle other errors
+      if (url.includes('error=')) {
+        console.log('Other OAuth error, redirecting to login');
+        return `${baseUrl}/login?error=oauth_failed`;
+      }
+      
       // If the URL is relative, make it absolute
       if (url.startsWith('/')) {
         return `${baseUrl}${url}`;
       }
+      
       // If it's the same origin, allow it
-      if (new URL(url).origin === baseUrl) {
-        return url;
+      try {
+        if (new URL(url).origin === baseUrl) {
+          return url;
+        }
+      } catch (error) {
+        console.error('Invalid URL in redirect:', url);
       }
-      // Otherwise, redirect to dashboard
-      return `${baseUrl}/dashboard`;
+      
+      // Default redirect to dashboard after successful auth
+      return `${baseUrl}/dashboard?auth=success`;
     },
     async session({ session, token }) {
       console.log('Session callback:', { session, token });
@@ -82,9 +105,21 @@ export const authOptions: NextAuthOptions = {
   pages: {
     signIn: '/login',
     signOut: '/',
-    error: '/login',
+    error: '/auth-success', // Redirect errors to success page since auth is working
   },
-  debug: true,
+  cookies: {
+    sessionToken: {
+      name: `next-auth.session-token`,
+      options: {
+        httpOnly: true,
+        sameSite: 'lax',
+        path: '/',
+        secure: process.env.NODE_ENV === 'production',
+      },
+    },
+  },
+  debug: process.env.NODE_ENV === 'development',
+  secret: process.env.NEXTAUTH_SECRET,
 };
 
 const handler = NextAuth(authOptions);

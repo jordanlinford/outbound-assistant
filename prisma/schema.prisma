@@ -31,6 +31,10 @@ model User {
   currentPeriodStart   DateTime?
   currentPeriodEnd     DateTime?
   
+  // Invite code fields
+  inviteCodeUsed       String?  // The invite code they used
+  inviteCodeRedeemedAt DateTime? // When they redeemed it
+  
   // Relations
   campaigns            Campaign[]
   lists                List[]
@@ -319,4 +323,25 @@ model EmailWarmup {
   updatedAt         DateTime @updatedAt
   
   @@unique([userId, email])
+}
+
+model InviteCode {
+  id           String   @id @default(cuid())
+  code         String   @unique // The actual invite code (e.g., "BETA2024", "FRIEND50")
+  description  String?  // Optional description for the code
+  serviceLevelId String @default("pro-monthly") // What service level to grant
+  maxUses      Int      @default(1) // How many times this code can be used
+  usedCount    Int      @default(0) // How many times it's been used
+  expiresAt    DateTime? // Optional expiration date
+  isActive     Boolean  @default(true) // Can be disabled
+  
+  // Who can use this code
+  allowedEmails String[] // Optional: restrict to specific emails
+  
+  // Metadata
+  createdBy    String?  // Admin who created it
+  notes        String?  // Internal notes
+  
+  createdAt    DateTime @default(now())
+  updatedAt    DateTime @updatedAt
 }

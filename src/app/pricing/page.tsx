@@ -3,6 +3,7 @@
 import { useState } from 'react';
 import { useSession } from 'next-auth/react';
 import { SERVICE_LEVELS, FREE_TIER } from '@/lib/stripe-client';
+import InviteCodeRedeemer from '@/components/InviteCodeRedeemer';
 
 export default function PricingPage() {
   const { data: session } = useSession();
@@ -251,6 +252,14 @@ export default function PricingPage() {
               </p>
             </div>
           </div>
+        </div>
+
+        {/* Invite Code Section */}
+        <div className="mt-20 max-w-2xl mx-auto">
+          <InviteCodeRedeemer 
+            onSuccess={() => window.location.reload()} 
+            className="mb-12"
+          />
         </div>
 
         {/* CTA Section */}
