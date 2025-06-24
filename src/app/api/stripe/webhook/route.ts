@@ -3,22 +3,29 @@ import { stripe, getServiceLevelByPriceId } from '@/lib/stripe';
 import { prisma } from '@/lib/prisma';
 import Stripe from 'stripe';
 
-const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET!;
+const endpointSecret = process.env.STRIPE_WEBHOOK_SECRET;
 
 export async function POST(request: NextRequest) {
+  // Check if Stripe is configured
+  if (!process.env.STRIPE_SECRET_KEY || !endpointSecret) {
+    return NextResponse.json({ error: 'Stripe not configured' }, { status: 500 });
+  }
+
   const body = await request.text();
   const signature = request.headers.get('stripe-signature')!;
 
   let event: Stripe.Event;
 
   try {
-    event = stripe.webhooks.constructEvent(body, signature, endpointSecret);
+    const stripeInstance = stripe();
+    event = stripeInstance.webhooks.constructEvent(body, signature, endpointSecret);
   } catch (error) {
     console.error('Webhook signature verification failed:', error);
     return NextResponse.json({ error: 'Invalid signature' }, { status: 400 });
   }
 
   try {
+    const stripeInstance = stripe();
     switch (event.type) {
       case 'checkout.session.completed': {
         const session = event.data.object as Stripe.Checkout.Session;
@@ -30,7 +37,7 @@ export async function POST(request: NextRequest) {
         }
 
         // Get the subscription details
-        const subscription = await stripe.subscriptions.retrieve(
+        const subscription = await stripeInstance.subscriptions.retrieve(
           session.subscription as string
         );
 
@@ -77,7 +84,7 @@ export async function POST(request: NextRequest) {
 
         if (!subscriptionId) break;
 
-        const subscription = await stripe.subscriptions.retrieve(subscriptionId);
+        const subscription = await stripeInstance.subscriptions.retrieve(subscriptionId);
         
         // Find user by subscription ID
         const user = await prisma.user.findFirst({

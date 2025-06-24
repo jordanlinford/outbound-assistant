@@ -3,13 +3,18 @@
   "version": "0.1.0",
   "private": true,
   "scripts": {
-    "dev": "concurrently --kill-others-on-fail \"npm run dev:frontend\" \"npm run dev:backend\"",
+    "dev": "next dev",
     "dev:frontend": "next dev",
     "dev:frontend-only": "next dev --port 3000",
     "dev:backend": "uvicorn api.main:app --reload --port 8000",
-    "build": "next build",
+    "build": "cp .env.build .env && next build",
     "start": "next start",
-    "lint": "next lint"
+    "lint": "next lint",
+    "postinstall": "prisma generate",
+    "db:generate": "prisma generate",
+    "db:push": "prisma db push",
+    "db:migrate": "prisma migrate dev",
+    "vercel-build": "npm run db:generate && npm run build"
   },
   "dependencies": {
     "@auth/prisma-adapter": "^2.9.1",

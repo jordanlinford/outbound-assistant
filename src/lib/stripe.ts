@@ -1,9 +1,24 @@
 import Stripe from 'stripe';
 
-// Only initialize Stripe on server-side
-export const stripe = new Stripe(process.env.STRIPE_SECRET_KEY!, {
-  apiVersion: '2025-05-28.basil',
-});
+// Only initialize Stripe on server-side and when environment variables are available
+let stripe: Stripe | null = null;
+
+function getStripe(): Stripe {
+  if (!stripe && process.env.STRIPE_SECRET_KEY) {
+    stripe = new Stripe(process.env.STRIPE_SECRET_KEY, {
+      apiVersion: '2025-05-28.basil',
+    });
+  }
+  
+  if (!stripe) {
+    throw new Error('Stripe is not configured. Please add STRIPE_SECRET_KEY to your environment variables.');
+  }
+  
+  return stripe;
+}
+
+// Export the getter function instead of the instance
+export { getStripe as stripe };
 
 export interface ServiceLevel {
   id: string;
@@ -129,7 +144,8 @@ export async function createCheckoutSession(
   userId: string,
   userEmail: string
 ): Promise<Stripe.Checkout.Session> {
-  return await stripe.checkout.sessions.create({
+  const stripeInstance = getStripe();
+  return await stripeInstance.checkout.sessions.create({
     mode: 'subscription',
     payment_method_types: ['card'],
     line_items: [
@@ -148,7 +164,8 @@ export async function createCheckoutSession(
 }
 
 export async function createPortalSession(customerId: string): Promise<Stripe.BillingPortal.Session> {
-  return await stripe.billingPortal.sessions.create({
+  const stripeInstance = getStripe();
+  return await stripeInstance.billingPortal.sessions.create({
     customer: customerId,
     return_url: `${process.env.NEXTAUTH_URL}/dashboard`,
   });
