@@ -7,7 +7,7 @@
     "dev:frontend": "next dev",
     "dev:frontend-only": "next dev --port 3000",
     "dev:backend": "uvicorn api.main:app --reload --port 8000",
-    "build": "cp .env.build .env && next build",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint",
     "postinstall": "prisma generate",
