@@ -38,5 +38,18 @@
         }
       ]
     }
+  ],
+  "redirects": [
+    {
+      "source": "/:path*",
+      "has": [
+        {
+          "type": "host",
+          "value": "www.outboundassistant.com"
+        }
+      ],
+      "destination": "https://outboundassistant.com/:path*",
+      "statusCode": 308
+    }
   ]
 } 
