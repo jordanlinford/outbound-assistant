@@ -143,14 +143,19 @@ export async function GET() {
     });
 
     const hasGoogleAccount = user?.accounts && user.accounts.length > 0;
-    const accountAccessToken = hasGoogleAccount ? user.accounts[0].access_token : null;
+    const account = hasGoogleAccount ? user.accounts[0] : null;
+    const accountAccessToken = account?.access_token || null;
     const userAccessToken = user?.googleAccessToken;
     
     // Prefer account token (NextAuth standard) but fall back to user token
     const hasAccessToken = !!(accountAccessToken || userAccessToken);
     
-    // Check if token is expired (only for user tokens, account tokens are managed by NextAuth)
-    const tokenExpired = user?.googleTokenExpiresAt && user.googleTokenExpiresAt < new Date();
+    // Determine token expiry for both account-based and legacy stored tokens
+    const accountExpiresAt = account?.expires_at ? new Date(account.expires_at * 1000) : null; // expires_at is seconds since epoch per NextAuth
+    const accountTokenExpired = accountExpiresAt ? accountExpiresAt < new Date() : false;
+    const userTokenExpired = user?.googleTokenExpiresAt ? user.googleTokenExpiresAt < new Date() : false;
+
+    const tokenExpired = accountTokenExpired || userTokenExpired;
     
     let status = 'not_connected';
     if (hasAccessToken && !tokenExpired) {
@@ -172,13 +177,17 @@ export async function GET() {
         hasAccessToken: hasAccessToken,
         tokenExpired: tokenExpired,
         status: status,
-        tokenSource: accountAccessToken ? 'account' : (userAccessToken ? 'user' : 'none')
+        tokenSource: accountAccessToken ? 'account' : (userAccessToken ? 'user' : 'none'),
+        accountExpiresAt,
+        accountTokenExpired,
+        userTokenExpired
       },
       debug: {
         hasGoogleAccount,
         accountTokenExists: !!accountAccessToken,
         userTokenExists: !!userAccessToken,
-        tokenExpiresAt: user?.googleTokenExpiresAt
+        accountExpiresAt,
+        userTokenExpiresAt: user?.googleTokenExpiresAt
       },
       timestamp: new Date().toISOString()
     });

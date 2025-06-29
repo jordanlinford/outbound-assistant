@@ -118,36 +118,30 @@ export function EmailProviderStatus() {
     // You could show a toast notification here
   };
 
-  const getStatusIcon = (providerStatus: any) => {
-    if (providerStatus.status === 'ready') {
-      return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
-    } else if (providerStatus.connected && !providerStatus.tokenValid) {
-      return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />;
-    } else {
-      return <XCircleIcon className="h-5 w-5 text-red-500" />;
-    }
+  const isTokenExpired = (ps: any) => {
+    // Gmail returns tokenExpired; Outlook returns !tokenValid
+    if (typeof ps.tokenExpired === 'boolean') return ps.tokenExpired;
+    if (typeof ps.tokenValid === 'boolean') return !ps.tokenValid;
+    return false;
   };
 
-  const getStatusText = (providerStatus: any) => {
-    if (providerStatus.status === 'ready') {
-      return 'Connected & Ready';
-    } else if (providerStatus.connected && !providerStatus.tokenValid) {
-      return 'Token Expired - Reconnect Required';
-    } else if (providerStatus.connected) {
-      return 'Connected';
-    } else {
-      return 'Not Connected';
-    }
+  const getStatusIcon = (ps: any) => {
+    if (ps.status === 'ready') return <CheckCircleIcon className="h-5 w-5 text-green-500" />;
+    if (ps.connected && isTokenExpired(ps)) return <ExclamationTriangleIcon className="h-5 w-5 text-yellow-500" />;
+    return <XCircleIcon className="h-5 w-5 text-red-500" />;
   };
 
-  const getStatusColor = (providerStatus: any) => {
-    if (providerStatus.status === 'ready') {
-      return 'border-green-200 bg-green-50';
-    } else if (providerStatus.connected && !providerStatus.tokenValid) {
-      return 'border-yellow-200 bg-yellow-50';
-    } else {
-      return 'border-red-200 bg-red-50';
-    }
+  const getStatusText = (ps: any) => {
+    if (ps.status === 'ready') return 'Connected & Ready';
+    if (ps.connected && isTokenExpired(ps)) return 'Token Expired - Reconnect Required';
+    if (ps.connected) return 'Connected';
+    return 'Not Connected';
+  };
+
+  const getStatusColor = (ps: any) => {
+    if (ps.status === 'ready') return 'border-green-200 bg-green-50';
+    if (ps.connected && isTokenExpired(ps)) return 'border-yellow-200 bg-yellow-50';
+    return 'border-red-200 bg-red-50';
   };
 
   if (loading) {

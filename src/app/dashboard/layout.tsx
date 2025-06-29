@@ -27,6 +27,7 @@ const navigation = [
   { name: 'Calendar', href: '/dashboard/calendar', icon: CalendarIcon },
   { name: 'Analytics', href: '/dashboard/analytics', icon: ChartBarIcon },
   { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCardIcon },
+  { name: 'Automation', href: '/automation', icon: InboxIcon },
 ];
 
 function classNames(...classes: string[]) {
