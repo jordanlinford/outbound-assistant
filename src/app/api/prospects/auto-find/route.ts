@@ -242,6 +242,12 @@ async function findApolloProspects(criteria: ProspectCriteria): Promise<DataSour
 }
 
 async function generateEnhancedProspects(criteria: ProspectCriteria, existingProspects?: Set<string>, searchId?: string): Promise<FoundProspect[]> {
+  // If no OpenAI key configured we immediately fall back to sample data so the route never errors out
+  if (!process.env.OPENAI_API_KEY) {
+    console.warn('⚠️ OPENAI_API_KEY not set – using sample prospects');
+    return getEnhancedSampleProspects(criteria);
+  }
+
   try {
     // Use provided search ID or generate one
     const currentSearchId = searchId || Date.now().toString(36) + Math.random().toString(36).substr(2);
@@ -289,6 +295,10 @@ async function generateEnhancedProspects(criteria: ProspectCriteria, existingPro
     Return only a valid JSON array of prospects.
     `;
 
+    // Abort the OpenAI request if it takes longer than 8 seconds (Vercel edge functions default timeout is 10s)
+    const controller = new AbortController();
+    const timeout = setTimeout(() => controller.abort(), 8000);
+
     const completion = await openai.chat.completions.create({
       model: "gpt-4o-mini",
       messages: [
@@ -302,8 +312,10 @@ async function generateEnhancedProspects(criteria: ProspectCriteria, existingPro
         }
       ],
       temperature: 0.7,
-      max_tokens: 4000
-    });
+      max_tokens: 1200,
+    }, { signal: controller.signal });
+
+    clearTimeout(timeout);
 
     const response = completion.choices[0]?.message?.content;
     
