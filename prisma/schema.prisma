@@ -7,6 +7,7 @@
 generator client {
   provider = "prisma-client-js"
   output   = "../src/generated/prisma"
+  previewFeatures = ["pgVector"]
 }
 
 datasource db {
@@ -366,4 +367,22 @@ model BusinessProfile {
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+}
+
+/// Fine-grained knowledge snippets provided by each user and stored with an OpenAI embedding for retrieval-augmented generation
+model KnowledgeChunk {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  content   String   @db.Text
+  tags      String[] @default("{}")
+
+  /// 1536-dim OpenAI embedding (text-embedding-3-small)
+  embedding Vector   @db.Vector(1536)
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
+  @@index([embedding], type: Vector) // Required for efficient ANN search (pgvector)
 }
