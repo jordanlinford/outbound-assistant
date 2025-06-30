@@ -58,6 +58,7 @@ export default function AutoProspectFinder() {
   const [isSearching, setIsSearching] = useState(false);
   const [selectedProspects, setSelectedProspects] = useState<string[]>([]);
   const [showAdvanced, setShowAdvanced] = useState(false);
+  const [customJobTitle, setCustomJobTitle] = useState('');
 
   const industryOptions = [
     'Technology', 'SaaS', 'E-commerce', 'Healthcare', 'Finance', 'Marketing',
@@ -166,6 +167,16 @@ export default function AutoProspectFinder() {
     );
   };
 
+  const addCustomJobTitle = () => {
+    const trimmed = customJobTitle.trim();
+    if (!trimmed) return;
+    setCriteria(prev => ({
+      ...prev,
+      jobTitles: [...prev.jobTitles, trimmed]
+    }));
+    setCustomJobTitle('');
+  };
+
   return (
     <div className="bg-white rounded-lg shadow p-6">
       <div className="mb-6">
@@ -241,6 +252,61 @@ export default function AutoProspectFinder() {
                 </label>
               ))}
             </div>
+
+            {/* Custom / wildcard job title input */}
+            <div className="mt-4">
+              <label htmlFor="custom-job-title" className="block text-sm font-medium text-gray-700 mb-1">
+                Add custom / wildcard job title
+              </label>
+              <div className="flex gap-2">
+                <input
+                  id="custom-job-title"
+                  type="text"
+                  value={customJobTitle}
+                  onChange={(e) => setCustomJobTitle(e.target.value)}
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') {
+                      e.preventDefault();
+                      addCustomJobTitle();
+                    }
+                  }}
+                  placeholder="e.g. *Growth*, Revenue Ops, *Engineer*"
+                  className="flex-1 p-2 border rounded"
+                />
+                <button
+                  type="button"
+                  onClick={addCustomJobTitle}
+                  className="px-3 py-2 bg-indigo-600 text-white rounded hover:bg-indigo-700"
+                >
+                  Add
+                </button>
+              </div>
+            </div>
+
+            {/* Display selected custom titles as chips */}
+            {criteria.jobTitles.filter(t => !jobTitleOptions.includes(t)).length > 0 && (
+              <div className="flex flex-wrap gap-2 mt-3">
+                {criteria.jobTitles.filter(t => !jobTitleOptions.includes(t)).map(title => (
+                  <span
+                    key={title}
+                    className="inline-flex items-center bg-indigo-100 text-indigo-800 text-xs px-2 py-1 rounded-full"
+                  >
+                    {title}
+                    <button
+                      type="button"
+                      onClick={() => setCriteria(prev => ({
+                        ...prev,
+                        jobTitles: prev.jobTitles.filter(t => t !== title)
+                      }))}
+                      className="ml-1 text-indigo-600 hover:text-indigo-800"
+                      aria-label={`Remove ${title}`}
+                    >
+                      ×
+                    </button>
+                  </span>
+                ))}
+              </div>
+            )}
           </div>
 
           <div>
