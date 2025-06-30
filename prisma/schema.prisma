@@ -54,6 +54,9 @@ model User {
   microsoftRefreshToken  String? @db.Text
   microsoftTokenExpiresAt DateTime?
   microsoftEmail         String?
+  
+  // AI training / business profile
+  businessProfile BusinessProfile?
 }
 
 model Account {
@@ -106,6 +109,8 @@ model Campaign {
   id          String   @id @default(cuid())
   name        String
   description String?
+  /// Primary call-to-action for emails (e.g. "Schedule a meeting", "Click link", "Reply with info")
+  callToAction String?
   status      String   @default("draft") // draft, active, paused, completed
   userId      String
   user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -344,4 +349,21 @@ model InviteCode {
   
   createdAt    DateTime @default(now())
   updatedAt    DateTime @updatedAt
+}
+
+/// Stores a user-provided knowledge base that the AI can draw from when generating content
+model BusinessProfile {
+  id        String   @id @default(cuid())
+  userId    String   @unique
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  about               String?   @db.Text  // Free-form description of the company / offering
+  uniqueValue         String?   @db.Text  // What makes the product/service unique
+  targetCustomers     String?   @db.Text  // Ideal customer profile
+  mainPainPoints      String?   @db.Text  // Pain points solved
+  tonePreference      String?   // friendly, professional, humorous, etc.
+  callToActions       String?   @db.Text  // Preferred CTAs, JSON array
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }

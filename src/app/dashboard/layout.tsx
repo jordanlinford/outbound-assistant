@@ -13,6 +13,7 @@ import {
   XMarkIcon,
   PencilSquareIcon,
   CreditCardIcon,
+  CpuChipIcon,
 } from '@heroicons/react/24/outline';
 import { usePathname } from 'next/navigation';
 import Link from 'next/link';
@@ -27,6 +28,7 @@ const navigation = [
   { name: 'Calendar', href: '/dashboard/calendar', icon: CalendarIcon },
   { name: 'Analytics', href: '/dashboard/analytics', icon: ChartBarIcon },
   { name: 'Subscription', href: '/dashboard/subscription', icon: CreditCardIcon },
+  { name: 'Training', href: '/dashboard/training', icon: CpuChipIcon },
   { name: 'Automation', href: '/dashboard/automation', icon: InboxIcon },
 ];
 

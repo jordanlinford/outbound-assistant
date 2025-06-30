@@ -33,6 +33,16 @@ export default function AISequenceGenerator({
   const [companyName, setCompanyName] = useState('');
   const [senderName, setSenderName] = useState('');
   const [caseStudy, setCaseStudy] = useState('');
+  const [callToAction, setCallToAction] = useState('Schedule a meeting');
+  const [mode, setMode] = useState<'ai' | 'manual'>('ai');
+  // Manual sequence state
+  const [manualSteps, setManualSteps] = useState<EmailTemplate[]>([{
+    id: '1',
+    subject: '',
+    body: '',
+    delay: 0,
+    type: 'initial',
+  }]);
 
   const toneDescriptions = {
     professional: 'Formal, business-focused language',
@@ -190,6 +200,23 @@ P.S. If you know someone else at {{company}} who might be interested, I'd apprec
           </button>
         </div>
 
+        {/* Mode toggle */}
+        <div className="mb-6 flex space-x-4">
+          <button
+            onClick={() => setMode('ai')}
+            className={`px-4 py-2 rounded-md ${mode === 'ai' ? 'bg-blue-100 text-blue-700 border border-blue-300' : 'bg-gray-100 text-gray-700 border border-gray-300'}`}
+          >
+            AI Generate
+          </button>
+          <button
+            onClick={() => setMode('manual')}
+            className={`px-4 py-2 rounded-md ${mode === 'manual' ? 'bg-blue-100 text-blue-700 border border-blue-300' : 'bg-gray-100 text-gray-700 border border-gray-300'}`}
+          >
+            Manual Compose
+          </button>
+        </div>
+
+        {mode === 'ai' ? (
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           {/* Configuration Panel */}
           <div className="space-y-6">
@@ -241,6 +268,21 @@ P.S. If you know someone else at {{company}} who might be interested, I'd apprec
                 onChange={(e) => setValue(e.target.value)}
                 placeholder="increase revenue, reduce costs, improve efficiency, etc."
                 className="w-full h-24 p-3 border border-gray-300 rounded-md"
+              />
+            </div>
+
+            <div>
+              <label htmlFor="cta-input" className="block text-sm font-medium text-gray-700 mb-2">
+                Primary Call-to-Action
+              </label>
+              <input
+                id="cta-input"
+                type="text"
+                value={callToAction}
+                onChange={(e) => setCallToAction(e.target.value)}
+                placeholder="Book a demo, Reply with info, Visit website..."
+                className="w-full p-3 border border-gray-300 rounded-md"
+                title="Primary call to action"
               />
             </div>
 
@@ -338,12 +380,12 @@ P.S. If you know someone else at {{company}} who might be interested, I'd apprec
                 
                 <div className="space-y-3">
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Subject Line</label>
+                    <label htmlFor={`subject-${index}`} className="block text-xs font-medium text-gray-700 mb-1">Subject Line</label>
                     <div className="bg-gray-50 p-2 rounded text-sm">{email.subject}</div>
                   </div>
                   
                   <div>
-                    <label className="block text-xs font-medium text-gray-700 mb-1">Email Body</label>
+                    <label htmlFor={`body-${index}`} className="block text-xs font-medium text-gray-700 mb-1">Email Body</label>
                     <div className="bg-gray-50 p-3 rounded text-sm whitespace-pre-line max-h-40 overflow-y-auto">
                       {email.body}
                     </div>
@@ -353,17 +395,126 @@ P.S. If you know someone else at {{company}} who might be interested, I'd apprec
             ))}
 
             {generatedSequence.length > 0 && (
-              <div className="flex justify-end space-x-3 pt-4">
+              <div className="flex flex-col sm:flex-row sm:justify-end sm:space-x-3 space-y-2 sm:space-y-0 pt-4">
                 <Button variant="outline" onClick={() => setGeneratedSequence([])}>
                   Regenerate
                 </Button>
+                <Button variant="outline" onClick={() => {
+                  setManualSteps(generatedSequence);
+                  setMode('manual');
+                }}>
+                  Edit Sequence
+                </Button>
                 <Button onClick={handleSaveSequence}>
-                  Use This Sequence
+                  Use As-Is
                 </Button>
               </div>
             )}
           </div>
         </div>
+        ) : (
+          <div className="space-y-6">
+            {manualSteps.map((step, idx) => (
+              <div key={step.id} className="border rounded-md p-4 space-y-4">
+                <div className="flex justify-between items-center">
+                  <h3 className="font-medium">Step {idx + 1}</h3>
+                  {manualSteps.length > 1 && (
+                    <button
+                      className="text-red-500 text-sm"
+                      onClick={() => setManualSteps(manualSteps.filter(s => s.id !== step.id))}
+                    >
+                      Remove
+                    </button>
+                  )}
+                </div>
+                <div>
+                  <label htmlFor={`subject-${idx}`} className="block text-sm font-medium text-gray-700 mb-1">Subject</label>
+                  <input
+                    id={`subject-${idx}`}
+                    type="text"
+                    value={step.subject}
+                    onChange={e => {
+                      const updated = [...manualSteps];
+                      updated[idx].subject = e.target.value;
+                      setManualSteps(updated);
+                    }}
+                    className="w-full p-2 border rounded-md"
+                  />
+                </div>
+                <div>
+                  <label htmlFor={`body-${idx}`} className="block text-sm font-medium text-gray-700 mb-1">Body</label>
+                  <textarea
+                    id={`body-${idx}`}
+                    value={step.body}
+                    onChange={e => {
+                      const updated = [...manualSteps];
+                      updated[idx].body = e.target.value;
+                      setManualSteps(updated);
+                    }}
+                    rows={6}
+                    className="w-full p-2 border rounded-md"
+                  />
+                </div>
+                <div className="grid grid-cols-2 gap-4">
+                  <div>
+                    <label htmlFor={`delay-${idx}`} className="block text-sm font-medium text-gray-700 mb-1">Delay (days)</label>
+                    <input
+                      id={`delay-${idx}`}
+                      type="number"
+                      value={step.delay}
+                      min={0}
+                      onChange={e => {
+                        const updated = [...manualSteps];
+                        updated[idx].delay = parseInt(e.target.value) || 0;
+                        setManualSteps(updated);
+                      }}
+                      className="w-full p-2 border rounded-md"
+                    />
+                  </div>
+                  <div>
+                    <label htmlFor={`type-${idx}`} className="block text-sm font-medium text-gray-700 mb-1">Type</label>
+                    <select
+                      id={`type-${idx}`}
+                      value={step.type}
+                      onChange={e => {
+                        const updated = [...manualSteps];
+                        updated[idx].type = e.target.value as EmailTemplate['type'];
+                        setManualSteps(updated);
+                      }}
+                      className="w-full p-2 border rounded-md"
+                    >
+                      <option value="initial">Initial</option>
+                      <option value="follow_up">Follow Up</option>
+                      <option value="breakup">Breakup</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            ))}
+
+            <div className="flex justify-between pt-4">
+              <Button
+                variant="outline"
+                onClick={() => setManualSteps([...manualSteps, { id: Date.now().toString(), subject: '', body: '', delay: 0, type: 'follow_up' }])}
+              >
+                Add Step
+              </Button>
+              <div className="space-x-3">
+                <Button variant="outline" onClick={onClose}>Cancel</Button>
+                <Button
+                  onClick={() => {
+                    onSequenceGenerated(manualSteps);
+                    onClose();
+                  }}
+                  disabled={manualSteps.some(s => !s.subject || !s.body)}
+                  className="bg-blue-600 hover:bg-blue-700"
+                >
+                  Save Sequence
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
