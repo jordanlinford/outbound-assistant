@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import CampaignEmailSender from '@/components/CampaignEmailSender';
 import AddProspectsModal from '@/components/AddProspectsModal';
 import OnboardingGuide from '@/components/OnboardingGuide';
+import AISequenceGenerator from '@/components/AISequenceGenerator';
 
 interface Campaign {
   id: string;
@@ -26,6 +27,7 @@ interface Campaign {
     company?: string;
     title?: string;
   }>;
+  callToAction?: string;
 }
 
 export default function CampaignsPage() {
@@ -35,11 +37,14 @@ export default function CampaignsPage() {
   const [showCreateForm, setShowCreateForm] = useState(false);
   const [showEmailSender, setShowEmailSender] = useState<string | null>(null);
   const [showAddProspects, setShowAddProspects] = useState<string | null>(null);
+  const [showSequenceGen, setShowSequenceGen] = useState<string | null>(null);
+  const [sequenceSaving, setSequenceSaving] = useState(false);
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [selectedCampaignData, setSelectedCampaignData] = useState<Campaign | null>(null);
   const [newCampaign, setNewCampaign] = useState({
     name: '',
     description: '',
+    callToAction: 'Schedule a meeting',
   });
 
   useEffect(() => {
@@ -85,7 +90,7 @@ export default function CampaignsPage() {
       if (response.ok) {
         const campaign = await response.json();
         setCampaigns([campaign, ...campaigns]);
-        setNewCampaign({ name: '', description: '' });
+        setNewCampaign({ name: '', description: '', callToAction: 'Schedule a meeting' });
         setShowCreateForm(false);
       }
     } catch (error) {
@@ -143,8 +148,39 @@ export default function CampaignsPage() {
     }
   };
 
+  // Save AI-generated sequences to backend
+  const saveGeneratedSequence = async (campaignId: string, sequence: any[]) => {
+    setSequenceSaving(true);
+    try {
+      await Promise.all(
+        sequence.map((email: any, idx: number) =>
+          fetch(`/api/campaigns/${campaignId}/sequences`, {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json' },
+            body: JSON.stringify({
+              name: email.subject || `Email ${idx + 1}`,
+              type: email.type.toUpperCase(),
+              content: email.body,
+              delay: email.delay ?? 0,
+              order: idx + 1,
+            }),
+          })
+        )
+      );
+      fetchCampaigns();
+    } catch (err) {
+      console.error('Error saving sequence', err);
+      alert('Failed to save AI sequence');
+    } finally {
+      setSequenceSaving(false);
+      setShowSequenceGen(null);
+    }
+  };
+
+  // Ensure status checks are case-insensitive
   const getStatusColor = (status: string) => {
-    switch (status) {
+    const s = status.toLowerCase();
+    switch (s) {
       case 'draft': return 'bg-gray-100 text-gray-800';
       case 'active': return 'bg-green-100 text-green-800';
       case 'paused': return 'bg-yellow-100 text-yellow-800';
@@ -231,8 +267,9 @@ export default function CampaignsPage() {
           <div className="divide-y divide-gray-200">
             {campaigns.map((campaign) => (
               <div key={campaign.id} className="p-6">
-                <div className="flex items-center justify-between">
-                  <div className="flex-1">
+                {/* Responsive layout: stack on small screens, side-by-side on md+ */}
+                <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+                  <div className="flex-1 min-w-0">
                     <div className="flex items-center space-x-3">
                       <h3 className="text-lg font-medium text-gray-900">{campaign.name}</h3>
                       <span className={`px-2 py-1 text-xs font-medium rounded-full ${getStatusColor(campaign.status)}`}>
@@ -242,6 +279,9 @@ export default function CampaignsPage() {
                     {campaign.description && (
                       <p className="text-gray-600 mt-1">{campaign.description}</p>
                     )}
+                    {campaign.callToAction && (
+                      <p className="text-purple-700 bg-purple-100 inline-block px-2 py-0.5 rounded text-xs mt-1">CTA: {campaign.callToAction}</p>
+                    )}
                     <div className="flex items-center space-x-4 mt-2 text-sm text-gray-500">
                       <span>{campaign._count?.prospects || 0} prospects</span>
                       <span>•</span>
@@ -249,19 +289,27 @@ export default function CampaignsPage() {
                     </div>
                   </div>
                   
-                  <div className="flex items-center space-x-2">
-                    {campaign.status === 'draft' && (
+                  {/* Action buttons */}
+                  <div className="flex flex-wrap gap-2 md:justify-end">
+                    {campaign.status.toLowerCase() === 'draft' && (
                       <>
                         <Button
-                          variant="outline"
                           size="sm"
+                          className="bg-indigo-600 hover:bg-indigo-700 text-white"
+                          onClick={() => setShowSequenceGen(campaign.id)}
+                        >
+                          Generate Sequence
+                        </Button>
+                        <Button
+                          size="sm"
+                          className="bg-blue-500 hover:bg-blue-600 text-white"
                           onClick={() => setShowAddProspects(campaign.id)}
                         >
                           Add Prospects
                         </Button>
                         <Button
-                          variant="outline"
                           size="sm"
+                          className="bg-green-600 hover:bg-green-700 text-white"
                           onClick={() => launchCampaign(campaign.id)}
                         >
                           Launch
@@ -276,18 +324,18 @@ export default function CampaignsPage() {
                       </>
                     )}
                     
-                    {campaign.status === 'active' && (
+                    {campaign.status.toLowerCase() === 'active' && (
                       <>
                         <Button
-                          variant="outline"
                           size="sm"
+                          className="bg-blue-500 hover:bg-blue-600 text-white"
                           onClick={() => setShowAddProspects(campaign.id)}
                         >
                           Add Prospects
                         </Button>
                         <Button
-                          variant="outline"
                           size="sm"
+                          className="bg-yellow-600 hover:bg-yellow-700 text-white"
                           onClick={() => updateCampaignStatus(campaign.id, 'paused')}
                         >
                           Pause
@@ -302,14 +350,34 @@ export default function CampaignsPage() {
                       </>
                     )}
                     
-                    {campaign.status === 'paused' && (
+                    {campaign.status.toLowerCase() === 'paused' && (
                       <Button
                         size="sm"
+                        className="bg-green-600 hover:bg-green-700 text-white"
                         onClick={() => updateCampaignStatus(campaign.id, 'active')}
-                        className="bg-green-600 hover:bg-green-700"
                       >
                         Resume
                       </Button>
+                    )}
+
+                    {/* Fallback – render basic actions if status is something else (e.g. COMPLETED) */}
+                    {!['draft','active','paused'].includes(campaign.status.toLowerCase()) && (
+                      <>
+                        <Button
+                          size="sm"
+                          className="bg-blue-500 hover:bg-blue-600 text-white"
+                          onClick={() => setShowAddProspects(campaign.id)}
+                        >
+                          Add Prospects
+                        </Button>
+                        <Button
+                          size="sm"
+                          onClick={() => openEmailSender(campaign.id)}
+                          className="bg-blue-600 hover:bg-blue-700"
+                        >
+                          Send Emails
+                        </Button>
+                      </>
                     )}
                   </div>
                 </div>
@@ -361,6 +429,22 @@ export default function CampaignsPage() {
                   rows={3}
                   className="w-full p-3 border border-gray-300 rounded-md"
                 />
+              </div>
+
+              <div>
+                <label htmlFor="ctaSelect" className="block text-sm font-medium text-gray-700 mb-2">
+                  Primary Call To Action
+                </label>
+                <select
+                  id="ctaSelect"
+                  value={newCampaign.callToAction}
+                  onChange={(e) => setNewCampaign({ ...newCampaign, callToAction: e.target.value })}
+                  className="w-full p-3 border border-gray-300 rounded-md"
+                >
+                  <option>Schedule a meeting</option>
+                  <option>Click link</option>
+                  <option>Respond to question</option>
+                </select>
               </div>
             </div>
             
@@ -419,6 +503,14 @@ export default function CampaignsPage() {
              setShowEmailSender(null);
              setSelectedCampaignData(null);
            }}
+         />
+       )}
+
+       {/* AI Sequence Generator */}
+       {showSequenceGen && (
+         <AISequenceGenerator
+           onClose={() => setShowSequenceGen(null)}
+           onSequenceGenerated={(seq) => saveGeneratedSequence(showSequenceGen, seq)}
          />
        )}
     </div>
