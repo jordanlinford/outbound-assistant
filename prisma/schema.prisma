@@ -5,14 +5,15 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
-  previewFeatures = ["pgVector"]
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
 }
 
 model User {
@@ -23,41 +24,42 @@ model User {
   image         String?
   accounts      Account[]
   sessions      Session[]
-  
+
   // Subscription fields
   stripeCustomerId     String?
   stripeSubscriptionId String?
-  serviceLevelId       String   @default("free")
-  subscriptionStatus   String?  // active, canceled, past_due, etc.
+  serviceLevelId       String    @default("free")
+  subscriptionStatus   String? // active, canceled, past_due, etc.
   currentPeriodStart   DateTime?
   currentPeriodEnd     DateTime?
-  
+
   // Invite code fields
-  inviteCodeUsed       String?  // The invite code they used
+  inviteCodeUsed       String? // The invite code they used
   inviteCodeRedeemedAt DateTime? // When they redeemed it
-  
+
   // Relations
-  campaigns            Campaign[]
-  lists                List[]
-  calendarEvents       CalendarEvent[]
-  emailInteractions    EmailInteraction[]
-  usageRecords         UsageRecord[]
-  
-  createdAt DateTime @default(now())
-  updatedAt DateTime @updatedAt
-  googleAccessToken   String? @db.Text
-  googleRefreshToken  String? @db.Text
+  campaigns         Campaign[]
+  lists             List[]
+  calendarEvents    CalendarEvent[]
+  emailInteractions EmailInteraction[]
+  usageRecords      UsageRecord[]
+
+  createdAt            DateTime  @default(now())
+  updatedAt            DateTime  @updatedAt
+  googleAccessToken    String?   @db.Text
+  googleRefreshToken   String?   @db.Text
   googleTokenExpiresAt DateTime?
-  googleEmail         String?
-  
+  googleEmail          String?
+
   // Microsoft/Outlook integration fields
-  microsoftAccessToken   String? @db.Text
-  microsoftRefreshToken  String? @db.Text
+  microsoftAccessToken    String?   @db.Text
+  microsoftRefreshToken   String?   @db.Text
   microsoftTokenExpiresAt DateTime?
-  microsoftEmail         String?
-  
+  microsoftEmail          String?
+
   // AI training / business profile
   businessProfile BusinessProfile?
+  knowledgeChunks KnowledgeChunk[]
 }
 
 model Account {
@@ -88,43 +90,43 @@ model Session {
 }
 
 model List {
-  id          String   @id @default(cuid())
+  id          String  @id @default(cuid())
   name        String
   description String?
-  color       String?  // hex color for UI
-  isDefault   Boolean  @default(false)
+  color       String? // hex color for UI
+  isDefault   Boolean @default(false)
   userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  user        User    @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Relations
-  prospects   ProspectList[]
-  campaigns   CampaignList[]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  prospects ProspectList[]
+  campaigns CampaignList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([userId, name])
 }
 
 model Campaign {
-  id          String   @id @default(cuid())
-  name        String
-  description String?
+  id             String          @id @default(cuid())
+  name           String
+  description    String?
   /// Primary call-to-action for emails (e.g. "Schedule a meeting", "Click link", "Reply with info")
-  callToAction String?
-  status      String   @default("draft") // draft, active, paused, completed
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  sequences   Sequence[]
-  prospects   Prospect[]
-  lists       CampaignList[]
+  callToAction   String?
+  status         String          @default("draft") // draft, active, paused, completed
+  userId         String
+  user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
+  sequences      Sequence[]
+  prospects      Prospect[]
+  lists          CampaignList[]
   calendarEvents CalendarEvent[]
-  
+
   // Auto-enrollment settings
   autoEnrollFromLists Boolean @default(false)
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model CampaignList {
@@ -133,46 +135,46 @@ model CampaignList {
   listId     String
   campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
   list       List     @relation(fields: [listId], references: [id], onDelete: Cascade)
-  
+
   // Auto-enrollment settings for this specific list-campaign relationship
-  autoEnroll Boolean  @default(true)
-  
-  createdAt  DateTime @default(now())
-  
+  autoEnroll Boolean @default(true)
+
+  createdAt DateTime @default(now())
+
   @@unique([campaignId, listId])
 }
 
 model Sequence {
-  id          String   @id @default(cuid())
-  name        String
-  type        String   // email, linkedin
-  content     String   @db.Text
-  delay       Int      // delay in hours before sending
-  campaignId  String
-  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  order       Int
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
+  id         String   @id @default(cuid())
+  name       String
+  type       String // email, linkedin
+  content    String   @db.Text
+  delay      Int // delay in hours before sending
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+  order      Int
+  createdAt  DateTime @default(now())
+  updatedAt  DateTime @updatedAt
 }
 
 model Prospect {
-  id          String   @id @default(cuid())
-  email       String
-  name        String?
-  company     String?
-  title       String?
-  status      String   @default("new") // new, contacted, responded, qualified, unqualified
-  campaignId  String
-  campaign    Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
-  
+  id         String   @id @default(cuid())
+  email      String
+  name       String?
+  company    String?
+  title      String?
+  status     String   @default("new") // new, contacted, responded, qualified, unqualified
+  campaignId String
+  campaign   Campaign @relation(fields: [campaignId], references: [id], onDelete: Cascade)
+
   // Relations
-  interactions    Interaction[]
-  calendarEvents  CalendarEvent[]
-  lists           ProspectList[]
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+  interactions   Interaction[]
+  calendarEvents CalendarEvent[]
+  lists          ProspectList[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([email, campaignId])
 }
 
@@ -182,23 +184,23 @@ model ProspectList {
   listId     String
   prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
   list       List     @relation(fields: [listId], references: [id], onDelete: Cascade)
-  
+
   // Metadata
-  addedBy    String?  // user who added this prospect to the list
-  tags       String[] // additional tags for this prospect in this list
-  
-  createdAt  DateTime @default(now())
-  
+  addedBy String? // user who added this prospect to the list
+  tags    String[] // additional tags for this prospect in this list
+
+  createdAt DateTime @default(now())
+
   @@unique([prospectId, listId])
 }
 
 model Interaction {
-  id          String   @id @default(cuid())
-  type        String   // email_sent, email_opened, email_replied, linkedin_sent, linkedin_replied
-  content     String?  @db.Text
-  prospectId  String
-  prospect    Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
-  createdAt   DateTime @default(now())
+  id         String   @id @default(cuid())
+  type       String // email_sent, email_opened, email_replied, linkedin_sent, linkedin_replied
+  content    String?  @db.Text
+  prospectId String
+  prospect   Prospect @relation(fields: [prospectId], references: [id], onDelete: Cascade)
+  createdAt  DateTime @default(now())
 }
 
 model CalendarEvent {
@@ -207,16 +209,16 @@ model CalendarEvent {
   description   String?   @db.Text
   startTime     DateTime
   endTime       DateTime
-  type          String    // meeting, call, follow-up, demo, networking, etc.
+  type          String // meeting, call, follow-up, demo, networking, etc.
   status        String    @default("scheduled") // scheduled, completed, cancelled, rescheduled
-  location      String?   // physical address, zoom link, phone number, etc.
+  location      String? // physical address, zoom link, phone number, etc.
   prospectId    String?
   prospect      Prospect? @relation(fields: [prospectId], references: [id], onDelete: SetNull)
   campaignId    String?
   campaign      Campaign? @relation(fields: [campaignId], references: [id], onDelete: SetNull)
   userId        String
   user          User      @relation(fields: [userId], references: [id], onDelete: Cascade)
-  googleEventId String?   // for Google Calendar sync
+  googleEventId String? // for Google Calendar sync
   reminders     String?   @db.Text // JSON array of reminder times
   attendees     String?   @db.Text // JSON array of attendee emails
   createdAt     DateTime  @default(now())
@@ -224,146 +226,146 @@ model CalendarEvent {
 }
 
 model EmailSequence {
-  id           String   @id @default(cuid())
+  id           String    @id @default(cuid())
   toEmail      String
   subject      String
-  body         String   @db.Text
+  body         String    @db.Text
   scheduledFor DateTime
-  sequenceType String   // value-add, check-in, social-proof, final-ask, queued_response
-  status       String   @default("scheduled") // scheduled, sent, failed
+  sequenceType String // value-add, check-in, social-proof, final-ask, queued_response
+  status       String    @default("scheduled") // scheduled, sent, failed
   sentAt       DateTime?
-  
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model EmailInteraction {
-  id              String   @id @default(cuid())
+  id              String  @id @default(cuid())
   fromEmail       String
   subject         String
-  body            String   @db.Text
+  body            String  @db.Text
   threadId        String?
   intent          String?
-  sentiment       String?  // positive, neutral, negative
-  urgency         String?  // low, medium, high
+  sentiment       String? // positive, neutral, negative
+  urgency         String? // low, medium, high
   responseSubject String?
-  responseBody    String?  @db.Text
-  responseType    String   // automated, manual, human_review_needed
+  responseBody    String? @db.Text
+  responseType    String // automated, manual, human_review_needed
   confidence      Float?
   routingReason   String?
-  priority        String?  // low, medium, high
+  priority        String? // low, medium, high
   userId          String?
-  user            User?    @relation(fields: [userId], references: [id], onDelete: SetNull)
-  
-  createdAt       DateTime @default(now())
-  updatedAt       DateTime @updatedAt
+  user            User?   @relation(fields: [userId], references: [id], onDelete: SetNull)
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model UsageRecord {
-  id          String   @id @default(cuid())
-  userId      String
-  user        User     @relation(fields: [userId], references: [id], onDelete: Cascade)
-  
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
   // Usage tracking
-  month       Int      // 1-12
-  year        Int      // 2024, 2025, etc.
-  
-  emailsSent           Int @default(0)
-  campaignsCreated     Int @default(0)
+  month Int // 1-12
+  year  Int // 2024, 2025, etc.
+
+  emailsSent             Int @default(0)
+  campaignsCreated       Int @default(0)
   linkedinPostsGenerated Int @default(0)
   aiResponsesGenerated   Int @default(0)
-  
-  createdAt   DateTime @default(now())
-  updatedAt   DateTime @updatedAt
-  
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([userId, month, year])
 }
 
 model PaymentRecord {
-  id                String   @id @default(cuid())
-  userId            String
-  stripePaymentId   String   @unique
-  amount            Int      // Amount in cents
-  currency          String   @default("usd")
-  status            String   // succeeded, pending, failed
-  serviceLevelId    String
-  
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
+  id              String @id @default(cuid())
+  userId          String
+  stripePaymentId String @unique
+  amount          Int // Amount in cents
+  currency        String @default("usd")
+  status          String // succeeded, pending, failed
+  serviceLevelId  String
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model LeadScore {
-  id                    String   @id @default(cuid())
-  email                 String   @unique
-  firstName             String?
-  lastName              String?
-  company               String?
-  title                 String?
-  overallScore          Int      // 0-100
-  qualification         String   // hot, warm, cold, unqualified
-  reasons               String[] // array of scoring reasons
-  buyingSignals         String[] // array of positive indicators
-  redFlags              String[] // array of concerns
-  suggestedApproach     String?  @db.Text
-  estimatedBudget       String?
-  decisionMakerLevel    String?  // high, medium, low
-  urgency               String?  // high, medium, low
-  personalizedMessage   String?  @db.Text
-  
-  createdAt             DateTime @default(now())
-  updatedAt             DateTime @updatedAt
+  id                  String   @id @default(cuid())
+  email               String   @unique
+  firstName           String?
+  lastName            String?
+  company             String?
+  title               String?
+  overallScore        Int // 0-100
+  qualification       String // hot, warm, cold, unqualified
+  reasons             String[] // array of scoring reasons
+  buyingSignals       String[] // array of positive indicators
+  redFlags            String[] // array of concerns
+  suggestedApproach   String?  @db.Text
+  estimatedBudget     String?
+  decisionMakerLevel  String? // high, medium, low
+  urgency             String? // high, medium, low
+  personalizedMessage String?  @db.Text
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model EmailWarmup {
-  id                String   @id @default(cuid())
-  userId            String
-  email             String
-  phase             String   // initializing, warming_up, warmed_up
-  dailyLimit        Int
-  currentVolume     Int      @default(0)
-  targetReplyRate   Float
-  startDate         DateTime
-  status            String   // active, paused, completed
-  
-  createdAt         DateTime @default(now())
-  updatedAt         DateTime @updatedAt
-  
+  id              String   @id @default(cuid())
+  userId          String
+  email           String
+  phase           String // initializing, warming_up, warmed_up
+  dailyLimit      Int
+  currentVolume   Int      @default(0)
+  targetReplyRate Float
+  startDate       DateTime
+  status          String // active, paused, completed
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
   @@unique([userId, email])
 }
 
 model InviteCode {
-  id           String   @id @default(cuid())
-  code         String   @unique // The actual invite code (e.g., "BETA2024", "FRIEND50")
-  description  String?  // Optional description for the code
-  serviceLevelId String @default("pro-monthly") // What service level to grant
-  maxUses      Int      @default(1) // How many times this code can be used
-  usedCount    Int      @default(0) // How many times it's been used
-  expiresAt    DateTime? // Optional expiration date
-  isActive     Boolean  @default(true) // Can be disabled
-  
+  id             String    @id @default(cuid())
+  code           String    @unique // The actual invite code (e.g., "BETA2024", "FRIEND50")
+  description    String? // Optional description for the code
+  serviceLevelId String    @default("pro-monthly") // What service level to grant
+  maxUses        Int       @default(1) // How many times this code can be used
+  usedCount      Int       @default(0) // How many times it's been used
+  expiresAt      DateTime? // Optional expiration date
+  isActive       Boolean   @default(true) // Can be disabled
+
   // Who can use this code
   allowedEmails String[] // Optional: restrict to specific emails
-  
+
   // Metadata
-  createdBy    String?  // Admin who created it
-  notes        String?  // Internal notes
-  
-  createdAt    DateTime @default(now())
-  updatedAt    DateTime @updatedAt
+  createdBy String? // Admin who created it
+  notes     String? // Internal notes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 /// Stores a user-provided knowledge base that the AI can draw from when generating content
 model BusinessProfile {
-  id        String   @id @default(cuid())
-  userId    String   @unique
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  about               String?   @db.Text  // Free-form description of the company / offering
-  uniqueValue         String?   @db.Text  // What makes the product/service unique
-  targetCustomers     String?   @db.Text  // Ideal customer profile
-  mainPainPoints      String?   @db.Text  // Pain points solved
-  tonePreference      String?   // friendly, professional, humorous, etc.
-  callToActions       String?   @db.Text  // Preferred CTAs, JSON array
+  about           String? @db.Text // Free-form description of the company / offering
+  uniqueValue     String? @db.Text // What makes the product/service unique
+  targetCustomers String? @db.Text // Ideal customer profile
+  mainPainPoints  String? @db.Text // Pain points solved
+  tonePreference  String? // friendly, professional, humorous, etc.
+  callToActions   String? @db.Text // Preferred CTAs, JSON array
 
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
@@ -371,18 +373,17 @@ model BusinessProfile {
 
 /// Fine-grained knowledge snippets provided by each user and stored with an OpenAI embedding for retrieval-augmented generation
 model KnowledgeChunk {
-  id        String   @id @default(cuid())
-  userId    String
-  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
 
-  content   String   @db.Text
-  tags      String[] @default("{}")
+  content String   @db.Text
+  tags    String[] @default([])
 
   /// 1536-dim OpenAI embedding (text-embedding-3-small)
-  embedding Vector   @db.Vector(1536)
+  embedding Bytes
 
   createdAt DateTime @default(now())
 
   @@index([userId])
-  @@index([embedding], type: Vector) // Required for efficient ANN search (pgvector)
 }
