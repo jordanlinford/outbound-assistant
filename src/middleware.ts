@@ -1,22 +1,8 @@
-import { withAuth } from 'next-auth/middleware';
+// Use NextAuth's default middleware to protect the dashboard.
+// It automatically checks the session/JWT cookie and sends unauthenticated
+// users to our custom sign-in page (`/login`).
 
-export default withAuth(
-  function middleware(req) {
-    console.log('Middleware - Token:', req.nextauth.token);
-    console.log('Middleware - URL:', req.url);
-  },
-  {
-    callbacks: {
-      authorized: ({ token, req }) => {
-        console.log('Middleware authorized callback:', { token: !!token, url: req.url });
-        return !!token;
-      },
-    },
-    pages: {
-      signIn: '/login',
-    },
-  }
-);
+export { default } from 'next-auth/middleware';
 
 export const config = {
   matcher: ['/dashboard/:path*'],
