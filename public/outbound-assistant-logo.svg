@@ -1,4 +1,19 @@
-<svg xmlns="http://www.w3.org/2000/svg" width="160" height="40" viewBox="0 0 160 40" fill="none">
-  <rect width="160" height="40" rx="6" fill="#3B82F6"/>
-  <text x="50%" y="50%" dominant-baseline="middle" text-anchor="middle" font-family="Arial, sans-serif" font-size="18" fill="white">Outbound Assistant</text>
+<svg xmlns="http://www.w3.org/2000/svg" width="450" height="120" viewBox="0 0 450 120" fill="none">
+  <!-- Headset icon -->
+  <g transform="translate(0,10)">
+    <!-- Headset earcup / outline -->
+    <circle cx="75" cy="50" r="50" fill="#3B82F6" />
+    <!-- Face -->
+    <circle cx="75" cy="50" r="40" fill="white" />
+    <!-- Eyes -->
+    <circle cx="60" cy="45" r="6" fill="#3B82F6" />
+    <circle cx="90" cy="45" r="6" fill="#3B82F6" />
+    <!-- Smile -->
+    <path d="M60 65c8 8 22 8 30 0" stroke="#3B82F6" stroke-width="6" stroke-linecap="round" />
+    <!-- Microphone boom -->
+    <path d="M115 60v10a20 20 0 0 1-20 20h-10" stroke="#3B82F6" stroke-width="12" stroke-linecap="round" />
+  </g>
+  <!-- Brand text -->
+  <text x="150" y="55" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" fill="#0F172A">Outbound</text>
+  <text x="150" y="105" font-family="Arial, Helvetica, sans-serif" font-size="40" font-weight="700" fill="#0F172A">Assistant</text>
 </svg> 
