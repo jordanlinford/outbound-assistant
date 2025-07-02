@@ -126,4 +126,8 @@ prisma/migrations/
 .vercel
 
 # Local development
-.env.local.backup* 
+.env.local.backup*
+
+# --- allow brand assets ---
+!public/
+!public/outbound-assistant-logo.svg 
