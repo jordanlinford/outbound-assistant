@@ -103,34 +103,42 @@ export async function POST(request: NextRequest) {
     const validatedProspects = await validateProspects(uniqueProspects);
 
     // 5. Score and qualify each prospect
-    const scorer = new SmartLeadScorer();
     const scoredProspects = [];
-    
+
+    const aiScoringEnabled = !!process.env.OPENAI_API_KEY;
+    const scorer = aiScoringEnabled ? new SmartLeadScorer() : null;
+
     for (const prospect of validatedProspects) {
-      try {
-        const score = await scorer.scoreLead({
-          email: prospect.email,
-          firstName: prospect.firstName,
-          lastName: prospect.lastName,
-          company: prospect.company,
-          title: prospect.title,
-          industry: prospect.industry,
-          companySize: prospect.companySize
-        });
-        
-        scoredProspects.push({
-          ...prospect,
-          score: score.overallScore,
-          reason: score.reasons[0] || prospect.reason || 'Matches your criteria'
-        });
-      } catch (error) {
-        // Keep prospect with default score if scoring fails
-        scoredProspects.push({
-          ...prospect,
-          score: 50,
-          reason: prospect.reason || 'Matches your criteria'
-        });
+      if (scorer) {
+        try {
+          const score = await scorer.scoreLead({
+            email: prospect.email,
+            firstName: prospect.firstName,
+            lastName: prospect.lastName,
+            company: prospect.company,
+            title: prospect.title,
+            industry: prospect.industry,
+            companySize: prospect.companySize,
+          });
+
+          scoredProspects.push({
+            ...prospect,
+            score: score.overallScore,
+            reason: score.reasons[0] || prospect.reason || 'Matches your criteria',
+          });
+          continue;
+        } catch (error) {
+          console.warn('AI scoring failed, falling back to default score');
+          // fall through to default below
+        }
       }
+
+      // Default score when AI scoring is disabled or fails
+      scoredProspects.push({
+        ...prospect,
+        score: 50,
+        reason: prospect.reason || 'Matches your criteria',
+      });
     }
 
     // 6. Sort by score and return top prospects
