@@ -131,7 +131,13 @@ export default function CSVLeadImporter({ onLeadsImported, onClose }: CSVLeadImp
   };
 
   const confirmImport = () => {
+    const duplicatesSkipped = (previewData.length - 1) - leads.length; // total rows minus valid leads
+
     onLeadsImported(leads);
+
+    // Feedback toast (simple alert for now)
+    alert(`Imported ${leads.length} prospect${leads.length !== 1 ? 's' : ''}. ${duplicatesSkipped > 0 ? `${duplicatesSkipped} duplicate${duplicatesSkipped !== 1 ? 's were' : ' was'} skipped.` : ''}`);
+
     onClose();
   };
 
