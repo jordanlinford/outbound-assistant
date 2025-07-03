@@ -106,7 +106,10 @@ export default function AutoProspectFinder() {
       if (response.ok) {
         const results = await response.json();
         setSearchResults(results);
-        
+
+        if (results.total === 0) {
+          alert('No prospects found for the given criteria.');
+        }
         // Show user feedback about duplicates excluded
         if (results.excludedDuplicates > 0) {
           console.log(`ℹ️ Excluded ${results.excludedDuplicates} prospects you already have`);

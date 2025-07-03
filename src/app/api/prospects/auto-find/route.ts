@@ -254,8 +254,8 @@ async function generateEnhancedProspects(criteria: ProspectCriteria, existingPro
   const aiGenerationEnabled = process.env.ENABLE_AI_PROSPECTS === 'true' && !!process.env.OPENAI_API_KEY;
 
   if (!aiGenerationEnabled) {
-    console.info('ℹ️ AI prospect generation disabled – returning sample prospects');
-    return getEnhancedSampleProspects(criteria);
+    console.warn('⚠️ AI prospect generation disabled – returning empty result');
+    return [];
   }
 
   try {
@@ -361,7 +361,7 @@ async function generateEnhancedProspects(criteria: ProspectCriteria, existingPro
     
   } catch (error) {
     console.error('Error generating prospects:', error);
-    return getEnhancedSampleProspects(criteria);
+    return [];
   }
 }
 
