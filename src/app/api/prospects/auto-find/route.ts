@@ -250,9 +250,11 @@ async function findApolloProspects(criteria: ProspectCriteria): Promise<DataSour
 }
 
 async function generateEnhancedProspects(criteria: ProspectCriteria, existingProspects?: Set<string>, searchId?: string): Promise<FoundProspect[]> {
-  // If no OpenAI key configured we immediately fall back to sample data so the route never errors out
-  if (!process.env.OPENAI_API_KEY) {
-    console.warn('⚠️ OPENAI_API_KEY not set – using sample prospects');
+  // Skip AI generation unless explicitly enabled via env var to keep the endpoint fast and avoid Vercel time-outs.
+  const aiGenerationEnabled = process.env.ENABLE_AI_PROSPECTS === 'true' && !!process.env.OPENAI_API_KEY;
+
+  if (!aiGenerationEnabled) {
+    console.info('ℹ️ AI prospect generation disabled – returning sample prospects');
     return getEnhancedSampleProspects(criteria);
   }
 
