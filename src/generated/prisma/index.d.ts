@@ -98,6 +98,21 @@ export type LeadScore = $Result.DefaultSelection<Prisma.$LeadScorePayload>
  * 
  */
 export type EmailWarmup = $Result.DefaultSelection<Prisma.$EmailWarmupPayload>
+/**
+ * Model InviteCode
+ * 
+ */
+export type InviteCode = $Result.DefaultSelection<Prisma.$InviteCodePayload>
+/**
+ * Model BusinessProfile
+ * Stores a user-provided knowledge base that the AI can draw from when generating content
+ */
+export type BusinessProfile = $Result.DefaultSelection<Prisma.$BusinessProfilePayload>
+/**
+ * Model KnowledgeChunk
+ * Fine-grained knowledge snippets provided by each user and stored with an OpenAI embedding for retrieval-augmented generation
+ */
+export type KnowledgeChunk = $Result.DefaultSelection<Prisma.$KnowledgeChunkPayload>
 
 /**
  * ##  Prisma Client ʲˢ
@@ -393,6 +408,36 @@ export class PrismaClient<
     * ```
     */
   get emailWarmup(): Prisma.EmailWarmupDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.inviteCode`: Exposes CRUD operations for the **InviteCode** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more InviteCodes
+    * const inviteCodes = await prisma.inviteCode.findMany()
+    * ```
+    */
+  get inviteCode(): Prisma.InviteCodeDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.businessProfile`: Exposes CRUD operations for the **BusinessProfile** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more BusinessProfiles
+    * const businessProfiles = await prisma.businessProfile.findMany()
+    * ```
+    */
+  get businessProfile(): Prisma.BusinessProfileDelegate<ExtArgs, ClientOptions>;
+
+  /**
+   * `prisma.knowledgeChunk`: Exposes CRUD operations for the **KnowledgeChunk** model.
+    * Example usage:
+    * ```ts
+    * // Fetch zero or more KnowledgeChunks
+    * const knowledgeChunks = await prisma.knowledgeChunk.findMany()
+    * ```
+    */
+  get knowledgeChunk(): Prisma.KnowledgeChunkDelegate<ExtArgs, ClientOptions>;
 }
 
 export namespace Prisma {
@@ -849,7 +894,10 @@ export namespace Prisma {
     UsageRecord: 'UsageRecord',
     PaymentRecord: 'PaymentRecord',
     LeadScore: 'LeadScore',
-    EmailWarmup: 'EmailWarmup'
+    EmailWarmup: 'EmailWarmup',
+    InviteCode: 'InviteCode',
+    BusinessProfile: 'BusinessProfile',
+    KnowledgeChunk: 'KnowledgeChunk'
   };
 
   export type ModelName = (typeof ModelName)[keyof typeof ModelName]
@@ -868,7 +916,7 @@ export namespace Prisma {
       omit: GlobalOmitOptions
     }
     meta: {
-      modelProps: "user" | "account" | "session" | "list" | "campaign" | "campaignList" | "sequence" | "prospect" | "prospectList" | "interaction" | "calendarEvent" | "emailSequence" | "emailInteraction" | "usageRecord" | "paymentRecord" | "leadScore" | "emailWarmup"
+      modelProps: "user" | "account" | "session" | "list" | "campaign" | "campaignList" | "sequence" | "prospect" | "prospectList" | "interaction" | "calendarEvent" | "emailSequence" | "emailInteraction" | "usageRecord" | "paymentRecord" | "leadScore" | "emailWarmup" | "inviteCode" | "businessProfile" | "knowledgeChunk"
       txIsolationLevel: Prisma.TransactionIsolationLevel
     }
     model: {
@@ -2130,6 +2178,228 @@ export namespace Prisma {
           }
         }
       }
+      InviteCode: {
+        payload: Prisma.$InviteCodePayload<ExtArgs>
+        fields: Prisma.InviteCodeFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.InviteCodeFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.InviteCodeFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>
+          }
+          findFirst: {
+            args: Prisma.InviteCodeFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.InviteCodeFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>
+          }
+          findMany: {
+            args: Prisma.InviteCodeFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>[]
+          }
+          create: {
+            args: Prisma.InviteCodeCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>
+          }
+          createMany: {
+            args: Prisma.InviteCodeCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.InviteCodeCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>[]
+          }
+          delete: {
+            args: Prisma.InviteCodeDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>
+          }
+          update: {
+            args: Prisma.InviteCodeUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>
+          }
+          deleteMany: {
+            args: Prisma.InviteCodeDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.InviteCodeUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.InviteCodeUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>[]
+          }
+          upsert: {
+            args: Prisma.InviteCodeUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$InviteCodePayload>
+          }
+          aggregate: {
+            args: Prisma.InviteCodeAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateInviteCode>
+          }
+          groupBy: {
+            args: Prisma.InviteCodeGroupByArgs<ExtArgs>
+            result: $Utils.Optional<InviteCodeGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.InviteCodeCountArgs<ExtArgs>
+            result: $Utils.Optional<InviteCodeCountAggregateOutputType> | number
+          }
+        }
+      }
+      BusinessProfile: {
+        payload: Prisma.$BusinessProfilePayload<ExtArgs>
+        fields: Prisma.BusinessProfileFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.BusinessProfileFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.BusinessProfileFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>
+          }
+          findFirst: {
+            args: Prisma.BusinessProfileFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.BusinessProfileFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>
+          }
+          findMany: {
+            args: Prisma.BusinessProfileFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>[]
+          }
+          create: {
+            args: Prisma.BusinessProfileCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>
+          }
+          createMany: {
+            args: Prisma.BusinessProfileCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.BusinessProfileCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>[]
+          }
+          delete: {
+            args: Prisma.BusinessProfileDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>
+          }
+          update: {
+            args: Prisma.BusinessProfileUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>
+          }
+          deleteMany: {
+            args: Prisma.BusinessProfileDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.BusinessProfileUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.BusinessProfileUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>[]
+          }
+          upsert: {
+            args: Prisma.BusinessProfileUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$BusinessProfilePayload>
+          }
+          aggregate: {
+            args: Prisma.BusinessProfileAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateBusinessProfile>
+          }
+          groupBy: {
+            args: Prisma.BusinessProfileGroupByArgs<ExtArgs>
+            result: $Utils.Optional<BusinessProfileGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.BusinessProfileCountArgs<ExtArgs>
+            result: $Utils.Optional<BusinessProfileCountAggregateOutputType> | number
+          }
+        }
+      }
+      KnowledgeChunk: {
+        payload: Prisma.$KnowledgeChunkPayload<ExtArgs>
+        fields: Prisma.KnowledgeChunkFieldRefs
+        operations: {
+          findUnique: {
+            args: Prisma.KnowledgeChunkFindUniqueArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload> | null
+          }
+          findUniqueOrThrow: {
+            args: Prisma.KnowledgeChunkFindUniqueOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>
+          }
+          findFirst: {
+            args: Prisma.KnowledgeChunkFindFirstArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload> | null
+          }
+          findFirstOrThrow: {
+            args: Prisma.KnowledgeChunkFindFirstOrThrowArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>
+          }
+          findMany: {
+            args: Prisma.KnowledgeChunkFindManyArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>[]
+          }
+          create: {
+            args: Prisma.KnowledgeChunkCreateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>
+          }
+          createMany: {
+            args: Prisma.KnowledgeChunkCreateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          createManyAndReturn: {
+            args: Prisma.KnowledgeChunkCreateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>[]
+          }
+          delete: {
+            args: Prisma.KnowledgeChunkDeleteArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>
+          }
+          update: {
+            args: Prisma.KnowledgeChunkUpdateArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>
+          }
+          deleteMany: {
+            args: Prisma.KnowledgeChunkDeleteManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateMany: {
+            args: Prisma.KnowledgeChunkUpdateManyArgs<ExtArgs>
+            result: BatchPayload
+          }
+          updateManyAndReturn: {
+            args: Prisma.KnowledgeChunkUpdateManyAndReturnArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>[]
+          }
+          upsert: {
+            args: Prisma.KnowledgeChunkUpsertArgs<ExtArgs>
+            result: $Utils.PayloadToResult<Prisma.$KnowledgeChunkPayload>
+          }
+          aggregate: {
+            args: Prisma.KnowledgeChunkAggregateArgs<ExtArgs>
+            result: $Utils.Optional<AggregateKnowledgeChunk>
+          }
+          groupBy: {
+            args: Prisma.KnowledgeChunkGroupByArgs<ExtArgs>
+            result: $Utils.Optional<KnowledgeChunkGroupByOutputType>[]
+          }
+          count: {
+            args: Prisma.KnowledgeChunkCountArgs<ExtArgs>
+            result: $Utils.Optional<KnowledgeChunkCountAggregateOutputType> | number
+          }
+        }
+      }
     }
   } & {
     other: {
@@ -2231,6 +2501,9 @@ export namespace Prisma {
     paymentRecord?: PaymentRecordOmit
     leadScore?: LeadScoreOmit
     emailWarmup?: EmailWarmupOmit
+    inviteCode?: InviteCodeOmit
+    businessProfile?: BusinessProfileOmit
+    knowledgeChunk?: KnowledgeChunkOmit
   }
 
   /* Types for Logging */
@@ -2332,6 +2605,7 @@ export namespace Prisma {
     calendarEvents: number
     emailInteractions: number
     usageRecords: number
+    knowledgeChunks: number
   }
 
   export type UserCountOutputTypeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
@@ -2342,6 +2616,7 @@ export namespace Prisma {
     calendarEvents?: boolean | UserCountOutputTypeCountCalendarEventsArgs
     emailInteractions?: boolean | UserCountOutputTypeCountEmailInteractionsArgs
     usageRecords?: boolean | UserCountOutputTypeCountUsageRecordsArgs
+    knowledgeChunks?: boolean | UserCountOutputTypeCountKnowledgeChunksArgs
   }
 
   // Custom InputTypes
@@ -2402,6 +2677,13 @@ export namespace Prisma {
    */
   export type UserCountOutputTypeCountUsageRecordsArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     where?: UsageRecordWhereInput
+  }
+
+  /**
+   * UserCountOutputType without action
+   */
+  export type UserCountOutputTypeCountKnowledgeChunksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KnowledgeChunkWhereInput
   }
 
 
@@ -2578,6 +2860,8 @@ export namespace Prisma {
     subscriptionStatus: string | null
     currentPeriodStart: Date | null
     currentPeriodEnd: Date | null
+    inviteCodeUsed: string | null
+    inviteCodeRedeemedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     googleAccessToken: string | null
@@ -2602,6 +2886,8 @@ export namespace Prisma {
     subscriptionStatus: string | null
     currentPeriodStart: Date | null
     currentPeriodEnd: Date | null
+    inviteCodeUsed: string | null
+    inviteCodeRedeemedAt: Date | null
     createdAt: Date | null
     updatedAt: Date | null
     googleAccessToken: string | null
@@ -2626,6 +2912,8 @@ export namespace Prisma {
     subscriptionStatus: number
     currentPeriodStart: number
     currentPeriodEnd: number
+    inviteCodeUsed: number
+    inviteCodeRedeemedAt: number
     createdAt: number
     updatedAt: number
     googleAccessToken: number
@@ -2652,6 +2940,8 @@ export namespace Prisma {
     subscriptionStatus?: true
     currentPeriodStart?: true
     currentPeriodEnd?: true
+    inviteCodeUsed?: true
+    inviteCodeRedeemedAt?: true
     createdAt?: true
     updatedAt?: true
     googleAccessToken?: true
@@ -2676,6 +2966,8 @@ export namespace Prisma {
     subscriptionStatus?: true
     currentPeriodStart?: true
     currentPeriodEnd?: true
+    inviteCodeUsed?: true
+    inviteCodeRedeemedAt?: true
     createdAt?: true
     updatedAt?: true
     googleAccessToken?: true
@@ -2700,6 +2992,8 @@ export namespace Prisma {
     subscriptionStatus?: true
     currentPeriodStart?: true
     currentPeriodEnd?: true
+    inviteCodeUsed?: true
+    inviteCodeRedeemedAt?: true
     createdAt?: true
     updatedAt?: true
     googleAccessToken?: true
@@ -2797,6 +3091,8 @@ export namespace Prisma {
     subscriptionStatus: string | null
     currentPeriodStart: Date | null
     currentPeriodEnd: Date | null
+    inviteCodeUsed: string | null
+    inviteCodeRedeemedAt: Date | null
     createdAt: Date
     updatedAt: Date
     googleAccessToken: string | null
@@ -2838,6 +3134,8 @@ export namespace Prisma {
     subscriptionStatus?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
+    inviteCodeUsed?: boolean
+    inviteCodeRedeemedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -2855,6 +3153,8 @@ export namespace Prisma {
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
     emailInteractions?: boolean | User$emailInteractionsArgs<ExtArgs>
     usageRecords?: boolean | User$usageRecordsArgs<ExtArgs>
+    businessProfile?: boolean | User$businessProfileArgs<ExtArgs>
+    knowledgeChunks?: boolean | User$knowledgeChunksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }, ExtArgs["result"]["user"]>
 
@@ -2870,6 +3170,8 @@ export namespace Prisma {
     subscriptionStatus?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
+    inviteCodeUsed?: boolean
+    inviteCodeRedeemedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -2894,6 +3196,8 @@ export namespace Prisma {
     subscriptionStatus?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
+    inviteCodeUsed?: boolean
+    inviteCodeRedeemedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -2918,6 +3222,8 @@ export namespace Prisma {
     subscriptionStatus?: boolean
     currentPeriodStart?: boolean
     currentPeriodEnd?: boolean
+    inviteCodeUsed?: boolean
+    inviteCodeRedeemedAt?: boolean
     createdAt?: boolean
     updatedAt?: boolean
     googleAccessToken?: boolean
@@ -2930,7 +3236,7 @@ export namespace Prisma {
     microsoftEmail?: boolean
   }
 
-  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "stripeCustomerId" | "stripeSubscriptionId" | "serviceLevelId" | "subscriptionStatus" | "currentPeriodStart" | "currentPeriodEnd" | "createdAt" | "updatedAt" | "googleAccessToken" | "googleRefreshToken" | "googleTokenExpiresAt" | "googleEmail" | "microsoftAccessToken" | "microsoftRefreshToken" | "microsoftTokenExpiresAt" | "microsoftEmail", ExtArgs["result"]["user"]>
+  export type UserOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "email" | "emailVerified" | "image" | "stripeCustomerId" | "stripeSubscriptionId" | "serviceLevelId" | "subscriptionStatus" | "currentPeriodStart" | "currentPeriodEnd" | "inviteCodeUsed" | "inviteCodeRedeemedAt" | "createdAt" | "updatedAt" | "googleAccessToken" | "googleRefreshToken" | "googleTokenExpiresAt" | "googleEmail" | "microsoftAccessToken" | "microsoftRefreshToken" | "microsoftTokenExpiresAt" | "microsoftEmail", ExtArgs["result"]["user"]>
   export type UserInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     accounts?: boolean | User$accountsArgs<ExtArgs>
     sessions?: boolean | User$sessionsArgs<ExtArgs>
@@ -2939,6 +3245,8 @@ export namespace Prisma {
     calendarEvents?: boolean | User$calendarEventsArgs<ExtArgs>
     emailInteractions?: boolean | User$emailInteractionsArgs<ExtArgs>
     usageRecords?: boolean | User$usageRecordsArgs<ExtArgs>
+    businessProfile?: boolean | User$businessProfileArgs<ExtArgs>
+    knowledgeChunks?: boolean | User$knowledgeChunksArgs<ExtArgs>
     _count?: boolean | UserCountOutputTypeDefaultArgs<ExtArgs>
   }
   export type UserIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {}
@@ -2954,6 +3262,8 @@ export namespace Prisma {
       calendarEvents: Prisma.$CalendarEventPayload<ExtArgs>[]
       emailInteractions: Prisma.$EmailInteractionPayload<ExtArgs>[]
       usageRecords: Prisma.$UsageRecordPayload<ExtArgs>[]
+      businessProfile: Prisma.$BusinessProfilePayload<ExtArgs> | null
+      knowledgeChunks: Prisma.$KnowledgeChunkPayload<ExtArgs>[]
     }
     scalars: $Extensions.GetPayloadResult<{
       id: string
@@ -2967,6 +3277,8 @@ export namespace Prisma {
       subscriptionStatus: string | null
       currentPeriodStart: Date | null
       currentPeriodEnd: Date | null
+      inviteCodeUsed: string | null
+      inviteCodeRedeemedAt: Date | null
       createdAt: Date
       updatedAt: Date
       googleAccessToken: string | null
@@ -3378,6 +3690,8 @@ export namespace Prisma {
     calendarEvents<T extends User$calendarEventsArgs<ExtArgs> = {}>(args?: Subset<T, User$calendarEventsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$CalendarEventPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     emailInteractions<T extends User$emailInteractionsArgs<ExtArgs> = {}>(args?: Subset<T, User$emailInteractionsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$EmailInteractionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     usageRecords<T extends User$usageRecordsArgs<ExtArgs> = {}>(args?: Subset<T, User$usageRecordsArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$UsageRecordPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+    businessProfile<T extends User$businessProfileArgs<ExtArgs> = {}>(args?: Subset<T, User$businessProfileArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+    knowledgeChunks<T extends User$knowledgeChunksArgs<ExtArgs> = {}>(args?: Subset<T, User$knowledgeChunksArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
     /**
      * Attaches callbacks for the resolution and/or rejection of the Promise.
      * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -3418,6 +3732,8 @@ export namespace Prisma {
     readonly subscriptionStatus: FieldRef<"User", 'String'>
     readonly currentPeriodStart: FieldRef<"User", 'DateTime'>
     readonly currentPeriodEnd: FieldRef<"User", 'DateTime'>
+    readonly inviteCodeUsed: FieldRef<"User", 'String'>
+    readonly inviteCodeRedeemedAt: FieldRef<"User", 'DateTime'>
     readonly createdAt: FieldRef<"User", 'DateTime'>
     readonly updatedAt: FieldRef<"User", 'DateTime'>
     readonly googleAccessToken: FieldRef<"User", 'String'>
@@ -3981,6 +4297,49 @@ export namespace Prisma {
     take?: number
     skip?: number
     distinct?: UsageRecordScalarFieldEnum | UsageRecordScalarFieldEnum[]
+  }
+
+  /**
+   * User.businessProfile
+   */
+  export type User$businessProfileArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    where?: BusinessProfileWhereInput
+  }
+
+  /**
+   * User.knowledgeChunks
+   */
+  export type User$knowledgeChunksArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    where?: KnowledgeChunkWhereInput
+    orderBy?: KnowledgeChunkOrderByWithRelationInput | KnowledgeChunkOrderByWithRelationInput[]
+    cursor?: KnowledgeChunkWhereUniqueInput
+    take?: number
+    skip?: number
+    distinct?: KnowledgeChunkScalarFieldEnum | KnowledgeChunkScalarFieldEnum[]
   }
 
   /**
@@ -7399,6 +7758,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    callToAction: string | null
     status: string | null
     userId: string | null
     autoEnrollFromLists: boolean | null
@@ -7410,6 +7770,7 @@ export namespace Prisma {
     id: string | null
     name: string | null
     description: string | null
+    callToAction: string | null
     status: string | null
     userId: string | null
     autoEnrollFromLists: boolean | null
@@ -7421,6 +7782,7 @@ export namespace Prisma {
     id: number
     name: number
     description: number
+    callToAction: number
     status: number
     userId: number
     autoEnrollFromLists: number
@@ -7434,6 +7796,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    callToAction?: true
     status?: true
     userId?: true
     autoEnrollFromLists?: true
@@ -7445,6 +7808,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    callToAction?: true
     status?: true
     userId?: true
     autoEnrollFromLists?: true
@@ -7456,6 +7820,7 @@ export namespace Prisma {
     id?: true
     name?: true
     description?: true
+    callToAction?: true
     status?: true
     userId?: true
     autoEnrollFromLists?: true
@@ -7540,6 +7905,7 @@ export namespace Prisma {
     id: string
     name: string
     description: string | null
+    callToAction: string | null
     status: string
     userId: string
     autoEnrollFromLists: boolean
@@ -7568,6 +7934,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    callToAction?: boolean
     status?: boolean
     userId?: boolean
     autoEnrollFromLists?: boolean
@@ -7585,6 +7952,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    callToAction?: boolean
     status?: boolean
     userId?: boolean
     autoEnrollFromLists?: boolean
@@ -7597,6 +7965,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    callToAction?: boolean
     status?: boolean
     userId?: boolean
     autoEnrollFromLists?: boolean
@@ -7609,6 +7978,7 @@ export namespace Prisma {
     id?: boolean
     name?: boolean
     description?: boolean
+    callToAction?: boolean
     status?: boolean
     userId?: boolean
     autoEnrollFromLists?: boolean
@@ -7616,7 +7986,7 @@ export namespace Prisma {
     updatedAt?: boolean
   }
 
-  export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "status" | "userId" | "autoEnrollFromLists" | "createdAt" | "updatedAt", ExtArgs["result"]["campaign"]>
+  export type CampaignOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "name" | "description" | "callToAction" | "status" | "userId" | "autoEnrollFromLists" | "createdAt" | "updatedAt", ExtArgs["result"]["campaign"]>
   export type CampaignInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
     user?: boolean | UserDefaultArgs<ExtArgs>
     sequences?: boolean | Campaign$sequencesArgs<ExtArgs>
@@ -7645,6 +8015,10 @@ export namespace Prisma {
       id: string
       name: string
       description: string | null
+      /**
+       * Primary call-to-action for emails (e.g. "Schedule a meeting", "Click link", "Reply with info")
+       */
+      callToAction: string | null
       status: string
       userId: string
       autoEnrollFromLists: boolean
@@ -8081,6 +8455,7 @@ export namespace Prisma {
     readonly id: FieldRef<"Campaign", 'String'>
     readonly name: FieldRef<"Campaign", 'String'>
     readonly description: FieldRef<"Campaign", 'String'>
+    readonly callToAction: FieldRef<"Campaign", 'String'>
     readonly status: FieldRef<"Campaign", 'String'>
     readonly userId: FieldRef<"Campaign", 'String'>
     readonly autoEnrollFromLists: FieldRef<"Campaign", 'Boolean'>
@@ -22281,6 +22656,3332 @@ export namespace Prisma {
 
 
   /**
+   * Model InviteCode
+   */
+
+  export type AggregateInviteCode = {
+    _count: InviteCodeCountAggregateOutputType | null
+    _avg: InviteCodeAvgAggregateOutputType | null
+    _sum: InviteCodeSumAggregateOutputType | null
+    _min: InviteCodeMinAggregateOutputType | null
+    _max: InviteCodeMaxAggregateOutputType | null
+  }
+
+  export type InviteCodeAvgAggregateOutputType = {
+    maxUses: number | null
+    usedCount: number | null
+  }
+
+  export type InviteCodeSumAggregateOutputType = {
+    maxUses: number | null
+    usedCount: number | null
+  }
+
+  export type InviteCodeMinAggregateOutputType = {
+    id: string | null
+    code: string | null
+    description: string | null
+    serviceLevelId: string | null
+    maxUses: number | null
+    usedCount: number | null
+    expiresAt: Date | null
+    isActive: boolean | null
+    createdBy: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InviteCodeMaxAggregateOutputType = {
+    id: string | null
+    code: string | null
+    description: string | null
+    serviceLevelId: string | null
+    maxUses: number | null
+    usedCount: number | null
+    expiresAt: Date | null
+    isActive: boolean | null
+    createdBy: string | null
+    notes: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type InviteCodeCountAggregateOutputType = {
+    id: number
+    code: number
+    description: number
+    serviceLevelId: number
+    maxUses: number
+    usedCount: number
+    expiresAt: number
+    isActive: number
+    allowedEmails: number
+    createdBy: number
+    notes: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type InviteCodeAvgAggregateInputType = {
+    maxUses?: true
+    usedCount?: true
+  }
+
+  export type InviteCodeSumAggregateInputType = {
+    maxUses?: true
+    usedCount?: true
+  }
+
+  export type InviteCodeMinAggregateInputType = {
+    id?: true
+    code?: true
+    description?: true
+    serviceLevelId?: true
+    maxUses?: true
+    usedCount?: true
+    expiresAt?: true
+    isActive?: true
+    createdBy?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InviteCodeMaxAggregateInputType = {
+    id?: true
+    code?: true
+    description?: true
+    serviceLevelId?: true
+    maxUses?: true
+    usedCount?: true
+    expiresAt?: true
+    isActive?: true
+    createdBy?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type InviteCodeCountAggregateInputType = {
+    id?: true
+    code?: true
+    description?: true
+    serviceLevelId?: true
+    maxUses?: true
+    usedCount?: true
+    expiresAt?: true
+    isActive?: true
+    allowedEmails?: true
+    createdBy?: true
+    notes?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type InviteCodeAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InviteCode to aggregate.
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InviteCodes to fetch.
+     */
+    orderBy?: InviteCodeOrderByWithRelationInput | InviteCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: InviteCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InviteCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InviteCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned InviteCodes
+    **/
+    _count?: true | InviteCodeCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to average
+    **/
+    _avg?: InviteCodeAvgAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to sum
+    **/
+    _sum?: InviteCodeSumAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: InviteCodeMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: InviteCodeMaxAggregateInputType
+  }
+
+  export type GetInviteCodeAggregateType<T extends InviteCodeAggregateArgs> = {
+        [P in keyof T & keyof AggregateInviteCode]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateInviteCode[P]>
+      : GetScalarType<T[P], AggregateInviteCode[P]>
+  }
+
+
+
+
+  export type InviteCodeGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: InviteCodeWhereInput
+    orderBy?: InviteCodeOrderByWithAggregationInput | InviteCodeOrderByWithAggregationInput[]
+    by: InviteCodeScalarFieldEnum[] | InviteCodeScalarFieldEnum
+    having?: InviteCodeScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: InviteCodeCountAggregateInputType | true
+    _avg?: InviteCodeAvgAggregateInputType
+    _sum?: InviteCodeSumAggregateInputType
+    _min?: InviteCodeMinAggregateInputType
+    _max?: InviteCodeMaxAggregateInputType
+  }
+
+  export type InviteCodeGroupByOutputType = {
+    id: string
+    code: string
+    description: string | null
+    serviceLevelId: string
+    maxUses: number
+    usedCount: number
+    expiresAt: Date | null
+    isActive: boolean
+    allowedEmails: string[]
+    createdBy: string | null
+    notes: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: InviteCodeCountAggregateOutputType | null
+    _avg: InviteCodeAvgAggregateOutputType | null
+    _sum: InviteCodeSumAggregateOutputType | null
+    _min: InviteCodeMinAggregateOutputType | null
+    _max: InviteCodeMaxAggregateOutputType | null
+  }
+
+  type GetInviteCodeGroupByPayload<T extends InviteCodeGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<InviteCodeGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof InviteCodeGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], InviteCodeGroupByOutputType[P]>
+            : GetScalarType<T[P], InviteCodeGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type InviteCodeSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    description?: boolean
+    serviceLevelId?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    expiresAt?: boolean
+    isActive?: boolean
+    allowedEmails?: boolean
+    createdBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["inviteCode"]>
+
+  export type InviteCodeSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    description?: boolean
+    serviceLevelId?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    expiresAt?: boolean
+    isActive?: boolean
+    allowedEmails?: boolean
+    createdBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["inviteCode"]>
+
+  export type InviteCodeSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    code?: boolean
+    description?: boolean
+    serviceLevelId?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    expiresAt?: boolean
+    isActive?: boolean
+    allowedEmails?: boolean
+    createdBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }, ExtArgs["result"]["inviteCode"]>
+
+  export type InviteCodeSelectScalar = {
+    id?: boolean
+    code?: boolean
+    description?: boolean
+    serviceLevelId?: boolean
+    maxUses?: boolean
+    usedCount?: boolean
+    expiresAt?: boolean
+    isActive?: boolean
+    allowedEmails?: boolean
+    createdBy?: boolean
+    notes?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type InviteCodeOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "code" | "description" | "serviceLevelId" | "maxUses" | "usedCount" | "expiresAt" | "isActive" | "allowedEmails" | "createdBy" | "notes" | "createdAt" | "updatedAt", ExtArgs["result"]["inviteCode"]>
+
+  export type $InviteCodePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "InviteCode"
+    objects: {}
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      code: string
+      description: string | null
+      serviceLevelId: string
+      maxUses: number
+      usedCount: number
+      expiresAt: Date | null
+      isActive: boolean
+      allowedEmails: string[]
+      createdBy: string | null
+      notes: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["inviteCode"]>
+    composites: {}
+  }
+
+  type InviteCodeGetPayload<S extends boolean | null | undefined | InviteCodeDefaultArgs> = $Result.GetResult<Prisma.$InviteCodePayload, S>
+
+  type InviteCodeCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<InviteCodeFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: InviteCodeCountAggregateInputType | true
+    }
+
+  export interface InviteCodeDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['InviteCode'], meta: { name: 'InviteCode' } }
+    /**
+     * Find zero or one InviteCode that matches the filter.
+     * @param {InviteCodeFindUniqueArgs} args - Arguments to find a InviteCode
+     * @example
+     * // Get one InviteCode
+     * const inviteCode = await prisma.inviteCode.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends InviteCodeFindUniqueArgs>(args: SelectSubset<T, InviteCodeFindUniqueArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one InviteCode that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {InviteCodeFindUniqueOrThrowArgs} args - Arguments to find a InviteCode
+     * @example
+     * // Get one InviteCode
+     * const inviteCode = await prisma.inviteCode.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends InviteCodeFindUniqueOrThrowArgs>(args: SelectSubset<T, InviteCodeFindUniqueOrThrowArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InviteCode that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeFindFirstArgs} args - Arguments to find a InviteCode
+     * @example
+     * // Get one InviteCode
+     * const inviteCode = await prisma.inviteCode.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends InviteCodeFindFirstArgs>(args?: SelectSubset<T, InviteCodeFindFirstArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first InviteCode that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeFindFirstOrThrowArgs} args - Arguments to find a InviteCode
+     * @example
+     * // Get one InviteCode
+     * const inviteCode = await prisma.inviteCode.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends InviteCodeFindFirstOrThrowArgs>(args?: SelectSubset<T, InviteCodeFindFirstOrThrowArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more InviteCodes that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all InviteCodes
+     * const inviteCodes = await prisma.inviteCode.findMany()
+     * 
+     * // Get first 10 InviteCodes
+     * const inviteCodes = await prisma.inviteCode.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const inviteCodeWithIdOnly = await prisma.inviteCode.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends InviteCodeFindManyArgs>(args?: SelectSubset<T, InviteCodeFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a InviteCode.
+     * @param {InviteCodeCreateArgs} args - Arguments to create a InviteCode.
+     * @example
+     * // Create one InviteCode
+     * const InviteCode = await prisma.inviteCode.create({
+     *   data: {
+     *     // ... data to create a InviteCode
+     *   }
+     * })
+     * 
+     */
+    create<T extends InviteCodeCreateArgs>(args: SelectSubset<T, InviteCodeCreateArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many InviteCodes.
+     * @param {InviteCodeCreateManyArgs} args - Arguments to create many InviteCodes.
+     * @example
+     * // Create many InviteCodes
+     * const inviteCode = await prisma.inviteCode.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends InviteCodeCreateManyArgs>(args?: SelectSubset<T, InviteCodeCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many InviteCodes and returns the data saved in the database.
+     * @param {InviteCodeCreateManyAndReturnArgs} args - Arguments to create many InviteCodes.
+     * @example
+     * // Create many InviteCodes
+     * const inviteCode = await prisma.inviteCode.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many InviteCodes and only return the `id`
+     * const inviteCodeWithIdOnly = await prisma.inviteCode.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends InviteCodeCreateManyAndReturnArgs>(args?: SelectSubset<T, InviteCodeCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a InviteCode.
+     * @param {InviteCodeDeleteArgs} args - Arguments to delete one InviteCode.
+     * @example
+     * // Delete one InviteCode
+     * const InviteCode = await prisma.inviteCode.delete({
+     *   where: {
+     *     // ... filter to delete one InviteCode
+     *   }
+     * })
+     * 
+     */
+    delete<T extends InviteCodeDeleteArgs>(args: SelectSubset<T, InviteCodeDeleteArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one InviteCode.
+     * @param {InviteCodeUpdateArgs} args - Arguments to update one InviteCode.
+     * @example
+     * // Update one InviteCode
+     * const inviteCode = await prisma.inviteCode.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends InviteCodeUpdateArgs>(args: SelectSubset<T, InviteCodeUpdateArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more InviteCodes.
+     * @param {InviteCodeDeleteManyArgs} args - Arguments to filter InviteCodes to delete.
+     * @example
+     * // Delete a few InviteCodes
+     * const { count } = await prisma.inviteCode.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends InviteCodeDeleteManyArgs>(args?: SelectSubset<T, InviteCodeDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InviteCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many InviteCodes
+     * const inviteCode = await prisma.inviteCode.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends InviteCodeUpdateManyArgs>(args: SelectSubset<T, InviteCodeUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more InviteCodes and returns the data updated in the database.
+     * @param {InviteCodeUpdateManyAndReturnArgs} args - Arguments to update many InviteCodes.
+     * @example
+     * // Update many InviteCodes
+     * const inviteCode = await prisma.inviteCode.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more InviteCodes and only return the `id`
+     * const inviteCodeWithIdOnly = await prisma.inviteCode.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends InviteCodeUpdateManyAndReturnArgs>(args: SelectSubset<T, InviteCodeUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one InviteCode.
+     * @param {InviteCodeUpsertArgs} args - Arguments to update or create a InviteCode.
+     * @example
+     * // Update or create a InviteCode
+     * const inviteCode = await prisma.inviteCode.upsert({
+     *   create: {
+     *     // ... data to create a InviteCode
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the InviteCode we want to update
+     *   }
+     * })
+     */
+    upsert<T extends InviteCodeUpsertArgs>(args: SelectSubset<T, InviteCodeUpsertArgs<ExtArgs>>): Prisma__InviteCodeClient<$Result.GetResult<Prisma.$InviteCodePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of InviteCodes.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeCountArgs} args - Arguments to filter InviteCodes to count.
+     * @example
+     * // Count the number of InviteCodes
+     * const count = await prisma.inviteCode.count({
+     *   where: {
+     *     // ... the filter for the InviteCodes we want to count
+     *   }
+     * })
+    **/
+    count<T extends InviteCodeCountArgs>(
+      args?: Subset<T, InviteCodeCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], InviteCodeCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a InviteCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends InviteCodeAggregateArgs>(args: Subset<T, InviteCodeAggregateArgs>): Prisma.PrismaPromise<GetInviteCodeAggregateType<T>>
+
+    /**
+     * Group by InviteCode.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {InviteCodeGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends InviteCodeGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: InviteCodeGroupByArgs['orderBy'] }
+        : { orderBy?: InviteCodeGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, InviteCodeGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetInviteCodeGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the InviteCode model
+   */
+  readonly fields: InviteCodeFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for InviteCode.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__InviteCodeClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the InviteCode model
+   */
+  interface InviteCodeFieldRefs {
+    readonly id: FieldRef<"InviteCode", 'String'>
+    readonly code: FieldRef<"InviteCode", 'String'>
+    readonly description: FieldRef<"InviteCode", 'String'>
+    readonly serviceLevelId: FieldRef<"InviteCode", 'String'>
+    readonly maxUses: FieldRef<"InviteCode", 'Int'>
+    readonly usedCount: FieldRef<"InviteCode", 'Int'>
+    readonly expiresAt: FieldRef<"InviteCode", 'DateTime'>
+    readonly isActive: FieldRef<"InviteCode", 'Boolean'>
+    readonly allowedEmails: FieldRef<"InviteCode", 'String[]'>
+    readonly createdBy: FieldRef<"InviteCode", 'String'>
+    readonly notes: FieldRef<"InviteCode", 'String'>
+    readonly createdAt: FieldRef<"InviteCode", 'DateTime'>
+    readonly updatedAt: FieldRef<"InviteCode", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * InviteCode findUnique
+   */
+  export type InviteCodeFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which InviteCode to fetch.
+     */
+    where: InviteCodeWhereUniqueInput
+  }
+
+  /**
+   * InviteCode findUniqueOrThrow
+   */
+  export type InviteCodeFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which InviteCode to fetch.
+     */
+    where: InviteCodeWhereUniqueInput
+  }
+
+  /**
+   * InviteCode findFirst
+   */
+  export type InviteCodeFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which InviteCode to fetch.
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InviteCodes to fetch.
+     */
+    orderBy?: InviteCodeOrderByWithRelationInput | InviteCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InviteCodes.
+     */
+    cursor?: InviteCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InviteCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InviteCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InviteCodes.
+     */
+    distinct?: InviteCodeScalarFieldEnum | InviteCodeScalarFieldEnum[]
+  }
+
+  /**
+   * InviteCode findFirstOrThrow
+   */
+  export type InviteCodeFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which InviteCode to fetch.
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InviteCodes to fetch.
+     */
+    orderBy?: InviteCodeOrderByWithRelationInput | InviteCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for InviteCodes.
+     */
+    cursor?: InviteCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InviteCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InviteCodes.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of InviteCodes.
+     */
+    distinct?: InviteCodeScalarFieldEnum | InviteCodeScalarFieldEnum[]
+  }
+
+  /**
+   * InviteCode findMany
+   */
+  export type InviteCodeFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * Filter, which InviteCodes to fetch.
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of InviteCodes to fetch.
+     */
+    orderBy?: InviteCodeOrderByWithRelationInput | InviteCodeOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing InviteCodes.
+     */
+    cursor?: InviteCodeWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` InviteCodes from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` InviteCodes.
+     */
+    skip?: number
+    distinct?: InviteCodeScalarFieldEnum | InviteCodeScalarFieldEnum[]
+  }
+
+  /**
+   * InviteCode create
+   */
+  export type InviteCodeCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * The data needed to create a InviteCode.
+     */
+    data: XOR<InviteCodeCreateInput, InviteCodeUncheckedCreateInput>
+  }
+
+  /**
+   * InviteCode createMany
+   */
+  export type InviteCodeCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many InviteCodes.
+     */
+    data: InviteCodeCreateManyInput | InviteCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InviteCode createManyAndReturn
+   */
+  export type InviteCodeCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * The data used to create many InviteCodes.
+     */
+    data: InviteCodeCreateManyInput | InviteCodeCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * InviteCode update
+   */
+  export type InviteCodeUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * The data needed to update a InviteCode.
+     */
+    data: XOR<InviteCodeUpdateInput, InviteCodeUncheckedUpdateInput>
+    /**
+     * Choose, which InviteCode to update.
+     */
+    where: InviteCodeWhereUniqueInput
+  }
+
+  /**
+   * InviteCode updateMany
+   */
+  export type InviteCodeUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update InviteCodes.
+     */
+    data: XOR<InviteCodeUpdateManyMutationInput, InviteCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which InviteCodes to update
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * Limit how many InviteCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InviteCode updateManyAndReturn
+   */
+  export type InviteCodeUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * The data used to update InviteCodes.
+     */
+    data: XOR<InviteCodeUpdateManyMutationInput, InviteCodeUncheckedUpdateManyInput>
+    /**
+     * Filter which InviteCodes to update
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * Limit how many InviteCodes to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * InviteCode upsert
+   */
+  export type InviteCodeUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * The filter to search for the InviteCode to update in case it exists.
+     */
+    where: InviteCodeWhereUniqueInput
+    /**
+     * In case the InviteCode found by the `where` argument doesn't exist, create a new InviteCode with this data.
+     */
+    create: XOR<InviteCodeCreateInput, InviteCodeUncheckedCreateInput>
+    /**
+     * In case the InviteCode was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<InviteCodeUpdateInput, InviteCodeUncheckedUpdateInput>
+  }
+
+  /**
+   * InviteCode delete
+   */
+  export type InviteCodeDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+    /**
+     * Filter which InviteCode to delete.
+     */
+    where: InviteCodeWhereUniqueInput
+  }
+
+  /**
+   * InviteCode deleteMany
+   */
+  export type InviteCodeDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which InviteCodes to delete
+     */
+    where?: InviteCodeWhereInput
+    /**
+     * Limit how many InviteCodes to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * InviteCode without action
+   */
+  export type InviteCodeDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the InviteCode
+     */
+    select?: InviteCodeSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the InviteCode
+     */
+    omit?: InviteCodeOmit<ExtArgs> | null
+  }
+
+
+  /**
+   * Model BusinessProfile
+   */
+
+  export type AggregateBusinessProfile = {
+    _count: BusinessProfileCountAggregateOutputType | null
+    _min: BusinessProfileMinAggregateOutputType | null
+    _max: BusinessProfileMaxAggregateOutputType | null
+  }
+
+  export type BusinessProfileMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    about: string | null
+    uniqueValue: string | null
+    targetCustomers: string | null
+    mainPainPoints: string | null
+    tonePreference: string | null
+    callToActions: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BusinessProfileMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    about: string | null
+    uniqueValue: string | null
+    targetCustomers: string | null
+    mainPainPoints: string | null
+    tonePreference: string | null
+    callToActions: string | null
+    createdAt: Date | null
+    updatedAt: Date | null
+  }
+
+  export type BusinessProfileCountAggregateOutputType = {
+    id: number
+    userId: number
+    about: number
+    uniqueValue: number
+    targetCustomers: number
+    mainPainPoints: number
+    tonePreference: number
+    callToActions: number
+    createdAt: number
+    updatedAt: number
+    _all: number
+  }
+
+
+  export type BusinessProfileMinAggregateInputType = {
+    id?: true
+    userId?: true
+    about?: true
+    uniqueValue?: true
+    targetCustomers?: true
+    mainPainPoints?: true
+    tonePreference?: true
+    callToActions?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BusinessProfileMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    about?: true
+    uniqueValue?: true
+    targetCustomers?: true
+    mainPainPoints?: true
+    tonePreference?: true
+    callToActions?: true
+    createdAt?: true
+    updatedAt?: true
+  }
+
+  export type BusinessProfileCountAggregateInputType = {
+    id?: true
+    userId?: true
+    about?: true
+    uniqueValue?: true
+    targetCustomers?: true
+    mainPainPoints?: true
+    tonePreference?: true
+    callToActions?: true
+    createdAt?: true
+    updatedAt?: true
+    _all?: true
+  }
+
+  export type BusinessProfileAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessProfile to aggregate.
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessProfiles to fetch.
+     */
+    orderBy?: BusinessProfileOrderByWithRelationInput | BusinessProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: BusinessProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned BusinessProfiles
+    **/
+    _count?: true | BusinessProfileCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: BusinessProfileMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: BusinessProfileMaxAggregateInputType
+  }
+
+  export type GetBusinessProfileAggregateType<T extends BusinessProfileAggregateArgs> = {
+        [P in keyof T & keyof AggregateBusinessProfile]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateBusinessProfile[P]>
+      : GetScalarType<T[P], AggregateBusinessProfile[P]>
+  }
+
+
+
+
+  export type BusinessProfileGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: BusinessProfileWhereInput
+    orderBy?: BusinessProfileOrderByWithAggregationInput | BusinessProfileOrderByWithAggregationInput[]
+    by: BusinessProfileScalarFieldEnum[] | BusinessProfileScalarFieldEnum
+    having?: BusinessProfileScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: BusinessProfileCountAggregateInputType | true
+    _min?: BusinessProfileMinAggregateInputType
+    _max?: BusinessProfileMaxAggregateInputType
+  }
+
+  export type BusinessProfileGroupByOutputType = {
+    id: string
+    userId: string
+    about: string | null
+    uniqueValue: string | null
+    targetCustomers: string | null
+    mainPainPoints: string | null
+    tonePreference: string | null
+    callToActions: string | null
+    createdAt: Date
+    updatedAt: Date
+    _count: BusinessProfileCountAggregateOutputType | null
+    _min: BusinessProfileMinAggregateOutputType | null
+    _max: BusinessProfileMaxAggregateOutputType | null
+  }
+
+  type GetBusinessProfileGroupByPayload<T extends BusinessProfileGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<BusinessProfileGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof BusinessProfileGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], BusinessProfileGroupByOutputType[P]>
+            : GetScalarType<T[P], BusinessProfileGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type BusinessProfileSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    about?: boolean
+    uniqueValue?: boolean
+    targetCustomers?: boolean
+    mainPainPoints?: boolean
+    tonePreference?: boolean
+    callToActions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessProfile"]>
+
+  export type BusinessProfileSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    about?: boolean
+    uniqueValue?: boolean
+    targetCustomers?: boolean
+    mainPainPoints?: boolean
+    tonePreference?: boolean
+    callToActions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessProfile"]>
+
+  export type BusinessProfileSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    about?: boolean
+    uniqueValue?: boolean
+    targetCustomers?: boolean
+    mainPainPoints?: boolean
+    tonePreference?: boolean
+    callToActions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["businessProfile"]>
+
+  export type BusinessProfileSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    about?: boolean
+    uniqueValue?: boolean
+    targetCustomers?: boolean
+    mainPainPoints?: boolean
+    tonePreference?: boolean
+    callToActions?: boolean
+    createdAt?: boolean
+    updatedAt?: boolean
+  }
+
+  export type BusinessProfileOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "about" | "uniqueValue" | "targetCustomers" | "mainPainPoints" | "tonePreference" | "callToActions" | "createdAt" | "updatedAt", ExtArgs["result"]["businessProfile"]>
+  export type BusinessProfileInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BusinessProfileIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type BusinessProfileIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $BusinessProfilePayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "BusinessProfile"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      about: string | null
+      uniqueValue: string | null
+      targetCustomers: string | null
+      mainPainPoints: string | null
+      tonePreference: string | null
+      callToActions: string | null
+      createdAt: Date
+      updatedAt: Date
+    }, ExtArgs["result"]["businessProfile"]>
+    composites: {}
+  }
+
+  type BusinessProfileGetPayload<S extends boolean | null | undefined | BusinessProfileDefaultArgs> = $Result.GetResult<Prisma.$BusinessProfilePayload, S>
+
+  type BusinessProfileCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<BusinessProfileFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: BusinessProfileCountAggregateInputType | true
+    }
+
+  export interface BusinessProfileDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['BusinessProfile'], meta: { name: 'BusinessProfile' } }
+    /**
+     * Find zero or one BusinessProfile that matches the filter.
+     * @param {BusinessProfileFindUniqueArgs} args - Arguments to find a BusinessProfile
+     * @example
+     * // Get one BusinessProfile
+     * const businessProfile = await prisma.businessProfile.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends BusinessProfileFindUniqueArgs>(args: SelectSubset<T, BusinessProfileFindUniqueArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one BusinessProfile that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {BusinessProfileFindUniqueOrThrowArgs} args - Arguments to find a BusinessProfile
+     * @example
+     * // Get one BusinessProfile
+     * const businessProfile = await prisma.businessProfile.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends BusinessProfileFindUniqueOrThrowArgs>(args: SelectSubset<T, BusinessProfileFindUniqueOrThrowArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BusinessProfile that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileFindFirstArgs} args - Arguments to find a BusinessProfile
+     * @example
+     * // Get one BusinessProfile
+     * const businessProfile = await prisma.businessProfile.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends BusinessProfileFindFirstArgs>(args?: SelectSubset<T, BusinessProfileFindFirstArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first BusinessProfile that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileFindFirstOrThrowArgs} args - Arguments to find a BusinessProfile
+     * @example
+     * // Get one BusinessProfile
+     * const businessProfile = await prisma.businessProfile.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends BusinessProfileFindFirstOrThrowArgs>(args?: SelectSubset<T, BusinessProfileFindFirstOrThrowArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more BusinessProfiles that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all BusinessProfiles
+     * const businessProfiles = await prisma.businessProfile.findMany()
+     * 
+     * // Get first 10 BusinessProfiles
+     * const businessProfiles = await prisma.businessProfile.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const businessProfileWithIdOnly = await prisma.businessProfile.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends BusinessProfileFindManyArgs>(args?: SelectSubset<T, BusinessProfileFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a BusinessProfile.
+     * @param {BusinessProfileCreateArgs} args - Arguments to create a BusinessProfile.
+     * @example
+     * // Create one BusinessProfile
+     * const BusinessProfile = await prisma.businessProfile.create({
+     *   data: {
+     *     // ... data to create a BusinessProfile
+     *   }
+     * })
+     * 
+     */
+    create<T extends BusinessProfileCreateArgs>(args: SelectSubset<T, BusinessProfileCreateArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many BusinessProfiles.
+     * @param {BusinessProfileCreateManyArgs} args - Arguments to create many BusinessProfiles.
+     * @example
+     * // Create many BusinessProfiles
+     * const businessProfile = await prisma.businessProfile.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends BusinessProfileCreateManyArgs>(args?: SelectSubset<T, BusinessProfileCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many BusinessProfiles and returns the data saved in the database.
+     * @param {BusinessProfileCreateManyAndReturnArgs} args - Arguments to create many BusinessProfiles.
+     * @example
+     * // Create many BusinessProfiles
+     * const businessProfile = await prisma.businessProfile.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many BusinessProfiles and only return the `id`
+     * const businessProfileWithIdOnly = await prisma.businessProfile.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends BusinessProfileCreateManyAndReturnArgs>(args?: SelectSubset<T, BusinessProfileCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a BusinessProfile.
+     * @param {BusinessProfileDeleteArgs} args - Arguments to delete one BusinessProfile.
+     * @example
+     * // Delete one BusinessProfile
+     * const BusinessProfile = await prisma.businessProfile.delete({
+     *   where: {
+     *     // ... filter to delete one BusinessProfile
+     *   }
+     * })
+     * 
+     */
+    delete<T extends BusinessProfileDeleteArgs>(args: SelectSubset<T, BusinessProfileDeleteArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one BusinessProfile.
+     * @param {BusinessProfileUpdateArgs} args - Arguments to update one BusinessProfile.
+     * @example
+     * // Update one BusinessProfile
+     * const businessProfile = await prisma.businessProfile.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends BusinessProfileUpdateArgs>(args: SelectSubset<T, BusinessProfileUpdateArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more BusinessProfiles.
+     * @param {BusinessProfileDeleteManyArgs} args - Arguments to filter BusinessProfiles to delete.
+     * @example
+     * // Delete a few BusinessProfiles
+     * const { count } = await prisma.businessProfile.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends BusinessProfileDeleteManyArgs>(args?: SelectSubset<T, BusinessProfileDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many BusinessProfiles
+     * const businessProfile = await prisma.businessProfile.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends BusinessProfileUpdateManyArgs>(args: SelectSubset<T, BusinessProfileUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more BusinessProfiles and returns the data updated in the database.
+     * @param {BusinessProfileUpdateManyAndReturnArgs} args - Arguments to update many BusinessProfiles.
+     * @example
+     * // Update many BusinessProfiles
+     * const businessProfile = await prisma.businessProfile.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more BusinessProfiles and only return the `id`
+     * const businessProfileWithIdOnly = await prisma.businessProfile.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends BusinessProfileUpdateManyAndReturnArgs>(args: SelectSubset<T, BusinessProfileUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one BusinessProfile.
+     * @param {BusinessProfileUpsertArgs} args - Arguments to update or create a BusinessProfile.
+     * @example
+     * // Update or create a BusinessProfile
+     * const businessProfile = await prisma.businessProfile.upsert({
+     *   create: {
+     *     // ... data to create a BusinessProfile
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the BusinessProfile we want to update
+     *   }
+     * })
+     */
+    upsert<T extends BusinessProfileUpsertArgs>(args: SelectSubset<T, BusinessProfileUpsertArgs<ExtArgs>>): Prisma__BusinessProfileClient<$Result.GetResult<Prisma.$BusinessProfilePayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of BusinessProfiles.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileCountArgs} args - Arguments to filter BusinessProfiles to count.
+     * @example
+     * // Count the number of BusinessProfiles
+     * const count = await prisma.businessProfile.count({
+     *   where: {
+     *     // ... the filter for the BusinessProfiles we want to count
+     *   }
+     * })
+    **/
+    count<T extends BusinessProfileCountArgs>(
+      args?: Subset<T, BusinessProfileCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], BusinessProfileCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a BusinessProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends BusinessProfileAggregateArgs>(args: Subset<T, BusinessProfileAggregateArgs>): Prisma.PrismaPromise<GetBusinessProfileAggregateType<T>>
+
+    /**
+     * Group by BusinessProfile.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {BusinessProfileGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends BusinessProfileGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: BusinessProfileGroupByArgs['orderBy'] }
+        : { orderBy?: BusinessProfileGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, BusinessProfileGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetBusinessProfileGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the BusinessProfile model
+   */
+  readonly fields: BusinessProfileFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for BusinessProfile.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__BusinessProfileClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the BusinessProfile model
+   */
+  interface BusinessProfileFieldRefs {
+    readonly id: FieldRef<"BusinessProfile", 'String'>
+    readonly userId: FieldRef<"BusinessProfile", 'String'>
+    readonly about: FieldRef<"BusinessProfile", 'String'>
+    readonly uniqueValue: FieldRef<"BusinessProfile", 'String'>
+    readonly targetCustomers: FieldRef<"BusinessProfile", 'String'>
+    readonly mainPainPoints: FieldRef<"BusinessProfile", 'String'>
+    readonly tonePreference: FieldRef<"BusinessProfile", 'String'>
+    readonly callToActions: FieldRef<"BusinessProfile", 'String'>
+    readonly createdAt: FieldRef<"BusinessProfile", 'DateTime'>
+    readonly updatedAt: FieldRef<"BusinessProfile", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * BusinessProfile findUnique
+   */
+  export type BusinessProfileFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessProfile to fetch.
+     */
+    where: BusinessProfileWhereUniqueInput
+  }
+
+  /**
+   * BusinessProfile findUniqueOrThrow
+   */
+  export type BusinessProfileFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessProfile to fetch.
+     */
+    where: BusinessProfileWhereUniqueInput
+  }
+
+  /**
+   * BusinessProfile findFirst
+   */
+  export type BusinessProfileFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessProfile to fetch.
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessProfiles to fetch.
+     */
+    orderBy?: BusinessProfileOrderByWithRelationInput | BusinessProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessProfiles.
+     */
+    cursor?: BusinessProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessProfiles.
+     */
+    distinct?: BusinessProfileScalarFieldEnum | BusinessProfileScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessProfile findFirstOrThrow
+   */
+  export type BusinessProfileFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessProfile to fetch.
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessProfiles to fetch.
+     */
+    orderBy?: BusinessProfileOrderByWithRelationInput | BusinessProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for BusinessProfiles.
+     */
+    cursor?: BusinessProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessProfiles.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of BusinessProfiles.
+     */
+    distinct?: BusinessProfileScalarFieldEnum | BusinessProfileScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessProfile findMany
+   */
+  export type BusinessProfileFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * Filter, which BusinessProfiles to fetch.
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of BusinessProfiles to fetch.
+     */
+    orderBy?: BusinessProfileOrderByWithRelationInput | BusinessProfileOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing BusinessProfiles.
+     */
+    cursor?: BusinessProfileWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` BusinessProfiles from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` BusinessProfiles.
+     */
+    skip?: number
+    distinct?: BusinessProfileScalarFieldEnum | BusinessProfileScalarFieldEnum[]
+  }
+
+  /**
+   * BusinessProfile create
+   */
+  export type BusinessProfileCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to create a BusinessProfile.
+     */
+    data: XOR<BusinessProfileCreateInput, BusinessProfileUncheckedCreateInput>
+  }
+
+  /**
+   * BusinessProfile createMany
+   */
+  export type BusinessProfileCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many BusinessProfiles.
+     */
+    data: BusinessProfileCreateManyInput | BusinessProfileCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * BusinessProfile createManyAndReturn
+   */
+  export type BusinessProfileCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * The data used to create many BusinessProfiles.
+     */
+    data: BusinessProfileCreateManyInput | BusinessProfileCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BusinessProfile update
+   */
+  export type BusinessProfileUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * The data needed to update a BusinessProfile.
+     */
+    data: XOR<BusinessProfileUpdateInput, BusinessProfileUncheckedUpdateInput>
+    /**
+     * Choose, which BusinessProfile to update.
+     */
+    where: BusinessProfileWhereUniqueInput
+  }
+
+  /**
+   * BusinessProfile updateMany
+   */
+  export type BusinessProfileUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update BusinessProfiles.
+     */
+    data: XOR<BusinessProfileUpdateManyMutationInput, BusinessProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessProfiles to update
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * Limit how many BusinessProfiles to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * BusinessProfile updateManyAndReturn
+   */
+  export type BusinessProfileUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * The data used to update BusinessProfiles.
+     */
+    data: XOR<BusinessProfileUpdateManyMutationInput, BusinessProfileUncheckedUpdateManyInput>
+    /**
+     * Filter which BusinessProfiles to update
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * Limit how many BusinessProfiles to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * BusinessProfile upsert
+   */
+  export type BusinessProfileUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * The filter to search for the BusinessProfile to update in case it exists.
+     */
+    where: BusinessProfileWhereUniqueInput
+    /**
+     * In case the BusinessProfile found by the `where` argument doesn't exist, create a new BusinessProfile with this data.
+     */
+    create: XOR<BusinessProfileCreateInput, BusinessProfileUncheckedCreateInput>
+    /**
+     * In case the BusinessProfile was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<BusinessProfileUpdateInput, BusinessProfileUncheckedUpdateInput>
+  }
+
+  /**
+   * BusinessProfile delete
+   */
+  export type BusinessProfileDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+    /**
+     * Filter which BusinessProfile to delete.
+     */
+    where: BusinessProfileWhereUniqueInput
+  }
+
+  /**
+   * BusinessProfile deleteMany
+   */
+  export type BusinessProfileDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which BusinessProfiles to delete
+     */
+    where?: BusinessProfileWhereInput
+    /**
+     * Limit how many BusinessProfiles to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * BusinessProfile without action
+   */
+  export type BusinessProfileDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the BusinessProfile
+     */
+    select?: BusinessProfileSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the BusinessProfile
+     */
+    omit?: BusinessProfileOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: BusinessProfileInclude<ExtArgs> | null
+  }
+
+
+  /**
+   * Model KnowledgeChunk
+   */
+
+  export type AggregateKnowledgeChunk = {
+    _count: KnowledgeChunkCountAggregateOutputType | null
+    _min: KnowledgeChunkMinAggregateOutputType | null
+    _max: KnowledgeChunkMaxAggregateOutputType | null
+  }
+
+  export type KnowledgeChunkMinAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    content: string | null
+    embedding: Uint8Array | null
+    createdAt: Date | null
+  }
+
+  export type KnowledgeChunkMaxAggregateOutputType = {
+    id: string | null
+    userId: string | null
+    content: string | null
+    embedding: Uint8Array | null
+    createdAt: Date | null
+  }
+
+  export type KnowledgeChunkCountAggregateOutputType = {
+    id: number
+    userId: number
+    content: number
+    tags: number
+    embedding: number
+    createdAt: number
+    _all: number
+  }
+
+
+  export type KnowledgeChunkMinAggregateInputType = {
+    id?: true
+    userId?: true
+    content?: true
+    embedding?: true
+    createdAt?: true
+  }
+
+  export type KnowledgeChunkMaxAggregateInputType = {
+    id?: true
+    userId?: true
+    content?: true
+    embedding?: true
+    createdAt?: true
+  }
+
+  export type KnowledgeChunkCountAggregateInputType = {
+    id?: true
+    userId?: true
+    content?: true
+    tags?: true
+    embedding?: true
+    createdAt?: true
+    _all?: true
+  }
+
+  export type KnowledgeChunkAggregateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KnowledgeChunk to aggregate.
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeChunks to fetch.
+     */
+    orderBy?: KnowledgeChunkOrderByWithRelationInput | KnowledgeChunkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the start position
+     */
+    cursor?: KnowledgeChunkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeChunks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeChunks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Count returned KnowledgeChunks
+    **/
+    _count?: true | KnowledgeChunkCountAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the minimum value
+    **/
+    _min?: KnowledgeChunkMinAggregateInputType
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/aggregations Aggregation Docs}
+     * 
+     * Select which fields to find the maximum value
+    **/
+    _max?: KnowledgeChunkMaxAggregateInputType
+  }
+
+  export type GetKnowledgeChunkAggregateType<T extends KnowledgeChunkAggregateArgs> = {
+        [P in keyof T & keyof AggregateKnowledgeChunk]: P extends '_count' | 'count'
+      ? T[P] extends true
+        ? number
+        : GetScalarType<T[P], AggregateKnowledgeChunk[P]>
+      : GetScalarType<T[P], AggregateKnowledgeChunk[P]>
+  }
+
+
+
+
+  export type KnowledgeChunkGroupByArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    where?: KnowledgeChunkWhereInput
+    orderBy?: KnowledgeChunkOrderByWithAggregationInput | KnowledgeChunkOrderByWithAggregationInput[]
+    by: KnowledgeChunkScalarFieldEnum[] | KnowledgeChunkScalarFieldEnum
+    having?: KnowledgeChunkScalarWhereWithAggregatesInput
+    take?: number
+    skip?: number
+    _count?: KnowledgeChunkCountAggregateInputType | true
+    _min?: KnowledgeChunkMinAggregateInputType
+    _max?: KnowledgeChunkMaxAggregateInputType
+  }
+
+  export type KnowledgeChunkGroupByOutputType = {
+    id: string
+    userId: string
+    content: string
+    tags: string[]
+    embedding: Uint8Array
+    createdAt: Date
+    _count: KnowledgeChunkCountAggregateOutputType | null
+    _min: KnowledgeChunkMinAggregateOutputType | null
+    _max: KnowledgeChunkMaxAggregateOutputType | null
+  }
+
+  type GetKnowledgeChunkGroupByPayload<T extends KnowledgeChunkGroupByArgs> = Prisma.PrismaPromise<
+    Array<
+      PickEnumerable<KnowledgeChunkGroupByOutputType, T['by']> &
+        {
+          [P in ((keyof T) & (keyof KnowledgeChunkGroupByOutputType))]: P extends '_count'
+            ? T[P] extends boolean
+              ? number
+              : GetScalarType<T[P], KnowledgeChunkGroupByOutputType[P]>
+            : GetScalarType<T[P], KnowledgeChunkGroupByOutputType[P]>
+        }
+      >
+    >
+
+
+  export type KnowledgeChunkSelect<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    content?: boolean
+    tags?: boolean
+    embedding?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["knowledgeChunk"]>
+
+  export type KnowledgeChunkSelectCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    content?: boolean
+    tags?: boolean
+    embedding?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["knowledgeChunk"]>
+
+  export type KnowledgeChunkSelectUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetSelect<{
+    id?: boolean
+    userId?: boolean
+    content?: boolean
+    tags?: boolean
+    embedding?: boolean
+    createdAt?: boolean
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }, ExtArgs["result"]["knowledgeChunk"]>
+
+  export type KnowledgeChunkSelectScalar = {
+    id?: boolean
+    userId?: boolean
+    content?: boolean
+    tags?: boolean
+    embedding?: boolean
+    createdAt?: boolean
+  }
+
+  export type KnowledgeChunkOmit<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = $Extensions.GetOmit<"id" | "userId" | "content" | "tags" | "embedding" | "createdAt", ExtArgs["result"]["knowledgeChunk"]>
+  export type KnowledgeChunkInclude<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type KnowledgeChunkIncludeCreateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+  export type KnowledgeChunkIncludeUpdateManyAndReturn<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    user?: boolean | UserDefaultArgs<ExtArgs>
+  }
+
+  export type $KnowledgeChunkPayload<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    name: "KnowledgeChunk"
+    objects: {
+      user: Prisma.$UserPayload<ExtArgs>
+    }
+    scalars: $Extensions.GetPayloadResult<{
+      id: string
+      userId: string
+      content: string
+      tags: string[]
+      /**
+       * 1536-dim OpenAI embedding (text-embedding-3-small)
+       */
+      embedding: Uint8Array
+      createdAt: Date
+    }, ExtArgs["result"]["knowledgeChunk"]>
+    composites: {}
+  }
+
+  type KnowledgeChunkGetPayload<S extends boolean | null | undefined | KnowledgeChunkDefaultArgs> = $Result.GetResult<Prisma.$KnowledgeChunkPayload, S>
+
+  type KnowledgeChunkCountArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> =
+    Omit<KnowledgeChunkFindManyArgs, 'select' | 'include' | 'distinct' | 'omit'> & {
+      select?: KnowledgeChunkCountAggregateInputType | true
+    }
+
+  export interface KnowledgeChunkDelegate<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> {
+    [K: symbol]: { types: Prisma.TypeMap<ExtArgs>['model']['KnowledgeChunk'], meta: { name: 'KnowledgeChunk' } }
+    /**
+     * Find zero or one KnowledgeChunk that matches the filter.
+     * @param {KnowledgeChunkFindUniqueArgs} args - Arguments to find a KnowledgeChunk
+     * @example
+     * // Get one KnowledgeChunk
+     * const knowledgeChunk = await prisma.knowledgeChunk.findUnique({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUnique<T extends KnowledgeChunkFindUniqueArgs>(args: SelectSubset<T, KnowledgeChunkFindUniqueArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "findUnique", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find one KnowledgeChunk that matches the filter or throw an error with `error.code='P2025'`
+     * if no matches were found.
+     * @param {KnowledgeChunkFindUniqueOrThrowArgs} args - Arguments to find a KnowledgeChunk
+     * @example
+     * // Get one KnowledgeChunk
+     * const knowledgeChunk = await prisma.knowledgeChunk.findUniqueOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findUniqueOrThrow<T extends KnowledgeChunkFindUniqueOrThrowArgs>(args: SelectSubset<T, KnowledgeChunkFindUniqueOrThrowArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KnowledgeChunk that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkFindFirstArgs} args - Arguments to find a KnowledgeChunk
+     * @example
+     * // Get one KnowledgeChunk
+     * const knowledgeChunk = await prisma.knowledgeChunk.findFirst({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirst<T extends KnowledgeChunkFindFirstArgs>(args?: SelectSubset<T, KnowledgeChunkFindFirstArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "findFirst", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find the first KnowledgeChunk that matches the filter or
+     * throw `PrismaKnownClientError` with `P2025` code if no matches were found.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkFindFirstOrThrowArgs} args - Arguments to find a KnowledgeChunk
+     * @example
+     * // Get one KnowledgeChunk
+     * const knowledgeChunk = await prisma.knowledgeChunk.findFirstOrThrow({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     */
+    findFirstOrThrow<T extends KnowledgeChunkFindFirstOrThrowArgs>(args?: SelectSubset<T, KnowledgeChunkFindFirstOrThrowArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "findFirstOrThrow", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Find zero or more KnowledgeChunks that matches the filter.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkFindManyArgs} args - Arguments to filter and select certain fields only.
+     * @example
+     * // Get all KnowledgeChunks
+     * const knowledgeChunks = await prisma.knowledgeChunk.findMany()
+     * 
+     * // Get first 10 KnowledgeChunks
+     * const knowledgeChunks = await prisma.knowledgeChunk.findMany({ take: 10 })
+     * 
+     * // Only select the `id`
+     * const knowledgeChunkWithIdOnly = await prisma.knowledgeChunk.findMany({ select: { id: true } })
+     * 
+     */
+    findMany<T extends KnowledgeChunkFindManyArgs>(args?: SelectSubset<T, KnowledgeChunkFindManyArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "findMany", GlobalOmitOptions>>
+
+    /**
+     * Create a KnowledgeChunk.
+     * @param {KnowledgeChunkCreateArgs} args - Arguments to create a KnowledgeChunk.
+     * @example
+     * // Create one KnowledgeChunk
+     * const KnowledgeChunk = await prisma.knowledgeChunk.create({
+     *   data: {
+     *     // ... data to create a KnowledgeChunk
+     *   }
+     * })
+     * 
+     */
+    create<T extends KnowledgeChunkCreateArgs>(args: SelectSubset<T, KnowledgeChunkCreateArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "create", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Create many KnowledgeChunks.
+     * @param {KnowledgeChunkCreateManyArgs} args - Arguments to create many KnowledgeChunks.
+     * @example
+     * // Create many KnowledgeChunks
+     * const knowledgeChunk = await prisma.knowledgeChunk.createMany({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     *     
+     */
+    createMany<T extends KnowledgeChunkCreateManyArgs>(args?: SelectSubset<T, KnowledgeChunkCreateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Create many KnowledgeChunks and returns the data saved in the database.
+     * @param {KnowledgeChunkCreateManyAndReturnArgs} args - Arguments to create many KnowledgeChunks.
+     * @example
+     * // Create many KnowledgeChunks
+     * const knowledgeChunk = await prisma.knowledgeChunk.createManyAndReturn({
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Create many KnowledgeChunks and only return the `id`
+     * const knowledgeChunkWithIdOnly = await prisma.knowledgeChunk.createManyAndReturn({
+     *   select: { id: true },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    createManyAndReturn<T extends KnowledgeChunkCreateManyAndReturnArgs>(args?: SelectSubset<T, KnowledgeChunkCreateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "createManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Delete a KnowledgeChunk.
+     * @param {KnowledgeChunkDeleteArgs} args - Arguments to delete one KnowledgeChunk.
+     * @example
+     * // Delete one KnowledgeChunk
+     * const KnowledgeChunk = await prisma.knowledgeChunk.delete({
+     *   where: {
+     *     // ... filter to delete one KnowledgeChunk
+     *   }
+     * })
+     * 
+     */
+    delete<T extends KnowledgeChunkDeleteArgs>(args: SelectSubset<T, KnowledgeChunkDeleteArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "delete", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Update one KnowledgeChunk.
+     * @param {KnowledgeChunkUpdateArgs} args - Arguments to update one KnowledgeChunk.
+     * @example
+     * // Update one KnowledgeChunk
+     * const knowledgeChunk = await prisma.knowledgeChunk.update({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    update<T extends KnowledgeChunkUpdateArgs>(args: SelectSubset<T, KnowledgeChunkUpdateArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "update", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+    /**
+     * Delete zero or more KnowledgeChunks.
+     * @param {KnowledgeChunkDeleteManyArgs} args - Arguments to filter KnowledgeChunks to delete.
+     * @example
+     * // Delete a few KnowledgeChunks
+     * const { count } = await prisma.knowledgeChunk.deleteMany({
+     *   where: {
+     *     // ... provide filter here
+     *   }
+     * })
+     * 
+     */
+    deleteMany<T extends KnowledgeChunkDeleteManyArgs>(args?: SelectSubset<T, KnowledgeChunkDeleteManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KnowledgeChunks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkUpdateManyArgs} args - Arguments to update one or more rows.
+     * @example
+     * // Update many KnowledgeChunks
+     * const knowledgeChunk = await prisma.knowledgeChunk.updateMany({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: {
+     *     // ... provide data here
+     *   }
+     * })
+     * 
+     */
+    updateMany<T extends KnowledgeChunkUpdateManyArgs>(args: SelectSubset<T, KnowledgeChunkUpdateManyArgs<ExtArgs>>): Prisma.PrismaPromise<BatchPayload>
+
+    /**
+     * Update zero or more KnowledgeChunks and returns the data updated in the database.
+     * @param {KnowledgeChunkUpdateManyAndReturnArgs} args - Arguments to update many KnowledgeChunks.
+     * @example
+     * // Update many KnowledgeChunks
+     * const knowledgeChunk = await prisma.knowledgeChunk.updateManyAndReturn({
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * 
+     * // Update zero or more KnowledgeChunks and only return the `id`
+     * const knowledgeChunkWithIdOnly = await prisma.knowledgeChunk.updateManyAndReturn({
+     *   select: { id: true },
+     *   where: {
+     *     // ... provide filter here
+     *   },
+     *   data: [
+     *     // ... provide data here
+     *   ]
+     * })
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * 
+     */
+    updateManyAndReturn<T extends KnowledgeChunkUpdateManyAndReturnArgs>(args: SelectSubset<T, KnowledgeChunkUpdateManyAndReturnArgs<ExtArgs>>): Prisma.PrismaPromise<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "updateManyAndReturn", GlobalOmitOptions>>
+
+    /**
+     * Create or update one KnowledgeChunk.
+     * @param {KnowledgeChunkUpsertArgs} args - Arguments to update or create a KnowledgeChunk.
+     * @example
+     * // Update or create a KnowledgeChunk
+     * const knowledgeChunk = await prisma.knowledgeChunk.upsert({
+     *   create: {
+     *     // ... data to create a KnowledgeChunk
+     *   },
+     *   update: {
+     *     // ... in case it already exists, update
+     *   },
+     *   where: {
+     *     // ... the filter for the KnowledgeChunk we want to update
+     *   }
+     * })
+     */
+    upsert<T extends KnowledgeChunkUpsertArgs>(args: SelectSubset<T, KnowledgeChunkUpsertArgs<ExtArgs>>): Prisma__KnowledgeChunkClient<$Result.GetResult<Prisma.$KnowledgeChunkPayload<ExtArgs>, T, "upsert", GlobalOmitOptions>, never, ExtArgs, GlobalOmitOptions>
+
+
+    /**
+     * Count the number of KnowledgeChunks.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkCountArgs} args - Arguments to filter KnowledgeChunks to count.
+     * @example
+     * // Count the number of KnowledgeChunks
+     * const count = await prisma.knowledgeChunk.count({
+     *   where: {
+     *     // ... the filter for the KnowledgeChunks we want to count
+     *   }
+     * })
+    **/
+    count<T extends KnowledgeChunkCountArgs>(
+      args?: Subset<T, KnowledgeChunkCountArgs>,
+    ): Prisma.PrismaPromise<
+      T extends $Utils.Record<'select', any>
+        ? T['select'] extends true
+          ? number
+          : GetScalarType<T['select'], KnowledgeChunkCountAggregateOutputType>
+        : number
+    >
+
+    /**
+     * Allows you to perform aggregations operations on a KnowledgeChunk.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkAggregateArgs} args - Select which aggregations you would like to apply and on what fields.
+     * @example
+     * // Ordered by age ascending
+     * // Where email contains prisma.io
+     * // Limited to the 10 users
+     * const aggregations = await prisma.user.aggregate({
+     *   _avg: {
+     *     age: true,
+     *   },
+     *   where: {
+     *     email: {
+     *       contains: "prisma.io",
+     *     },
+     *   },
+     *   orderBy: {
+     *     age: "asc",
+     *   },
+     *   take: 10,
+     * })
+    **/
+    aggregate<T extends KnowledgeChunkAggregateArgs>(args: Subset<T, KnowledgeChunkAggregateArgs>): Prisma.PrismaPromise<GetKnowledgeChunkAggregateType<T>>
+
+    /**
+     * Group by KnowledgeChunk.
+     * Note, that providing `undefined` is treated as the value not being there.
+     * Read more here: https://pris.ly/d/null-undefined
+     * @param {KnowledgeChunkGroupByArgs} args - Group by arguments.
+     * @example
+     * // Group by city, order by createdAt, get count
+     * const result = await prisma.user.groupBy({
+     *   by: ['city', 'createdAt'],
+     *   orderBy: {
+     *     createdAt: true
+     *   },
+     *   _count: {
+     *     _all: true
+     *   },
+     * })
+     * 
+    **/
+    groupBy<
+      T extends KnowledgeChunkGroupByArgs,
+      HasSelectOrTake extends Or<
+        Extends<'skip', Keys<T>>,
+        Extends<'take', Keys<T>>
+      >,
+      OrderByArg extends True extends HasSelectOrTake
+        ? { orderBy: KnowledgeChunkGroupByArgs['orderBy'] }
+        : { orderBy?: KnowledgeChunkGroupByArgs['orderBy'] },
+      OrderFields extends ExcludeUnderscoreKeys<Keys<MaybeTupleToUnion<T['orderBy']>>>,
+      ByFields extends MaybeTupleToUnion<T['by']>,
+      ByValid extends Has<ByFields, OrderFields>,
+      HavingFields extends GetHavingFields<T['having']>,
+      HavingValid extends Has<ByFields, HavingFields>,
+      ByEmpty extends T['by'] extends never[] ? True : False,
+      InputErrors extends ByEmpty extends True
+      ? `Error: "by" must not be empty.`
+      : HavingValid extends False
+      ? {
+          [P in HavingFields]: P extends ByFields
+            ? never
+            : P extends string
+            ? `Error: Field "${P}" used in "having" needs to be provided in "by".`
+            : [
+                Error,
+                'Field ',
+                P,
+                ` in "having" needs to be provided in "by"`,
+              ]
+        }[HavingFields]
+      : 'take' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "take", you also need to provide "orderBy"'
+      : 'skip' extends Keys<T>
+      ? 'orderBy' extends Keys<T>
+        ? ByValid extends True
+          ? {}
+          : {
+              [P in OrderFields]: P extends ByFields
+                ? never
+                : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+            }[OrderFields]
+        : 'Error: If you provide "skip", you also need to provide "orderBy"'
+      : ByValid extends True
+      ? {}
+      : {
+          [P in OrderFields]: P extends ByFields
+            ? never
+            : `Error: Field "${P}" in "orderBy" needs to be provided in "by"`
+        }[OrderFields]
+    >(args: SubsetIntersection<T, KnowledgeChunkGroupByArgs, OrderByArg> & InputErrors): {} extends InputErrors ? GetKnowledgeChunkGroupByPayload<T> : Prisma.PrismaPromise<InputErrors>
+  /**
+   * Fields of the KnowledgeChunk model
+   */
+  readonly fields: KnowledgeChunkFieldRefs;
+  }
+
+  /**
+   * The delegate class that acts as a "Promise-like" for KnowledgeChunk.
+   * Why is this prefixed with `Prisma__`?
+   * Because we want to prevent naming conflicts as mentioned in
+   * https://github.com/prisma/prisma-client-js/issues/707
+   */
+  export interface Prisma__KnowledgeChunkClient<T, Null = never, ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
+    readonly [Symbol.toStringTag]: "PrismaPromise"
+    user<T extends UserDefaultArgs<ExtArgs> = {}>(args?: Subset<T, UserDefaultArgs<ExtArgs>>): Prisma__UserClient<$Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | Null, Null, ExtArgs, GlobalOmitOptions>
+    /**
+     * Attaches callbacks for the resolution and/or rejection of the Promise.
+     * @param onfulfilled The callback to execute when the Promise is resolved.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of which ever callback is executed.
+     */
+    then<TResult1 = T, TResult2 = never>(onfulfilled?: ((value: T) => TResult1 | PromiseLike<TResult1>) | undefined | null, onrejected?: ((reason: any) => TResult2 | PromiseLike<TResult2>) | undefined | null): $Utils.JsPromise<TResult1 | TResult2>
+    /**
+     * Attaches a callback for only the rejection of the Promise.
+     * @param onrejected The callback to execute when the Promise is rejected.
+     * @returns A Promise for the completion of the callback.
+     */
+    catch<TResult = never>(onrejected?: ((reason: any) => TResult | PromiseLike<TResult>) | undefined | null): $Utils.JsPromise<T | TResult>
+    /**
+     * Attaches a callback that is invoked when the Promise is settled (fulfilled or rejected). The
+     * resolved value cannot be modified from the callback.
+     * @param onfinally The callback to execute when the Promise is settled (fulfilled or rejected).
+     * @returns A Promise for the completion of the callback.
+     */
+    finally(onfinally?: (() => void) | undefined | null): $Utils.JsPromise<T>
+  }
+
+
+
+
+  /**
+   * Fields of the KnowledgeChunk model
+   */
+  interface KnowledgeChunkFieldRefs {
+    readonly id: FieldRef<"KnowledgeChunk", 'String'>
+    readonly userId: FieldRef<"KnowledgeChunk", 'String'>
+    readonly content: FieldRef<"KnowledgeChunk", 'String'>
+    readonly tags: FieldRef<"KnowledgeChunk", 'String[]'>
+    readonly embedding: FieldRef<"KnowledgeChunk", 'Bytes'>
+    readonly createdAt: FieldRef<"KnowledgeChunk", 'DateTime'>
+  }
+    
+
+  // Custom InputTypes
+  /**
+   * KnowledgeChunk findUnique
+   */
+  export type KnowledgeChunkFindUniqueArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeChunk to fetch.
+     */
+    where: KnowledgeChunkWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeChunk findUniqueOrThrow
+   */
+  export type KnowledgeChunkFindUniqueOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeChunk to fetch.
+     */
+    where: KnowledgeChunkWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeChunk findFirst
+   */
+  export type KnowledgeChunkFindFirstArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeChunk to fetch.
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeChunks to fetch.
+     */
+    orderBy?: KnowledgeChunkOrderByWithRelationInput | KnowledgeChunkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KnowledgeChunks.
+     */
+    cursor?: KnowledgeChunkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeChunks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeChunks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KnowledgeChunks.
+     */
+    distinct?: KnowledgeChunkScalarFieldEnum | KnowledgeChunkScalarFieldEnum[]
+  }
+
+  /**
+   * KnowledgeChunk findFirstOrThrow
+   */
+  export type KnowledgeChunkFindFirstOrThrowArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeChunk to fetch.
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeChunks to fetch.
+     */
+    orderBy?: KnowledgeChunkOrderByWithRelationInput | KnowledgeChunkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for searching for KnowledgeChunks.
+     */
+    cursor?: KnowledgeChunkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeChunks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeChunks.
+     */
+    skip?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/distinct Distinct Docs}
+     * 
+     * Filter by unique combinations of KnowledgeChunks.
+     */
+    distinct?: KnowledgeChunkScalarFieldEnum | KnowledgeChunkScalarFieldEnum[]
+  }
+
+  /**
+   * KnowledgeChunk findMany
+   */
+  export type KnowledgeChunkFindManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * Filter, which KnowledgeChunks to fetch.
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/sorting Sorting Docs}
+     * 
+     * Determine the order of KnowledgeChunks to fetch.
+     */
+    orderBy?: KnowledgeChunkOrderByWithRelationInput | KnowledgeChunkOrderByWithRelationInput[]
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination#cursor-based-pagination Cursor Docs}
+     * 
+     * Sets the position for listing KnowledgeChunks.
+     */
+    cursor?: KnowledgeChunkWhereUniqueInput
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Take `±n` KnowledgeChunks from the position of the cursor.
+     */
+    take?: number
+    /**
+     * {@link https://www.prisma.io/docs/concepts/components/prisma-client/pagination Pagination Docs}
+     * 
+     * Skip the first `n` KnowledgeChunks.
+     */
+    skip?: number
+    distinct?: KnowledgeChunkScalarFieldEnum | KnowledgeChunkScalarFieldEnum[]
+  }
+
+  /**
+   * KnowledgeChunk create
+   */
+  export type KnowledgeChunkCreateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * The data needed to create a KnowledgeChunk.
+     */
+    data: XOR<KnowledgeChunkCreateInput, KnowledgeChunkUncheckedCreateInput>
+  }
+
+  /**
+   * KnowledgeChunk createMany
+   */
+  export type KnowledgeChunkCreateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to create many KnowledgeChunks.
+     */
+    data: KnowledgeChunkCreateManyInput | KnowledgeChunkCreateManyInput[]
+    skipDuplicates?: boolean
+  }
+
+  /**
+   * KnowledgeChunk createManyAndReturn
+   */
+  export type KnowledgeChunkCreateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelectCreateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * The data used to create many KnowledgeChunks.
+     */
+    data: KnowledgeChunkCreateManyInput | KnowledgeChunkCreateManyInput[]
+    skipDuplicates?: boolean
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkIncludeCreateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KnowledgeChunk update
+   */
+  export type KnowledgeChunkUpdateArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * The data needed to update a KnowledgeChunk.
+     */
+    data: XOR<KnowledgeChunkUpdateInput, KnowledgeChunkUncheckedUpdateInput>
+    /**
+     * Choose, which KnowledgeChunk to update.
+     */
+    where: KnowledgeChunkWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeChunk updateMany
+   */
+  export type KnowledgeChunkUpdateManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * The data used to update KnowledgeChunks.
+     */
+    data: XOR<KnowledgeChunkUpdateManyMutationInput, KnowledgeChunkUncheckedUpdateManyInput>
+    /**
+     * Filter which KnowledgeChunks to update
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * Limit how many KnowledgeChunks to update.
+     */
+    limit?: number
+  }
+
+  /**
+   * KnowledgeChunk updateManyAndReturn
+   */
+  export type KnowledgeChunkUpdateManyAndReturnArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelectUpdateManyAndReturn<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * The data used to update KnowledgeChunks.
+     */
+    data: XOR<KnowledgeChunkUpdateManyMutationInput, KnowledgeChunkUncheckedUpdateManyInput>
+    /**
+     * Filter which KnowledgeChunks to update
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * Limit how many KnowledgeChunks to update.
+     */
+    limit?: number
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkIncludeUpdateManyAndReturn<ExtArgs> | null
+  }
+
+  /**
+   * KnowledgeChunk upsert
+   */
+  export type KnowledgeChunkUpsertArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * The filter to search for the KnowledgeChunk to update in case it exists.
+     */
+    where: KnowledgeChunkWhereUniqueInput
+    /**
+     * In case the KnowledgeChunk found by the `where` argument doesn't exist, create a new KnowledgeChunk with this data.
+     */
+    create: XOR<KnowledgeChunkCreateInput, KnowledgeChunkUncheckedCreateInput>
+    /**
+     * In case the KnowledgeChunk was found with the provided `where` argument, update it with this data.
+     */
+    update: XOR<KnowledgeChunkUpdateInput, KnowledgeChunkUncheckedUpdateInput>
+  }
+
+  /**
+   * KnowledgeChunk delete
+   */
+  export type KnowledgeChunkDeleteArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+    /**
+     * Filter which KnowledgeChunk to delete.
+     */
+    where: KnowledgeChunkWhereUniqueInput
+  }
+
+  /**
+   * KnowledgeChunk deleteMany
+   */
+  export type KnowledgeChunkDeleteManyArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Filter which KnowledgeChunks to delete
+     */
+    where?: KnowledgeChunkWhereInput
+    /**
+     * Limit how many KnowledgeChunks to delete.
+     */
+    limit?: number
+  }
+
+  /**
+   * KnowledgeChunk without action
+   */
+  export type KnowledgeChunkDefaultArgs<ExtArgs extends $Extensions.InternalArgs = $Extensions.DefaultArgs> = {
+    /**
+     * Select specific fields to fetch from the KnowledgeChunk
+     */
+    select?: KnowledgeChunkSelect<ExtArgs> | null
+    /**
+     * Omit specific fields from the KnowledgeChunk
+     */
+    omit?: KnowledgeChunkOmit<ExtArgs> | null
+    /**
+     * Choose, which related nodes to fetch as well
+     */
+    include?: KnowledgeChunkInclude<ExtArgs> | null
+  }
+
+
+  /**
    * Enums
    */
 
@@ -22306,6 +26007,8 @@ export namespace Prisma {
     subscriptionStatus: 'subscriptionStatus',
     currentPeriodStart: 'currentPeriodStart',
     currentPeriodEnd: 'currentPeriodEnd',
+    inviteCodeUsed: 'inviteCodeUsed',
+    inviteCodeRedeemedAt: 'inviteCodeRedeemedAt',
     createdAt: 'createdAt',
     updatedAt: 'updatedAt',
     googleAccessToken: 'googleAccessToken',
@@ -22367,6 +26070,7 @@ export namespace Prisma {
     id: 'id',
     name: 'name',
     description: 'description',
+    callToAction: 'callToAction',
     status: 'status',
     userId: 'userId',
     autoEnrollFromLists: 'autoEnrollFromLists',
@@ -22574,6 +26278,53 @@ export namespace Prisma {
   export type EmailWarmupScalarFieldEnum = (typeof EmailWarmupScalarFieldEnum)[keyof typeof EmailWarmupScalarFieldEnum]
 
 
+  export const InviteCodeScalarFieldEnum: {
+    id: 'id',
+    code: 'code',
+    description: 'description',
+    serviceLevelId: 'serviceLevelId',
+    maxUses: 'maxUses',
+    usedCount: 'usedCount',
+    expiresAt: 'expiresAt',
+    isActive: 'isActive',
+    allowedEmails: 'allowedEmails',
+    createdBy: 'createdBy',
+    notes: 'notes',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type InviteCodeScalarFieldEnum = (typeof InviteCodeScalarFieldEnum)[keyof typeof InviteCodeScalarFieldEnum]
+
+
+  export const BusinessProfileScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    about: 'about',
+    uniqueValue: 'uniqueValue',
+    targetCustomers: 'targetCustomers',
+    mainPainPoints: 'mainPainPoints',
+    tonePreference: 'tonePreference',
+    callToActions: 'callToActions',
+    createdAt: 'createdAt',
+    updatedAt: 'updatedAt'
+  };
+
+  export type BusinessProfileScalarFieldEnum = (typeof BusinessProfileScalarFieldEnum)[keyof typeof BusinessProfileScalarFieldEnum]
+
+
+  export const KnowledgeChunkScalarFieldEnum: {
+    id: 'id',
+    userId: 'userId',
+    content: 'content',
+    tags: 'tags',
+    embedding: 'embedding',
+    createdAt: 'createdAt'
+  };
+
+  export type KnowledgeChunkScalarFieldEnum = (typeof KnowledgeChunkScalarFieldEnum)[keyof typeof KnowledgeChunkScalarFieldEnum]
+
+
   export const SortOrder: {
     asc: 'asc',
     desc: 'desc'
@@ -22664,6 +26415,20 @@ export namespace Prisma {
    */
   export type ListFloatFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Float[]'>
     
+
+
+  /**
+   * Reference to a field of type 'Bytes'
+   */
+  export type BytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes'>
+    
+
+
+  /**
+   * Reference to a field of type 'Bytes[]'
+   */
+  export type ListBytesFieldRefInput<$PrismaModel> = FieldRefInputType<$PrismaModel, 'Bytes[]'>
+    
   /**
    * Deep Input Types
    */
@@ -22684,6 +26449,8 @@ export namespace Prisma {
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     currentPeriodStart?: DateTimeNullableFilter<"User"> | Date | string | null
     currentPeriodEnd?: DateTimeNullableFilter<"User"> | Date | string | null
+    inviteCodeUsed?: StringNullableFilter<"User"> | string | null
+    inviteCodeRedeemedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     googleAccessToken?: StringNullableFilter<"User"> | string | null
@@ -22701,6 +26468,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventListRelationFilter
     emailInteractions?: EmailInteractionListRelationFilter
     usageRecords?: UsageRecordListRelationFilter
+    businessProfile?: XOR<BusinessProfileNullableScalarRelationFilter, BusinessProfileWhereInput> | null
+    knowledgeChunks?: KnowledgeChunkListRelationFilter
   }
 
   export type UserOrderByWithRelationInput = {
@@ -22715,6 +26484,8 @@ export namespace Prisma {
     subscriptionStatus?: SortOrderInput | SortOrder
     currentPeriodStart?: SortOrderInput | SortOrder
     currentPeriodEnd?: SortOrderInput | SortOrder
+    inviteCodeUsed?: SortOrderInput | SortOrder
+    inviteCodeRedeemedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrderInput | SortOrder
@@ -22732,6 +26503,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventOrderByRelationAggregateInput
     emailInteractions?: EmailInteractionOrderByRelationAggregateInput
     usageRecords?: UsageRecordOrderByRelationAggregateInput
+    businessProfile?: BusinessProfileOrderByWithRelationInput
+    knowledgeChunks?: KnowledgeChunkOrderByRelationAggregateInput
   }
 
   export type UserWhereUniqueInput = Prisma.AtLeast<{
@@ -22749,6 +26522,8 @@ export namespace Prisma {
     subscriptionStatus?: StringNullableFilter<"User"> | string | null
     currentPeriodStart?: DateTimeNullableFilter<"User"> | Date | string | null
     currentPeriodEnd?: DateTimeNullableFilter<"User"> | Date | string | null
+    inviteCodeUsed?: StringNullableFilter<"User"> | string | null
+    inviteCodeRedeemedAt?: DateTimeNullableFilter<"User"> | Date | string | null
     createdAt?: DateTimeFilter<"User"> | Date | string
     updatedAt?: DateTimeFilter<"User"> | Date | string
     googleAccessToken?: StringNullableFilter<"User"> | string | null
@@ -22766,6 +26541,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventListRelationFilter
     emailInteractions?: EmailInteractionListRelationFilter
     usageRecords?: UsageRecordListRelationFilter
+    businessProfile?: XOR<BusinessProfileNullableScalarRelationFilter, BusinessProfileWhereInput> | null
+    knowledgeChunks?: KnowledgeChunkListRelationFilter
   }, "id" | "email">
 
   export type UserOrderByWithAggregationInput = {
@@ -22780,6 +26557,8 @@ export namespace Prisma {
     subscriptionStatus?: SortOrderInput | SortOrder
     currentPeriodStart?: SortOrderInput | SortOrder
     currentPeriodEnd?: SortOrderInput | SortOrder
+    inviteCodeUsed?: SortOrderInput | SortOrder
+    inviteCodeRedeemedAt?: SortOrderInput | SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrderInput | SortOrder
@@ -22810,6 +26589,8 @@ export namespace Prisma {
     subscriptionStatus?: StringNullableWithAggregatesFilter<"User"> | string | null
     currentPeriodStart?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     currentPeriodEnd?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
+    inviteCodeUsed?: StringNullableWithAggregatesFilter<"User"> | string | null
+    inviteCodeRedeemedAt?: DateTimeNullableWithAggregatesFilter<"User"> | Date | string | null
     createdAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     updatedAt?: DateTimeWithAggregatesFilter<"User"> | Date | string
     googleAccessToken?: StringNullableWithAggregatesFilter<"User"> | string | null
@@ -23049,6 +26830,7 @@ export namespace Prisma {
     id?: StringFilter<"Campaign"> | string
     name?: StringFilter<"Campaign"> | string
     description?: StringNullableFilter<"Campaign"> | string | null
+    callToAction?: StringNullableFilter<"Campaign"> | string | null
     status?: StringFilter<"Campaign"> | string
     userId?: StringFilter<"Campaign"> | string
     autoEnrollFromLists?: BoolFilter<"Campaign"> | boolean
@@ -23065,6 +26847,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    callToAction?: SortOrderInput | SortOrder
     status?: SortOrder
     userId?: SortOrder
     autoEnrollFromLists?: SortOrder
@@ -23084,6 +26867,7 @@ export namespace Prisma {
     NOT?: CampaignWhereInput | CampaignWhereInput[]
     name?: StringFilter<"Campaign"> | string
     description?: StringNullableFilter<"Campaign"> | string | null
+    callToAction?: StringNullableFilter<"Campaign"> | string | null
     status?: StringFilter<"Campaign"> | string
     userId?: StringFilter<"Campaign"> | string
     autoEnrollFromLists?: BoolFilter<"Campaign"> | boolean
@@ -23100,6 +26884,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrderInput | SortOrder
+    callToAction?: SortOrderInput | SortOrder
     status?: SortOrder
     userId?: SortOrder
     autoEnrollFromLists?: SortOrder
@@ -23117,6 +26902,7 @@ export namespace Prisma {
     id?: StringWithAggregatesFilter<"Campaign"> | string
     name?: StringWithAggregatesFilter<"Campaign"> | string
     description?: StringNullableWithAggregatesFilter<"Campaign"> | string | null
+    callToAction?: StringNullableWithAggregatesFilter<"Campaign"> | string | null
     status?: StringWithAggregatesFilter<"Campaign"> | string
     userId?: StringWithAggregatesFilter<"Campaign"> | string
     autoEnrollFromLists?: BoolWithAggregatesFilter<"Campaign"> | boolean
@@ -24135,6 +27921,240 @@ export namespace Prisma {
     updatedAt?: DateTimeWithAggregatesFilter<"EmailWarmup"> | Date | string
   }
 
+  export type InviteCodeWhereInput = {
+    AND?: InviteCodeWhereInput | InviteCodeWhereInput[]
+    OR?: InviteCodeWhereInput[]
+    NOT?: InviteCodeWhereInput | InviteCodeWhereInput[]
+    id?: StringFilter<"InviteCode"> | string
+    code?: StringFilter<"InviteCode"> | string
+    description?: StringNullableFilter<"InviteCode"> | string | null
+    serviceLevelId?: StringFilter<"InviteCode"> | string
+    maxUses?: IntFilter<"InviteCode"> | number
+    usedCount?: IntFilter<"InviteCode"> | number
+    expiresAt?: DateTimeNullableFilter<"InviteCode"> | Date | string | null
+    isActive?: BoolFilter<"InviteCode"> | boolean
+    allowedEmails?: StringNullableListFilter<"InviteCode">
+    createdBy?: StringNullableFilter<"InviteCode"> | string | null
+    notes?: StringNullableFilter<"InviteCode"> | string | null
+    createdAt?: DateTimeFilter<"InviteCode"> | Date | string
+    updatedAt?: DateTimeFilter<"InviteCode"> | Date | string
+  }
+
+  export type InviteCodeOrderByWithRelationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    description?: SortOrderInput | SortOrder
+    serviceLevelId?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    allowedEmails?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InviteCodeWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    code?: string
+    AND?: InviteCodeWhereInput | InviteCodeWhereInput[]
+    OR?: InviteCodeWhereInput[]
+    NOT?: InviteCodeWhereInput | InviteCodeWhereInput[]
+    description?: StringNullableFilter<"InviteCode"> | string | null
+    serviceLevelId?: StringFilter<"InviteCode"> | string
+    maxUses?: IntFilter<"InviteCode"> | number
+    usedCount?: IntFilter<"InviteCode"> | number
+    expiresAt?: DateTimeNullableFilter<"InviteCode"> | Date | string | null
+    isActive?: BoolFilter<"InviteCode"> | boolean
+    allowedEmails?: StringNullableListFilter<"InviteCode">
+    createdBy?: StringNullableFilter<"InviteCode"> | string | null
+    notes?: StringNullableFilter<"InviteCode"> | string | null
+    createdAt?: DateTimeFilter<"InviteCode"> | Date | string
+    updatedAt?: DateTimeFilter<"InviteCode"> | Date | string
+  }, "id" | "code">
+
+  export type InviteCodeOrderByWithAggregationInput = {
+    id?: SortOrder
+    code?: SortOrder
+    description?: SortOrderInput | SortOrder
+    serviceLevelId?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    expiresAt?: SortOrderInput | SortOrder
+    isActive?: SortOrder
+    allowedEmails?: SortOrder
+    createdBy?: SortOrderInput | SortOrder
+    notes?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: InviteCodeCountOrderByAggregateInput
+    _avg?: InviteCodeAvgOrderByAggregateInput
+    _max?: InviteCodeMaxOrderByAggregateInput
+    _min?: InviteCodeMinOrderByAggregateInput
+    _sum?: InviteCodeSumOrderByAggregateInput
+  }
+
+  export type InviteCodeScalarWhereWithAggregatesInput = {
+    AND?: InviteCodeScalarWhereWithAggregatesInput | InviteCodeScalarWhereWithAggregatesInput[]
+    OR?: InviteCodeScalarWhereWithAggregatesInput[]
+    NOT?: InviteCodeScalarWhereWithAggregatesInput | InviteCodeScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"InviteCode"> | string
+    code?: StringWithAggregatesFilter<"InviteCode"> | string
+    description?: StringNullableWithAggregatesFilter<"InviteCode"> | string | null
+    serviceLevelId?: StringWithAggregatesFilter<"InviteCode"> | string
+    maxUses?: IntWithAggregatesFilter<"InviteCode"> | number
+    usedCount?: IntWithAggregatesFilter<"InviteCode"> | number
+    expiresAt?: DateTimeNullableWithAggregatesFilter<"InviteCode"> | Date | string | null
+    isActive?: BoolWithAggregatesFilter<"InviteCode"> | boolean
+    allowedEmails?: StringNullableListFilter<"InviteCode">
+    createdBy?: StringNullableWithAggregatesFilter<"InviteCode"> | string | null
+    notes?: StringNullableWithAggregatesFilter<"InviteCode"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"InviteCode"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"InviteCode"> | Date | string
+  }
+
+  export type BusinessProfileWhereInput = {
+    AND?: BusinessProfileWhereInput | BusinessProfileWhereInput[]
+    OR?: BusinessProfileWhereInput[]
+    NOT?: BusinessProfileWhereInput | BusinessProfileWhereInput[]
+    id?: StringFilter<"BusinessProfile"> | string
+    userId?: StringFilter<"BusinessProfile"> | string
+    about?: StringNullableFilter<"BusinessProfile"> | string | null
+    uniqueValue?: StringNullableFilter<"BusinessProfile"> | string | null
+    targetCustomers?: StringNullableFilter<"BusinessProfile"> | string | null
+    mainPainPoints?: StringNullableFilter<"BusinessProfile"> | string | null
+    tonePreference?: StringNullableFilter<"BusinessProfile"> | string | null
+    callToActions?: StringNullableFilter<"BusinessProfile"> | string | null
+    createdAt?: DateTimeFilter<"BusinessProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"BusinessProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type BusinessProfileOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    about?: SortOrderInput | SortOrder
+    uniqueValue?: SortOrderInput | SortOrder
+    targetCustomers?: SortOrderInput | SortOrder
+    mainPainPoints?: SortOrderInput | SortOrder
+    tonePreference?: SortOrderInput | SortOrder
+    callToActions?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type BusinessProfileWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    userId?: string
+    AND?: BusinessProfileWhereInput | BusinessProfileWhereInput[]
+    OR?: BusinessProfileWhereInput[]
+    NOT?: BusinessProfileWhereInput | BusinessProfileWhereInput[]
+    about?: StringNullableFilter<"BusinessProfile"> | string | null
+    uniqueValue?: StringNullableFilter<"BusinessProfile"> | string | null
+    targetCustomers?: StringNullableFilter<"BusinessProfile"> | string | null
+    mainPainPoints?: StringNullableFilter<"BusinessProfile"> | string | null
+    tonePreference?: StringNullableFilter<"BusinessProfile"> | string | null
+    callToActions?: StringNullableFilter<"BusinessProfile"> | string | null
+    createdAt?: DateTimeFilter<"BusinessProfile"> | Date | string
+    updatedAt?: DateTimeFilter<"BusinessProfile"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id" | "userId">
+
+  export type BusinessProfileOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    about?: SortOrderInput | SortOrder
+    uniqueValue?: SortOrderInput | SortOrder
+    targetCustomers?: SortOrderInput | SortOrder
+    mainPainPoints?: SortOrderInput | SortOrder
+    tonePreference?: SortOrderInput | SortOrder
+    callToActions?: SortOrderInput | SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+    _count?: BusinessProfileCountOrderByAggregateInput
+    _max?: BusinessProfileMaxOrderByAggregateInput
+    _min?: BusinessProfileMinOrderByAggregateInput
+  }
+
+  export type BusinessProfileScalarWhereWithAggregatesInput = {
+    AND?: BusinessProfileScalarWhereWithAggregatesInput | BusinessProfileScalarWhereWithAggregatesInput[]
+    OR?: BusinessProfileScalarWhereWithAggregatesInput[]
+    NOT?: BusinessProfileScalarWhereWithAggregatesInput | BusinessProfileScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"BusinessProfile"> | string
+    userId?: StringWithAggregatesFilter<"BusinessProfile"> | string
+    about?: StringNullableWithAggregatesFilter<"BusinessProfile"> | string | null
+    uniqueValue?: StringNullableWithAggregatesFilter<"BusinessProfile"> | string | null
+    targetCustomers?: StringNullableWithAggregatesFilter<"BusinessProfile"> | string | null
+    mainPainPoints?: StringNullableWithAggregatesFilter<"BusinessProfile"> | string | null
+    tonePreference?: StringNullableWithAggregatesFilter<"BusinessProfile"> | string | null
+    callToActions?: StringNullableWithAggregatesFilter<"BusinessProfile"> | string | null
+    createdAt?: DateTimeWithAggregatesFilter<"BusinessProfile"> | Date | string
+    updatedAt?: DateTimeWithAggregatesFilter<"BusinessProfile"> | Date | string
+  }
+
+  export type KnowledgeChunkWhereInput = {
+    AND?: KnowledgeChunkWhereInput | KnowledgeChunkWhereInput[]
+    OR?: KnowledgeChunkWhereInput[]
+    NOT?: KnowledgeChunkWhereInput | KnowledgeChunkWhereInput[]
+    id?: StringFilter<"KnowledgeChunk"> | string
+    userId?: StringFilter<"KnowledgeChunk"> | string
+    content?: StringFilter<"KnowledgeChunk"> | string
+    tags?: StringNullableListFilter<"KnowledgeChunk">
+    embedding?: BytesFilter<"KnowledgeChunk"> | Uint8Array
+    createdAt?: DateTimeFilter<"KnowledgeChunk"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }
+
+  export type KnowledgeChunkOrderByWithRelationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    tags?: SortOrder
+    embedding?: SortOrder
+    createdAt?: SortOrder
+    user?: UserOrderByWithRelationInput
+  }
+
+  export type KnowledgeChunkWhereUniqueInput = Prisma.AtLeast<{
+    id?: string
+    AND?: KnowledgeChunkWhereInput | KnowledgeChunkWhereInput[]
+    OR?: KnowledgeChunkWhereInput[]
+    NOT?: KnowledgeChunkWhereInput | KnowledgeChunkWhereInput[]
+    userId?: StringFilter<"KnowledgeChunk"> | string
+    content?: StringFilter<"KnowledgeChunk"> | string
+    tags?: StringNullableListFilter<"KnowledgeChunk">
+    embedding?: BytesFilter<"KnowledgeChunk"> | Uint8Array
+    createdAt?: DateTimeFilter<"KnowledgeChunk"> | Date | string
+    user?: XOR<UserScalarRelationFilter, UserWhereInput>
+  }, "id">
+
+  export type KnowledgeChunkOrderByWithAggregationInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    tags?: SortOrder
+    embedding?: SortOrder
+    createdAt?: SortOrder
+    _count?: KnowledgeChunkCountOrderByAggregateInput
+    _max?: KnowledgeChunkMaxOrderByAggregateInput
+    _min?: KnowledgeChunkMinOrderByAggregateInput
+  }
+
+  export type KnowledgeChunkScalarWhereWithAggregatesInput = {
+    AND?: KnowledgeChunkScalarWhereWithAggregatesInput | KnowledgeChunkScalarWhereWithAggregatesInput[]
+    OR?: KnowledgeChunkScalarWhereWithAggregatesInput[]
+    NOT?: KnowledgeChunkScalarWhereWithAggregatesInput | KnowledgeChunkScalarWhereWithAggregatesInput[]
+    id?: StringWithAggregatesFilter<"KnowledgeChunk"> | string
+    userId?: StringWithAggregatesFilter<"KnowledgeChunk"> | string
+    content?: StringWithAggregatesFilter<"KnowledgeChunk"> | string
+    tags?: StringNullableListFilter<"KnowledgeChunk">
+    embedding?: BytesWithAggregatesFilter<"KnowledgeChunk"> | Uint8Array
+    createdAt?: DateTimeWithAggregatesFilter<"KnowledgeChunk"> | Date | string
+  }
+
   export type UserCreateInput = {
     id?: string
     name?: string | null
@@ -24147,6 +28167,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -24164,6 +28186,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateInput = {
@@ -24178,6 +28202,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -24195,6 +28221,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserUpdateInput = {
@@ -24209,6 +28237,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24226,6 +28256,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateInput = {
@@ -24240,6 +28272,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24257,6 +28291,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateManyInput = {
@@ -24271,6 +28307,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -24295,6 +28333,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24319,6 +28359,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -24571,6 +28613,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -24586,6 +28629,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     userId: string
     autoEnrollFromLists?: boolean
@@ -24601,6 +28645,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24616,6 +28661,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
@@ -24631,6 +28677,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     userId: string
     autoEnrollFromLists?: boolean
@@ -24642,6 +28689,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -24652,6 +28700,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
@@ -25786,6 +29835,270 @@ export namespace Prisma {
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
+  export type InviteCodeCreateInput = {
+    id?: string
+    code: string
+    description?: string | null
+    serviceLevelId?: string
+    maxUses?: number
+    usedCount?: number
+    expiresAt?: Date | string | null
+    isActive?: boolean
+    allowedEmails?: InviteCodeCreateallowedEmailsInput | string[]
+    createdBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InviteCodeUncheckedCreateInput = {
+    id?: string
+    code: string
+    description?: string | null
+    serviceLevelId?: string
+    maxUses?: number
+    usedCount?: number
+    expiresAt?: Date | string | null
+    isActive?: boolean
+    allowedEmails?: InviteCodeCreateallowedEmailsInput | string[]
+    createdBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InviteCodeUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    maxUses?: IntFieldUpdateOperationsInput | number
+    usedCount?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    allowedEmails?: InviteCodeUpdateallowedEmailsInput | string[]
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InviteCodeUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    maxUses?: IntFieldUpdateOperationsInput | number
+    usedCount?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    allowedEmails?: InviteCodeUpdateallowedEmailsInput | string[]
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InviteCodeCreateManyInput = {
+    id?: string
+    code: string
+    description?: string | null
+    serviceLevelId?: string
+    maxUses?: number
+    usedCount?: number
+    expiresAt?: Date | string | null
+    isActive?: boolean
+    allowedEmails?: InviteCodeCreateallowedEmailsInput | string[]
+    createdBy?: string | null
+    notes?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type InviteCodeUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    maxUses?: IntFieldUpdateOperationsInput | number
+    usedCount?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    allowedEmails?: InviteCodeUpdateallowedEmailsInput | string[]
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type InviteCodeUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    code?: StringFieldUpdateOperationsInput | string
+    description?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    maxUses?: IntFieldUpdateOperationsInput | number
+    usedCount?: IntFieldUpdateOperationsInput | number
+    expiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    isActive?: BoolFieldUpdateOperationsInput | boolean
+    allowedEmails?: InviteCodeUpdateallowedEmailsInput | string[]
+    createdBy?: NullableStringFieldUpdateOperationsInput | string | null
+    notes?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessProfileCreateInput = {
+    id?: string
+    about?: string | null
+    uniqueValue?: string | null
+    targetCustomers?: string | null
+    mainPainPoints?: string | null
+    tonePreference?: string | null
+    callToActions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    user: UserCreateNestedOneWithoutBusinessProfileInput
+  }
+
+  export type BusinessProfileUncheckedCreateInput = {
+    id?: string
+    userId: string
+    about?: string | null
+    uniqueValue?: string | null
+    targetCustomers?: string | null
+    mainPainPoints?: string | null
+    tonePreference?: string | null
+    callToActions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BusinessProfileUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    uniqueValue?: NullableStringFieldUpdateOperationsInput | string | null
+    targetCustomers?: NullableStringFieldUpdateOperationsInput | string | null
+    mainPainPoints?: NullableStringFieldUpdateOperationsInput | string | null
+    tonePreference?: NullableStringFieldUpdateOperationsInput | string | null
+    callToActions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutBusinessProfileNestedInput
+  }
+
+  export type BusinessProfileUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    uniqueValue?: NullableStringFieldUpdateOperationsInput | string | null
+    targetCustomers?: NullableStringFieldUpdateOperationsInput | string | null
+    mainPainPoints?: NullableStringFieldUpdateOperationsInput | string | null
+    tonePreference?: NullableStringFieldUpdateOperationsInput | string | null
+    callToActions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessProfileCreateManyInput = {
+    id?: string
+    userId: string
+    about?: string | null
+    uniqueValue?: string | null
+    targetCustomers?: string | null
+    mainPainPoints?: string | null
+    tonePreference?: string | null
+    callToActions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BusinessProfileUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    uniqueValue?: NullableStringFieldUpdateOperationsInput | string | null
+    targetCustomers?: NullableStringFieldUpdateOperationsInput | string | null
+    mainPainPoints?: NullableStringFieldUpdateOperationsInput | string | null
+    tonePreference?: NullableStringFieldUpdateOperationsInput | string | null
+    callToActions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessProfileUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    uniqueValue?: NullableStringFieldUpdateOperationsInput | string | null
+    targetCustomers?: NullableStringFieldUpdateOperationsInput | string | null
+    mainPainPoints?: NullableStringFieldUpdateOperationsInput | string | null
+    tonePreference?: NullableStringFieldUpdateOperationsInput | string | null
+    callToActions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkCreateInput = {
+    id?: string
+    content: string
+    tags?: KnowledgeChunkCreatetagsInput | string[]
+    embedding: Uint8Array
+    createdAt?: Date | string
+    user: UserCreateNestedOneWithoutKnowledgeChunksInput
+  }
+
+  export type KnowledgeChunkUncheckedCreateInput = {
+    id?: string
+    userId: string
+    content: string
+    tags?: KnowledgeChunkCreatetagsInput | string[]
+    embedding: Uint8Array
+    createdAt?: Date | string
+  }
+
+  export type KnowledgeChunkUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    user?: UserUpdateOneRequiredWithoutKnowledgeChunksNestedInput
+  }
+
+  export type KnowledgeChunkUncheckedUpdateInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkCreateManyInput = {
+    id?: string
+    userId: string
+    content: string
+    tags?: KnowledgeChunkCreatetagsInput | string[]
+    embedding: Uint8Array
+    createdAt?: Date | string
+  }
+
+  export type KnowledgeChunkUpdateManyMutationInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkUncheckedUpdateManyInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    userId?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
   export type StringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -25880,6 +30193,17 @@ export namespace Prisma {
     none?: UsageRecordWhereInput
   }
 
+  export type BusinessProfileNullableScalarRelationFilter = {
+    is?: BusinessProfileWhereInput | null
+    isNot?: BusinessProfileWhereInput | null
+  }
+
+  export type KnowledgeChunkListRelationFilter = {
+    every?: KnowledgeChunkWhereInput
+    some?: KnowledgeChunkWhereInput
+    none?: KnowledgeChunkWhereInput
+  }
+
   export type SortOrderInput = {
     sort: SortOrder
     nulls?: NullsOrder
@@ -25913,6 +30237,10 @@ export namespace Prisma {
     _count?: SortOrder
   }
 
+  export type KnowledgeChunkOrderByRelationAggregateInput = {
+    _count?: SortOrder
+  }
+
   export type UserCountOrderByAggregateInput = {
     id?: SortOrder
     name?: SortOrder
@@ -25925,6 +30253,8 @@ export namespace Prisma {
     subscriptionStatus?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
+    inviteCodeUsed?: SortOrder
+    inviteCodeRedeemedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrder
@@ -25949,6 +30279,8 @@ export namespace Prisma {
     subscriptionStatus?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
+    inviteCodeUsed?: SortOrder
+    inviteCodeRedeemedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrder
@@ -25973,6 +30305,8 @@ export namespace Prisma {
     subscriptionStatus?: SortOrder
     currentPeriodStart?: SortOrder
     currentPeriodEnd?: SortOrder
+    inviteCodeUsed?: SortOrder
+    inviteCodeRedeemedAt?: SortOrder
     createdAt?: SortOrder
     updatedAt?: SortOrder
     googleAccessToken?: SortOrder
@@ -26255,6 +30589,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    callToAction?: SortOrder
     status?: SortOrder
     userId?: SortOrder
     autoEnrollFromLists?: SortOrder
@@ -26266,6 +30601,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    callToAction?: SortOrder
     status?: SortOrder
     userId?: SortOrder
     autoEnrollFromLists?: SortOrder
@@ -26277,6 +30613,7 @@ export namespace Prisma {
     id?: SortOrder
     name?: SortOrder
     description?: SortOrder
+    callToAction?: SortOrder
     status?: SortOrder
     userId?: SortOrder
     autoEnrollFromLists?: SortOrder
@@ -26978,6 +31315,143 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type InviteCodeCountOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    description?: SortOrder
+    serviceLevelId?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    expiresAt?: SortOrder
+    isActive?: SortOrder
+    allowedEmails?: SortOrder
+    createdBy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InviteCodeAvgOrderByAggregateInput = {
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+  }
+
+  export type InviteCodeMaxOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    description?: SortOrder
+    serviceLevelId?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    expiresAt?: SortOrder
+    isActive?: SortOrder
+    createdBy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InviteCodeMinOrderByAggregateInput = {
+    id?: SortOrder
+    code?: SortOrder
+    description?: SortOrder
+    serviceLevelId?: SortOrder
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+    expiresAt?: SortOrder
+    isActive?: SortOrder
+    createdBy?: SortOrder
+    notes?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type InviteCodeSumOrderByAggregateInput = {
+    maxUses?: SortOrder
+    usedCount?: SortOrder
+  }
+
+  export type BusinessProfileCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    about?: SortOrder
+    uniqueValue?: SortOrder
+    targetCustomers?: SortOrder
+    mainPainPoints?: SortOrder
+    tonePreference?: SortOrder
+    callToActions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessProfileMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    about?: SortOrder
+    uniqueValue?: SortOrder
+    targetCustomers?: SortOrder
+    mainPainPoints?: SortOrder
+    tonePreference?: SortOrder
+    callToActions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BusinessProfileMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    about?: SortOrder
+    uniqueValue?: SortOrder
+    targetCustomers?: SortOrder
+    mainPainPoints?: SortOrder
+    tonePreference?: SortOrder
+    callToActions?: SortOrder
+    createdAt?: SortOrder
+    updatedAt?: SortOrder
+  }
+
+  export type BytesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Uint8Array
+  }
+
+  export type KnowledgeChunkCountOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    tags?: SortOrder
+    embedding?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type KnowledgeChunkMaxOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    embedding?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type KnowledgeChunkMinOrderByAggregateInput = {
+    id?: SortOrder
+    userId?: SortOrder
+    content?: SortOrder
+    embedding?: SortOrder
+    createdAt?: SortOrder
+  }
+
+  export type BytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Uint8Array
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
+  }
+
   export type AccountCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -27027,6 +31501,19 @@ export namespace Prisma {
     connect?: UsageRecordWhereUniqueInput | UsageRecordWhereUniqueInput[]
   }
 
+  export type BusinessProfileCreateNestedOneWithoutUserInput = {
+    create?: XOR<BusinessProfileCreateWithoutUserInput, BusinessProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BusinessProfileCreateOrConnectWithoutUserInput
+    connect?: BusinessProfileWhereUniqueInput
+  }
+
+  export type KnowledgeChunkCreateNestedManyWithoutUserInput = {
+    create?: XOR<KnowledgeChunkCreateWithoutUserInput, KnowledgeChunkUncheckedCreateWithoutUserInput> | KnowledgeChunkCreateWithoutUserInput[] | KnowledgeChunkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KnowledgeChunkCreateOrConnectWithoutUserInput | KnowledgeChunkCreateOrConnectWithoutUserInput[]
+    createMany?: KnowledgeChunkCreateManyUserInputEnvelope
+    connect?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+  }
+
   export type AccountUncheckedCreateNestedManyWithoutUserInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -27074,6 +31561,19 @@ export namespace Prisma {
     connectOrCreate?: UsageRecordCreateOrConnectWithoutUserInput | UsageRecordCreateOrConnectWithoutUserInput[]
     createMany?: UsageRecordCreateManyUserInputEnvelope
     connect?: UsageRecordWhereUniqueInput | UsageRecordWhereUniqueInput[]
+  }
+
+  export type BusinessProfileUncheckedCreateNestedOneWithoutUserInput = {
+    create?: XOR<BusinessProfileCreateWithoutUserInput, BusinessProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BusinessProfileCreateOrConnectWithoutUserInput
+    connect?: BusinessProfileWhereUniqueInput
+  }
+
+  export type KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput = {
+    create?: XOR<KnowledgeChunkCreateWithoutUserInput, KnowledgeChunkUncheckedCreateWithoutUserInput> | KnowledgeChunkCreateWithoutUserInput[] | KnowledgeChunkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KnowledgeChunkCreateOrConnectWithoutUserInput | KnowledgeChunkCreateOrConnectWithoutUserInput[]
+    createMany?: KnowledgeChunkCreateManyUserInputEnvelope
+    connect?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
   }
 
   export type StringFieldUpdateOperationsInput = {
@@ -27190,6 +31690,30 @@ export namespace Prisma {
     deleteMany?: UsageRecordScalarWhereInput | UsageRecordScalarWhereInput[]
   }
 
+  export type BusinessProfileUpdateOneWithoutUserNestedInput = {
+    create?: XOR<BusinessProfileCreateWithoutUserInput, BusinessProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BusinessProfileCreateOrConnectWithoutUserInput
+    upsert?: BusinessProfileUpsertWithoutUserInput
+    disconnect?: BusinessProfileWhereInput | boolean
+    delete?: BusinessProfileWhereInput | boolean
+    connect?: BusinessProfileWhereUniqueInput
+    update?: XOR<XOR<BusinessProfileUpdateToOneWithWhereWithoutUserInput, BusinessProfileUpdateWithoutUserInput>, BusinessProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type KnowledgeChunkUpdateManyWithoutUserNestedInput = {
+    create?: XOR<KnowledgeChunkCreateWithoutUserInput, KnowledgeChunkUncheckedCreateWithoutUserInput> | KnowledgeChunkCreateWithoutUserInput[] | KnowledgeChunkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KnowledgeChunkCreateOrConnectWithoutUserInput | KnowledgeChunkCreateOrConnectWithoutUserInput[]
+    upsert?: KnowledgeChunkUpsertWithWhereUniqueWithoutUserInput | KnowledgeChunkUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: KnowledgeChunkCreateManyUserInputEnvelope
+    set?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    disconnect?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    delete?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    connect?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    update?: KnowledgeChunkUpdateWithWhereUniqueWithoutUserInput | KnowledgeChunkUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: KnowledgeChunkUpdateManyWithWhereWithoutUserInput | KnowledgeChunkUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: KnowledgeChunkScalarWhereInput | KnowledgeChunkScalarWhereInput[]
+  }
+
   export type AccountUncheckedUpdateManyWithoutUserNestedInput = {
     create?: XOR<AccountCreateWithoutUserInput, AccountUncheckedCreateWithoutUserInput> | AccountCreateWithoutUserInput[] | AccountUncheckedCreateWithoutUserInput[]
     connectOrCreate?: AccountCreateOrConnectWithoutUserInput | AccountCreateOrConnectWithoutUserInput[]
@@ -27286,6 +31810,30 @@ export namespace Prisma {
     update?: UsageRecordUpdateWithWhereUniqueWithoutUserInput | UsageRecordUpdateWithWhereUniqueWithoutUserInput[]
     updateMany?: UsageRecordUpdateManyWithWhereWithoutUserInput | UsageRecordUpdateManyWithWhereWithoutUserInput[]
     deleteMany?: UsageRecordScalarWhereInput | UsageRecordScalarWhereInput[]
+  }
+
+  export type BusinessProfileUncheckedUpdateOneWithoutUserNestedInput = {
+    create?: XOR<BusinessProfileCreateWithoutUserInput, BusinessProfileUncheckedCreateWithoutUserInput>
+    connectOrCreate?: BusinessProfileCreateOrConnectWithoutUserInput
+    upsert?: BusinessProfileUpsertWithoutUserInput
+    disconnect?: BusinessProfileWhereInput | boolean
+    delete?: BusinessProfileWhereInput | boolean
+    connect?: BusinessProfileWhereUniqueInput
+    update?: XOR<XOR<BusinessProfileUpdateToOneWithWhereWithoutUserInput, BusinessProfileUpdateWithoutUserInput>, BusinessProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput = {
+    create?: XOR<KnowledgeChunkCreateWithoutUserInput, KnowledgeChunkUncheckedCreateWithoutUserInput> | KnowledgeChunkCreateWithoutUserInput[] | KnowledgeChunkUncheckedCreateWithoutUserInput[]
+    connectOrCreate?: KnowledgeChunkCreateOrConnectWithoutUserInput | KnowledgeChunkCreateOrConnectWithoutUserInput[]
+    upsert?: KnowledgeChunkUpsertWithWhereUniqueWithoutUserInput | KnowledgeChunkUpsertWithWhereUniqueWithoutUserInput[]
+    createMany?: KnowledgeChunkCreateManyUserInputEnvelope
+    set?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    disconnect?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    delete?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    connect?: KnowledgeChunkWhereUniqueInput | KnowledgeChunkWhereUniqueInput[]
+    update?: KnowledgeChunkUpdateWithWhereUniqueWithoutUserInput | KnowledgeChunkUpdateWithWhereUniqueWithoutUserInput[]
+    updateMany?: KnowledgeChunkUpdateManyWithWhereWithoutUserInput | KnowledgeChunkUpdateManyWithWhereWithoutUserInput[]
+    deleteMany?: KnowledgeChunkScalarWhereInput | KnowledgeChunkScalarWhereInput[]
   }
 
   export type UserCreateNestedOneWithoutAccountsInput = {
@@ -27968,6 +32516,56 @@ export namespace Prisma {
     divide?: number
   }
 
+  export type InviteCodeCreateallowedEmailsInput = {
+    set: string[]
+  }
+
+  export type InviteCodeUpdateallowedEmailsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type UserCreateNestedOneWithoutBusinessProfileInput = {
+    create?: XOR<UserCreateWithoutBusinessProfileInput, UserUncheckedCreateWithoutBusinessProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBusinessProfileInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type UserUpdateOneRequiredWithoutBusinessProfileNestedInput = {
+    create?: XOR<UserCreateWithoutBusinessProfileInput, UserUncheckedCreateWithoutBusinessProfileInput>
+    connectOrCreate?: UserCreateOrConnectWithoutBusinessProfileInput
+    upsert?: UserUpsertWithoutBusinessProfileInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutBusinessProfileInput, UserUpdateWithoutBusinessProfileInput>, UserUncheckedUpdateWithoutBusinessProfileInput>
+  }
+
+  export type KnowledgeChunkCreatetagsInput = {
+    set: string[]
+  }
+
+  export type UserCreateNestedOneWithoutKnowledgeChunksInput = {
+    create?: XOR<UserCreateWithoutKnowledgeChunksInput, UserUncheckedCreateWithoutKnowledgeChunksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutKnowledgeChunksInput
+    connect?: UserWhereUniqueInput
+  }
+
+  export type KnowledgeChunkUpdatetagsInput = {
+    set?: string[]
+    push?: string | string[]
+  }
+
+  export type BytesFieldUpdateOperationsInput = {
+    set?: Uint8Array
+  }
+
+  export type UserUpdateOneRequiredWithoutKnowledgeChunksNestedInput = {
+    create?: XOR<UserCreateWithoutKnowledgeChunksInput, UserUncheckedCreateWithoutKnowledgeChunksInput>
+    connectOrCreate?: UserCreateOrConnectWithoutKnowledgeChunksInput
+    upsert?: UserUpsertWithoutKnowledgeChunksInput
+    connect?: UserWhereUniqueInput
+    update?: XOR<XOR<UserUpdateToOneWithWhereWithoutKnowledgeChunksInput, UserUpdateWithoutKnowledgeChunksInput>, UserUncheckedUpdateWithoutKnowledgeChunksInput>
+  }
+
   export type NestedStringFilter<$PrismaModel = never> = {
     equals?: string | StringFieldRefInput<$PrismaModel>
     in?: string[] | ListStringFieldRefInput<$PrismaModel>
@@ -28201,6 +32799,23 @@ export namespace Prisma {
     _max?: NestedFloatFilter<$PrismaModel>
   }
 
+  export type NestedBytesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesFilter<$PrismaModel> | Uint8Array
+  }
+
+  export type NestedBytesWithAggregatesFilter<$PrismaModel = never> = {
+    equals?: Uint8Array | BytesFieldRefInput<$PrismaModel>
+    in?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    notIn?: Uint8Array[] | ListBytesFieldRefInput<$PrismaModel>
+    not?: NestedBytesWithAggregatesFilter<$PrismaModel> | Uint8Array
+    _count?: NestedIntFilter<$PrismaModel>
+    _min?: NestedBytesFilter<$PrismaModel>
+    _max?: NestedBytesFilter<$PrismaModel>
+  }
+
   export type AccountCreateWithoutUserInput = {
     id?: string
     type: string
@@ -28265,6 +32880,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -28279,6 +32895,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -28461,6 +33078,61 @@ export namespace Prisma {
     skipDuplicates?: boolean
   }
 
+  export type BusinessProfileCreateWithoutUserInput = {
+    id?: string
+    about?: string | null
+    uniqueValue?: string | null
+    targetCustomers?: string | null
+    mainPainPoints?: string | null
+    tonePreference?: string | null
+    callToActions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BusinessProfileUncheckedCreateWithoutUserInput = {
+    id?: string
+    about?: string | null
+    uniqueValue?: string | null
+    targetCustomers?: string | null
+    mainPainPoints?: string | null
+    tonePreference?: string | null
+    callToActions?: string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+  }
+
+  export type BusinessProfileCreateOrConnectWithoutUserInput = {
+    where: BusinessProfileWhereUniqueInput
+    create: XOR<BusinessProfileCreateWithoutUserInput, BusinessProfileUncheckedCreateWithoutUserInput>
+  }
+
+  export type KnowledgeChunkCreateWithoutUserInput = {
+    id?: string
+    content: string
+    tags?: KnowledgeChunkCreatetagsInput | string[]
+    embedding: Uint8Array
+    createdAt?: Date | string
+  }
+
+  export type KnowledgeChunkUncheckedCreateWithoutUserInput = {
+    id?: string
+    content: string
+    tags?: KnowledgeChunkCreatetagsInput | string[]
+    embedding: Uint8Array
+    createdAt?: Date | string
+  }
+
+  export type KnowledgeChunkCreateOrConnectWithoutUserInput = {
+    where: KnowledgeChunkWhereUniqueInput
+    create: XOR<KnowledgeChunkCreateWithoutUserInput, KnowledgeChunkUncheckedCreateWithoutUserInput>
+  }
+
+  export type KnowledgeChunkCreateManyUserInputEnvelope = {
+    data: KnowledgeChunkCreateManyUserInput | KnowledgeChunkCreateManyUserInput[]
+    skipDuplicates?: boolean
+  }
+
   export type AccountUpsertWithWhereUniqueWithoutUserInput = {
     where: AccountWhereUniqueInput
     update: XOR<AccountUpdateWithoutUserInput, AccountUncheckedUpdateWithoutUserInput>
@@ -28544,6 +33216,7 @@ export namespace Prisma {
     id?: StringFilter<"Campaign"> | string
     name?: StringFilter<"Campaign"> | string
     description?: StringNullableFilter<"Campaign"> | string | null
+    callToAction?: StringNullableFilter<"Campaign"> | string | null
     status?: StringFilter<"Campaign"> | string
     userId?: StringFilter<"Campaign"> | string
     autoEnrollFromLists?: BoolFilter<"Campaign"> | boolean
@@ -28690,6 +33363,69 @@ export namespace Prisma {
     updatedAt?: DateTimeFilter<"UsageRecord"> | Date | string
   }
 
+  export type BusinessProfileUpsertWithoutUserInput = {
+    update: XOR<BusinessProfileUpdateWithoutUserInput, BusinessProfileUncheckedUpdateWithoutUserInput>
+    create: XOR<BusinessProfileCreateWithoutUserInput, BusinessProfileUncheckedCreateWithoutUserInput>
+    where?: BusinessProfileWhereInput
+  }
+
+  export type BusinessProfileUpdateToOneWithWhereWithoutUserInput = {
+    where?: BusinessProfileWhereInput
+    data: XOR<BusinessProfileUpdateWithoutUserInput, BusinessProfileUncheckedUpdateWithoutUserInput>
+  }
+
+  export type BusinessProfileUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    uniqueValue?: NullableStringFieldUpdateOperationsInput | string | null
+    targetCustomers?: NullableStringFieldUpdateOperationsInput | string | null
+    mainPainPoints?: NullableStringFieldUpdateOperationsInput | string | null
+    tonePreference?: NullableStringFieldUpdateOperationsInput | string | null
+    callToActions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type BusinessProfileUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    about?: NullableStringFieldUpdateOperationsInput | string | null
+    uniqueValue?: NullableStringFieldUpdateOperationsInput | string | null
+    targetCustomers?: NullableStringFieldUpdateOperationsInput | string | null
+    mainPainPoints?: NullableStringFieldUpdateOperationsInput | string | null
+    tonePreference?: NullableStringFieldUpdateOperationsInput | string | null
+    callToActions?: NullableStringFieldUpdateOperationsInput | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkUpsertWithWhereUniqueWithoutUserInput = {
+    where: KnowledgeChunkWhereUniqueInput
+    update: XOR<KnowledgeChunkUpdateWithoutUserInput, KnowledgeChunkUncheckedUpdateWithoutUserInput>
+    create: XOR<KnowledgeChunkCreateWithoutUserInput, KnowledgeChunkUncheckedCreateWithoutUserInput>
+  }
+
+  export type KnowledgeChunkUpdateWithWhereUniqueWithoutUserInput = {
+    where: KnowledgeChunkWhereUniqueInput
+    data: XOR<KnowledgeChunkUpdateWithoutUserInput, KnowledgeChunkUncheckedUpdateWithoutUserInput>
+  }
+
+  export type KnowledgeChunkUpdateManyWithWhereWithoutUserInput = {
+    where: KnowledgeChunkScalarWhereInput
+    data: XOR<KnowledgeChunkUpdateManyMutationInput, KnowledgeChunkUncheckedUpdateManyWithoutUserInput>
+  }
+
+  export type KnowledgeChunkScalarWhereInput = {
+    AND?: KnowledgeChunkScalarWhereInput | KnowledgeChunkScalarWhereInput[]
+    OR?: KnowledgeChunkScalarWhereInput[]
+    NOT?: KnowledgeChunkScalarWhereInput | KnowledgeChunkScalarWhereInput[]
+    id?: StringFilter<"KnowledgeChunk"> | string
+    userId?: StringFilter<"KnowledgeChunk"> | string
+    content?: StringFilter<"KnowledgeChunk"> | string
+    tags?: StringNullableListFilter<"KnowledgeChunk">
+    embedding?: BytesFilter<"KnowledgeChunk"> | Uint8Array
+    createdAt?: DateTimeFilter<"KnowledgeChunk"> | Date | string
+  }
+
   export type UserCreateWithoutAccountsInput = {
     id?: string
     name?: string | null
@@ -28702,6 +33438,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -28718,6 +33456,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutAccountsInput = {
@@ -28732,6 +33472,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -28748,6 +33490,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutAccountsInput = {
@@ -28778,6 +33522,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28794,6 +33540,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutAccountsInput = {
@@ -28808,6 +33556,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28824,6 +33574,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutSessionsInput = {
@@ -28838,6 +33590,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -28854,6 +33608,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutSessionsInput = {
@@ -28868,6 +33624,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -28884,6 +33642,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutSessionsInput = {
@@ -28914,6 +33674,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28930,6 +33692,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutSessionsInput = {
@@ -28944,6 +33708,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -28960,6 +33726,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutListsInput = {
@@ -28974,6 +33742,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -28990,6 +33760,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutListsInput = {
@@ -29004,6 +33776,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -29020,6 +33794,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutListsInput = {
@@ -29100,6 +33876,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29116,6 +33894,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutListsInput = {
@@ -29130,6 +33910,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29146,6 +33928,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type ProspectListUpsertWithWhereUniqueWithoutListInput = {
@@ -29215,6 +33999,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -29231,6 +34017,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCampaignsInput = {
@@ -29245,6 +34033,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -29261,6 +34051,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCampaignsInput = {
@@ -29431,6 +34223,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29447,6 +34241,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCampaignsInput = {
@@ -29461,6 +34257,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -29477,6 +34275,8 @@ export namespace Prisma {
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type SequenceUpsertWithWhereUniqueWithoutCampaignInput = {
@@ -29577,6 +34377,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -29591,6 +34392,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     userId: string
     autoEnrollFromLists?: boolean
@@ -29650,6 +34452,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29664,6 +34467,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
@@ -29713,6 +34517,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -29727,6 +34532,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     userId: string
     autoEnrollFromLists?: boolean
@@ -29757,6 +34563,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29771,6 +34578,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
@@ -29785,6 +34593,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -29799,6 +34608,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     userId: string
     autoEnrollFromLists?: boolean
@@ -29925,6 +34735,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -29939,6 +34750,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
@@ -30253,6 +35065,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -30267,6 +35080,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     userId: string
     autoEnrollFromLists?: boolean
@@ -30294,6 +35108,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -30310,6 +35126,8 @@ export namespace Prisma {
     lists?: ListCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutCalendarEventsInput = {
@@ -30324,6 +35142,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -30340,6 +35160,8 @@ export namespace Prisma {
     lists?: ListUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutCalendarEventsInput = {
@@ -30401,6 +35223,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30415,6 +35238,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     userId?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
@@ -30448,6 +35272,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30464,6 +35290,8 @@ export namespace Prisma {
     lists?: ListUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutCalendarEventsInput = {
@@ -30478,6 +35306,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30494,6 +35324,8 @@ export namespace Prisma {
     lists?: ListUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutEmailInteractionsInput = {
@@ -30508,6 +35340,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -30524,6 +35358,8 @@ export namespace Prisma {
     lists?: ListCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutEmailInteractionsInput = {
@@ -30538,6 +35374,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -30554,6 +35392,8 @@ export namespace Prisma {
     lists?: ListUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutEmailInteractionsInput = {
@@ -30584,6 +35424,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30600,6 +35442,8 @@ export namespace Prisma {
     lists?: ListUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutEmailInteractionsInput = {
@@ -30614,6 +35458,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30630,6 +35476,8 @@ export namespace Prisma {
     lists?: ListUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
   }
 
   export type UserCreateWithoutUsageRecordsInput = {
@@ -30644,6 +35492,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -30660,6 +35510,8 @@ export namespace Prisma {
     lists?: ListCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
   }
 
   export type UserUncheckedCreateWithoutUsageRecordsInput = {
@@ -30674,6 +35526,8 @@ export namespace Prisma {
     subscriptionStatus?: string | null
     currentPeriodStart?: Date | string | null
     currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
     createdAt?: Date | string
     updatedAt?: Date | string
     googleAccessToken?: string | null
@@ -30690,6 +35544,8 @@ export namespace Prisma {
     lists?: ListUncheckedCreateNestedManyWithoutUserInput
     calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
     emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
   }
 
   export type UserCreateOrConnectWithoutUsageRecordsInput = {
@@ -30720,6 +35576,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30736,6 +35594,8 @@ export namespace Prisma {
     lists?: ListUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
   }
 
   export type UserUncheckedUpdateWithoutUsageRecordsInput = {
@@ -30750,6 +35610,8 @@ export namespace Prisma {
     subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
     currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
     googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
@@ -30766,6 +35628,312 @@ export namespace Prisma {
     lists?: ListUncheckedUpdateManyWithoutUserNestedInput
     calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
     emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutBusinessProfileInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    serviceLevelId?: string
+    subscriptionStatus?: string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    googleAccessToken?: string | null
+    googleRefreshToken?: string | null
+    googleTokenExpiresAt?: Date | string | null
+    googleEmail?: string | null
+    microsoftAccessToken?: string | null
+    microsoftRefreshToken?: string | null
+    microsoftTokenExpiresAt?: Date | string | null
+    microsoftEmail?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    lists?: ListCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
+    usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkCreateNestedManyWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutBusinessProfileInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    serviceLevelId?: string
+    subscriptionStatus?: string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    googleAccessToken?: string | null
+    googleRefreshToken?: string | null
+    googleTokenExpiresAt?: Date | string | null
+    googleEmail?: string | null
+    microsoftAccessToken?: string | null
+    microsoftRefreshToken?: string | null
+    microsoftTokenExpiresAt?: Date | string | null
+    microsoftEmail?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    lists?: ListUncheckedCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
+    usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    knowledgeChunks?: KnowledgeChunkUncheckedCreateNestedManyWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutBusinessProfileInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutBusinessProfileInput, UserUncheckedCreateWithoutBusinessProfileInput>
+  }
+
+  export type UserUpsertWithoutBusinessProfileInput = {
+    update: XOR<UserUpdateWithoutBusinessProfileInput, UserUncheckedUpdateWithoutBusinessProfileInput>
+    create: XOR<UserCreateWithoutBusinessProfileInput, UserUncheckedCreateWithoutBusinessProfileInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutBusinessProfileInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutBusinessProfileInput, UserUncheckedUpdateWithoutBusinessProfileInput>
+  }
+
+  export type UserUpdateWithoutBusinessProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    microsoftEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    lists?: ListUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
+    usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutBusinessProfileInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    microsoftEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    lists?: ListUncheckedUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
+    usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    knowledgeChunks?: KnowledgeChunkUncheckedUpdateManyWithoutUserNestedInput
+  }
+
+  export type UserCreateWithoutKnowledgeChunksInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    serviceLevelId?: string
+    subscriptionStatus?: string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    googleAccessToken?: string | null
+    googleRefreshToken?: string | null
+    googleTokenExpiresAt?: Date | string | null
+    googleEmail?: string | null
+    microsoftAccessToken?: string | null
+    microsoftRefreshToken?: string | null
+    microsoftTokenExpiresAt?: Date | string | null
+    microsoftEmail?: string | null
+    accounts?: AccountCreateNestedManyWithoutUserInput
+    sessions?: SessionCreateNestedManyWithoutUserInput
+    campaigns?: CampaignCreateNestedManyWithoutUserInput
+    lists?: ListCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventCreateNestedManyWithoutUserInput
+    emailInteractions?: EmailInteractionCreateNestedManyWithoutUserInput
+    usageRecords?: UsageRecordCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileCreateNestedOneWithoutUserInput
+  }
+
+  export type UserUncheckedCreateWithoutKnowledgeChunksInput = {
+    id?: string
+    name?: string | null
+    email: string
+    emailVerified?: Date | string | null
+    image?: string | null
+    stripeCustomerId?: string | null
+    stripeSubscriptionId?: string | null
+    serviceLevelId?: string
+    subscriptionStatus?: string | null
+    currentPeriodStart?: Date | string | null
+    currentPeriodEnd?: Date | string | null
+    inviteCodeUsed?: string | null
+    inviteCodeRedeemedAt?: Date | string | null
+    createdAt?: Date | string
+    updatedAt?: Date | string
+    googleAccessToken?: string | null
+    googleRefreshToken?: string | null
+    googleTokenExpiresAt?: Date | string | null
+    googleEmail?: string | null
+    microsoftAccessToken?: string | null
+    microsoftRefreshToken?: string | null
+    microsoftTokenExpiresAt?: Date | string | null
+    microsoftEmail?: string | null
+    accounts?: AccountUncheckedCreateNestedManyWithoutUserInput
+    sessions?: SessionUncheckedCreateNestedManyWithoutUserInput
+    campaigns?: CampaignUncheckedCreateNestedManyWithoutUserInput
+    lists?: ListUncheckedCreateNestedManyWithoutUserInput
+    calendarEvents?: CalendarEventUncheckedCreateNestedManyWithoutUserInput
+    emailInteractions?: EmailInteractionUncheckedCreateNestedManyWithoutUserInput
+    usageRecords?: UsageRecordUncheckedCreateNestedManyWithoutUserInput
+    businessProfile?: BusinessProfileUncheckedCreateNestedOneWithoutUserInput
+  }
+
+  export type UserCreateOrConnectWithoutKnowledgeChunksInput = {
+    where: UserWhereUniqueInput
+    create: XOR<UserCreateWithoutKnowledgeChunksInput, UserUncheckedCreateWithoutKnowledgeChunksInput>
+  }
+
+  export type UserUpsertWithoutKnowledgeChunksInput = {
+    update: XOR<UserUpdateWithoutKnowledgeChunksInput, UserUncheckedUpdateWithoutKnowledgeChunksInput>
+    create: XOR<UserCreateWithoutKnowledgeChunksInput, UserUncheckedCreateWithoutKnowledgeChunksInput>
+    where?: UserWhereInput
+  }
+
+  export type UserUpdateToOneWithWhereWithoutKnowledgeChunksInput = {
+    where?: UserWhereInput
+    data: XOR<UserUpdateWithoutKnowledgeChunksInput, UserUncheckedUpdateWithoutKnowledgeChunksInput>
+  }
+
+  export type UserUpdateWithoutKnowledgeChunksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    microsoftEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUpdateManyWithoutUserNestedInput
+    sessions?: SessionUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUpdateManyWithoutUserNestedInput
+    lists?: ListUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUpdateManyWithoutUserNestedInput
+    emailInteractions?: EmailInteractionUpdateManyWithoutUserNestedInput
+    usageRecords?: UsageRecordUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUpdateOneWithoutUserNestedInput
+  }
+
+  export type UserUncheckedUpdateWithoutKnowledgeChunksInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    name?: NullableStringFieldUpdateOperationsInput | string | null
+    email?: StringFieldUpdateOperationsInput | string
+    emailVerified?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    image?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeCustomerId?: NullableStringFieldUpdateOperationsInput | string | null
+    stripeSubscriptionId?: NullableStringFieldUpdateOperationsInput | string | null
+    serviceLevelId?: StringFieldUpdateOperationsInput | string
+    subscriptionStatus?: NullableStringFieldUpdateOperationsInput | string | null
+    currentPeriodStart?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    currentPeriodEnd?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    inviteCodeUsed?: NullableStringFieldUpdateOperationsInput | string | null
+    inviteCodeRedeemedAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+    googleAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    googleTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    googleEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftAccessToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftRefreshToken?: NullableStringFieldUpdateOperationsInput | string | null
+    microsoftTokenExpiresAt?: NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+    microsoftEmail?: NullableStringFieldUpdateOperationsInput | string | null
+    accounts?: AccountUncheckedUpdateManyWithoutUserNestedInput
+    sessions?: SessionUncheckedUpdateManyWithoutUserNestedInput
+    campaigns?: CampaignUncheckedUpdateManyWithoutUserNestedInput
+    lists?: ListUncheckedUpdateManyWithoutUserNestedInput
+    calendarEvents?: CalendarEventUncheckedUpdateManyWithoutUserNestedInput
+    emailInteractions?: EmailInteractionUncheckedUpdateManyWithoutUserNestedInput
+    usageRecords?: UsageRecordUncheckedUpdateManyWithoutUserNestedInput
+    businessProfile?: BusinessProfileUncheckedUpdateOneWithoutUserNestedInput
   }
 
   export type AccountCreateManyUserInput = {
@@ -30792,6 +35960,7 @@ export namespace Prisma {
     id?: string
     name: string
     description?: string | null
+    callToAction?: string | null
     status?: string
     autoEnrollFromLists?: boolean
     createdAt?: Date | string
@@ -30855,6 +36024,14 @@ export namespace Prisma {
     aiResponsesGenerated?: number
     createdAt?: Date | string
     updatedAt?: Date | string
+  }
+
+  export type KnowledgeChunkCreateManyUserInput = {
+    id?: string
+    content: string
+    tags?: KnowledgeChunkCreatetagsInput | string[]
+    embedding: Uint8Array
+    createdAt?: Date | string
   }
 
   export type AccountUpdateWithoutUserInput = {
@@ -30921,6 +36098,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30935,6 +36113,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -30949,6 +36128,7 @@ export namespace Prisma {
     id?: StringFieldUpdateOperationsInput | string
     name?: StringFieldUpdateOperationsInput | string
     description?: NullableStringFieldUpdateOperationsInput | string | null
+    callToAction?: NullableStringFieldUpdateOperationsInput | string | null
     status?: StringFieldUpdateOperationsInput | string
     autoEnrollFromLists?: BoolFieldUpdateOperationsInput | boolean
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
@@ -31134,6 +36314,30 @@ export namespace Prisma {
     aiResponsesGenerated?: IntFieldUpdateOperationsInput | number
     createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
     updatedAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkUncheckedUpdateWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
+  }
+
+  export type KnowledgeChunkUncheckedUpdateManyWithoutUserInput = {
+    id?: StringFieldUpdateOperationsInput | string
+    content?: StringFieldUpdateOperationsInput | string
+    tags?: KnowledgeChunkUpdatetagsInput | string[]
+    embedding?: BytesFieldUpdateOperationsInput | Uint8Array
+    createdAt?: DateTimeFieldUpdateOperationsInput | Date | string
   }
 
   export type ProspectListCreateManyListInput = {

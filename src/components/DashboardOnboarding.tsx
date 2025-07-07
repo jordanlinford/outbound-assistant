@@ -18,15 +18,15 @@ export function DashboardOnboarding() {
   const [isVisible, setIsVisible] = useState(true);
   const [steps, setSteps] = useState<OnboardingStep[]>([
     {
-      id: 'email-provider',
+      id: 'provider',
       title: 'Connect Your Email',
       description: 'Connect Gmail or Outlook to start sending campaigns',
       completed: false,
       action: 'Connect Email',
-      href: '#email-provider'
+      href: '/dashboard#connect-email'
     },
     {
-      id: 'first-campaign',
+      id: 'campaign',
       title: 'Create Your First Campaign',
       description: 'Set up an outbound email sequence to reach prospects',
       completed: false,
@@ -34,44 +34,39 @@ export function DashboardOnboarding() {
       href: '/dashboard/campaigns'
     },
     {
-      id: 'add-prospects',
+      id: 'prospects',
       title: 'Add Prospects',
-      description: 'Upload or find prospects to target with your campaigns',
+      description: 'Upload or find prospects to target',
       completed: false,
-      action: 'Find Prospects',
+      action: 'Add Prospects',
       href: '/dashboard/prospects'
     }
   ]);
 
   useEffect(() => {
-    // Check completion status (you can implement actual checks here)
-    checkCompletionStatus();
+    fetchStatus();
   }, []);
 
-  const checkCompletionStatus = async () => {
+  const fetchStatus = async () => {
     try {
-      // Check email provider status
-      const emailResponse = await fetch('/api/email/gmail-test');
-      const emailData = await emailResponse.json();
-      
-      // Check if user has campaigns
-      const campaignsResponse = await fetch('/api/campaigns');
-      const campaignsData = await campaignsResponse.json();
+      const res = await fetch('/api/onboarding/status');
+      if (!res.ok) return;
+      const { providerConnected, hasCampaign, hasProspects } = await res.json();
 
       setSteps(prev => prev.map(step => {
         switch (step.id) {
-          case 'email-provider':
-            return { ...step, completed: emailData.gmail?.status === 'ready' };
-          case 'first-campaign':
-            return { ...step, completed: campaignsData.length > 0 };
-          case 'add-prospects':
-            return { ...step, completed: false }; // You can implement prospect check
+          case 'provider':
+            return { ...step, completed: providerConnected };
+          case 'campaign':
+            return { ...step, completed: hasCampaign };
+          case 'prospects':
+            return { ...step, completed: hasProspects };
           default:
             return step;
         }
       }));
-    } catch (error) {
-      console.error('Error checking onboarding status:', error);
+    } catch (e) {
+      console.error('Onboarding status error', e);
     }
   };
 

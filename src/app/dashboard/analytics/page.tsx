@@ -1,16 +1,68 @@
 'use client';
 
-import { useSession } from 'next-auth/react';
+import { useEffect, useState } from "react";
 
-const stats = [
-  { name: 'Total Emails Sent', value: '1,234', change: '+12%', changeType: 'increase' },
-  { name: 'Open Rate', value: '24.5%', change: '+2.1%', changeType: 'increase' },
-  { name: 'Reply Rate', value: '8.2%', change: '-0.5%', changeType: 'decrease' },
-  { name: 'Meetings Booked', value: '42', change: '+18%', changeType: 'increase' },
-];
+interface Metrics {
+  totalEmailsSent: number;
+  openRate: number; // percentage 0-100
+  replyRate: number; // percentage 0-100
+  meetingsBooked: number;
+}
+
+const placeholder: Metrics = {
+  totalEmailsSent: 0,
+  openRate: 0,
+  replyRate: 0,
+  meetingsBooked: 0,
+};
 
 export default function AnalyticsPage() {
-  const { data: session } = useSession();
+  const [metrics, setMetrics] = useState<Metrics>(placeholder);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    async function fetchMetrics() {
+      try {
+        const res = await fetch("/api/analytics");
+        if (!res.ok) throw new Error("Failed to fetch metrics");
+        const data = await res.json();
+        setMetrics(data.metrics as Metrics);
+      } catch (err) {
+        console.error(err);
+      } finally {
+        setLoading(false);
+      }
+    }
+
+    fetchMetrics();
+  }, []);
+
+  const stats = [
+    {
+      name: "Total Emails Sent",
+      value: metrics.totalEmailsSent.toLocaleString(),
+      changeType: "increase" as const,
+      change: "",
+    },
+    {
+      name: "Open Rate",
+      value: `${metrics.openRate.toFixed(1)}%`,
+      changeType: "increase" as const,
+      change: "",
+    },
+    {
+      name: "Reply Rate",
+      value: `${metrics.replyRate.toFixed(1)}%`,
+      changeType: "increase" as const,
+      change: "",
+    },
+    {
+      name: "Meetings Booked",
+      value: metrics.meetingsBooked.toLocaleString(),
+      changeType: "increase" as const,
+      change: "",
+    },
+  ];
 
   return (
     <div>
@@ -19,71 +71,75 @@ export default function AnalyticsPage() {
         <p className="mt-1 text-sm text-gray-500">Track your outreach performance and campaign metrics.</p>
       </div>
 
-      <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
-        {stats.map((stat) => (
-          <div
-            key={stat.name}
-            className="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6"
-          >
-            <dt>
-              <div className="absolute rounded-md bg-indigo-500 p-3">
-                <svg
-                  className="h-6 w-6 text-white"
-                  fill="none"
-                  viewBox="0 0 24 24"
-                  strokeWidth="1.5"
-                  stroke="currentColor"
+      {loading ? (
+        <p className="text-gray-500">Loading metrics…</p>
+      ) : (
+        <div className="grid grid-cols-1 gap-5 sm:grid-cols-2 lg:grid-cols-4">
+          {stats.map((stat) => (
+            <div
+              key={stat.name}
+              className="relative overflow-hidden rounded-lg bg-white px-4 pb-12 pt-5 shadow sm:px-6 sm:pt-6"
+            >
+              <dt>
+                <div className="absolute rounded-md bg-indigo-500 p-3">
+                  <svg
+                    className="h-6 w-6 text-white"
+                    fill="none"
+                    viewBox="0 0 24 24"
+                    strokeWidth="1.5"
+                    stroke="currentColor"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
+                    />
+                  </svg>
+                </div>
+                <p className="ml-16 truncate text-sm font-medium text-gray-500">{stat.name}</p>
+              </dt>
+              <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
+                <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
+                <p
+                  className={`ml-2 flex items-baseline text-sm font-semibold ${
+                    stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
+                  }`}
                 >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    d="M3 13.125C3 12.504 3.504 12 4.125 12h2.25c.621 0 1.125.504 1.125 1.125v6.75C7.5 20.496 6.996 21 6.375 21h-2.25A1.125 1.125 0 013 19.875v-6.75zM9.75 8.625c0-.621.504-1.125 1.125-1.125h2.25c.621 0 1.125.504 1.125 1.125v11.25c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V8.625zM16.5 4.125c0-.621.504-1.125 1.125-1.125h2.25C20.496 3 21 3.504 21 4.125v15.75c0 .621-.504 1.125-1.125 1.125h-2.25a1.125 1.125 0 01-1.125-1.125V4.125z"
-                  />
-                </svg>
-              </div>
-              <p className="ml-16 truncate text-sm font-medium text-gray-500">{stat.name}</p>
-            </dt>
-            <dd className="ml-16 flex items-baseline pb-6 sm:pb-7">
-              <p className="text-2xl font-semibold text-gray-900">{stat.value}</p>
-              <p
-                className={`ml-2 flex items-baseline text-sm font-semibold ${
-                  stat.changeType === 'increase' ? 'text-green-600' : 'text-red-600'
-                }`}
-              >
-                {stat.changeType === 'increase' ? (
-                  <svg
-                    className="h-5 w-5 flex-shrink-0 self-center text-green-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04L10.75 5.612V16.25A.75.75 0 0110 17z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                ) : (
-                  <svg
-                    className="h-5 w-5 flex-shrink-0 self-center text-red-500"
-                    viewBox="0 0 20 20"
-                    fill="currentColor"
-                    aria-hidden="true"
-                  >
-                    <path
-                      fillRule="evenodd"
-                      d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
-                      clipRule="evenodd"
-                    />
-                  </svg>
-                )}
-                <span className="sr-only"> {stat.changeType === 'increase' ? 'Increased' : 'Decreased'} by </span>
-                {stat.change}
-              </p>
-            </dd>
-          </div>
-        ))}
-      </div>
+                  {stat.changeType === 'increase' ? (
+                    <svg
+                      className="h-5 w-5 flex-shrink-0 self-center text-green-500"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 17a.75.75 0 01-.75-.75V5.612L5.29 9.77a.75.75 0 01-1.08-1.04l5.25-5.5a.75.75 0 011.08 0l5.25 5.5a.75.75 0 11-1.08 1.04L10.75 5.612V16.25A.75.75 0 0110 17z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  ) : (
+                    <svg
+                      className="h-5 w-5 flex-shrink-0 self-center text-red-500"
+                      viewBox="0 0 20 20"
+                      fill="currentColor"
+                      aria-hidden="true"
+                    >
+                      <path
+                        fillRule="evenodd"
+                        d="M10 3a.75.75 0 01.75.75v10.638l3.96-4.158a.75.75 0 111.08 1.04l-5.25 5.5a.75.75 0 01-1.08 0l-5.25-5.5a.75.75 0 111.08-1.04l3.96 4.158V3.75A.75.75 0 0110 3z"
+                        clipRule="evenodd"
+                      />
+                    </svg>
+                  )}
+                  <span className="sr-only"> {stat.changeType === 'increase' ? 'Increased' : 'Decreased'} by </span>
+                  {stat.change}
+                </p>
+              </dd>
+            </div>
+          ))}
+        </div>
+      )}
 
       <div className="mt-8 grid grid-cols-1 gap-8 lg:grid-cols-2">
         <div className="bg-white shadow rounded-lg">

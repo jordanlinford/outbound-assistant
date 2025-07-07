@@ -132,6 +132,8 @@ exports.Prisma.UserScalarFieldEnum = {
   subscriptionStatus: 'subscriptionStatus',
   currentPeriodStart: 'currentPeriodStart',
   currentPeriodEnd: 'currentPeriodEnd',
+  inviteCodeUsed: 'inviteCodeUsed',
+  inviteCodeRedeemedAt: 'inviteCodeRedeemedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt',
   googleAccessToken: 'googleAccessToken',
@@ -181,6 +183,7 @@ exports.Prisma.CampaignScalarFieldEnum = {
   id: 'id',
   name: 'name',
   description: 'description',
+  callToAction: 'callToAction',
   status: 'status',
   userId: 'userId',
   autoEnrollFromLists: 'autoEnrollFromLists',
@@ -349,6 +352,44 @@ exports.Prisma.EmailWarmupScalarFieldEnum = {
   updatedAt: 'updatedAt'
 };
 
+exports.Prisma.InviteCodeScalarFieldEnum = {
+  id: 'id',
+  code: 'code',
+  description: 'description',
+  serviceLevelId: 'serviceLevelId',
+  maxUses: 'maxUses',
+  usedCount: 'usedCount',
+  expiresAt: 'expiresAt',
+  isActive: 'isActive',
+  allowedEmails: 'allowedEmails',
+  createdBy: 'createdBy',
+  notes: 'notes',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.BusinessProfileScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  about: 'about',
+  uniqueValue: 'uniqueValue',
+  targetCustomers: 'targetCustomers',
+  mainPainPoints: 'mainPainPoints',
+  tonePreference: 'tonePreference',
+  callToActions: 'callToActions',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+};
+
+exports.Prisma.KnowledgeChunkScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  content: 'content',
+  tags: 'tags',
+  embedding: 'embedding',
+  createdAt: 'createdAt'
+};
+
 exports.Prisma.SortOrder = {
   asc: 'asc',
   desc: 'desc'
@@ -382,7 +423,10 @@ exports.Prisma.ModelName = {
   UsageRecord: 'UsageRecord',
   PaymentRecord: 'PaymentRecord',
   LeadScore: 'LeadScore',
-  EmailWarmup: 'EmailWarmup'
+  EmailWarmup: 'EmailWarmup',
+  InviteCode: 'InviteCode',
+  BusinessProfile: 'BusinessProfile',
+  KnowledgeChunk: 'KnowledgeChunk'
 };
 
 /**

@@ -43,7 +43,9 @@ export function MicrosoftLoginButton({
         'https://graph.microsoft.com/Calendars.ReadWrite',
       ].join(' '));
       
-      const state = session.user.id; // Use user ID as state for security
+      // Generate state in format expected by callback: user_<sanitizedEmail>_<timestamp>
+      const sanitizedEmail = (session.user.email || '').replace(/[^a-zA-Z0-9]/g, '_');
+      const state = `user_${sanitizedEmail}_${Date.now()}`;
       
       const authUrl = `https://login.microsoftonline.com/common/oauth2/v2.0/authorize?` +
         `client_id=${clientId}&` +

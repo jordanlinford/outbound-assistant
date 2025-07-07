@@ -43,14 +43,26 @@ export async function GET(
     // Calculate engagement metrics
     const metrics = {
       totalProspects: campaign.prospects.length,
-      emailsSent: campaign.prospects.reduce((acc: number, prospect: any) => 
-        acc + prospect.interactions.filter((i: any) => i.type === 'EMAIL_SENT').length, 0),
-      emailsOpened: campaign.prospects.reduce((acc: number, prospect: any) => 
-        acc + prospect.interactions.filter((i: any) => i.type === 'EMAIL_OPENED').length, 0),
-      emailsReplied: campaign.prospects.reduce((acc: number, prospect: any) => 
-        acc + prospect.interactions.filter((i: any) => i.type === 'EMAIL_REPLIED').length, 0),
-      meetingsBooked: campaign.prospects.reduce((acc: number, prospect: any) => 
-        acc + prospect.interactions.filter((i: any) => i.type === 'MEETING_BOOKED').length, 0),
+      emailsSent: campaign.prospects.reduce(
+        (acc: number, prospect: any) =>
+          acc + prospect.interactions.filter((i: any) => i.type === 'email_sent').length,
+        0,
+      ),
+      emailsOpened: campaign.prospects.reduce(
+        (acc: number, prospect: any) =>
+          acc + prospect.interactions.filter((i: any) => i.type === 'email_opened').length,
+        0,
+      ),
+      emailsReplied: campaign.prospects.reduce(
+        (acc: number, prospect: any) =>
+          acc + prospect.interactions.filter((i: any) => i.type === 'email_replied').length,
+        0,
+      ),
+      meetingsBooked: campaign.prospects.reduce(
+        (acc: number, prospect: any) =>
+          acc + prospect.interactions.filter((i: any) => i.type === 'meeting_booked').length,
+        0,
+      ),
       openRate: 0,
       replyRate: 0,
       meetingRate: 0,
@@ -88,7 +100,9 @@ export async function PATCH(
 
   try {
     const body = await request.json();
-    const validatedData = UpdateStatusSchema.parse(body);
+    // Accept lowercase or mixed-case status strings from client by normalizing to uppercase
+    const normalizedStatus = (body.status as string | undefined)?.toUpperCase();
+    const validatedData = UpdateStatusSchema.parse({ status: normalizedStatus });
 
     // Verify campaign exists and belongs to user
     const campaign = await prisma.campaign.findFirst({

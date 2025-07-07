@@ -5,13 +5,15 @@
 // Try Prisma Accelerate: https://pris.ly/cli/accelerate-init
 
 generator client {
-  provider = "prisma-client-js"
-  output   = "../src/generated/prisma"
+  provider        = "prisma-client-js"
+  output          = "../src/generated/prisma"
+  previewFeatures = ["postgresqlExtensions"]
 }
 
 datasource db {
-  provider = "postgresql"
-  url      = env("DATABASE_URL")
+  provider   = "postgresql"
+  url        = env("DATABASE_URL")
+  extensions = [vector]
 }
 
 model User {
@@ -30,6 +32,10 @@ model User {
   subscriptionStatus   String? // active, canceled, past_due, etc.
   currentPeriodStart   DateTime?
   currentPeriodEnd     DateTime?
+
+  // Invite code fields
+  inviteCodeUsed       String? // The invite code they used
+  inviteCodeRedeemedAt DateTime? // When they redeemed it
 
   // Relations
   campaigns         Campaign[]
@@ -50,6 +56,10 @@ model User {
   microsoftRefreshToken   String?   @db.Text
   microsoftTokenExpiresAt DateTime?
   microsoftEmail          String?
+
+  // AI training / business profile
+  businessProfile BusinessProfile?
+  knowledgeChunks KnowledgeChunk[]
 }
 
 model Account {
@@ -102,6 +112,8 @@ model Campaign {
   id             String          @id @default(cuid())
   name           String
   description    String?
+  /// Primary call-to-action for emails (e.g. "Schedule a meeting", "Click link", "Reply with info")
+  callToAction   String?
   status         String          @default("draft") // draft, active, paused, completed
   userId         String
   user           User            @relation(fields: [userId], references: [id], onDelete: Cascade)
@@ -319,4 +331,59 @@ model EmailWarmup {
   updatedAt DateTime @updatedAt
 
   @@unique([userId, email])
+}
+
+model InviteCode {
+  id             String    @id @default(cuid())
+  code           String    @unique // The actual invite code (e.g., "BETA2024", "FRIEND50")
+  description    String? // Optional description for the code
+  serviceLevelId String    @default("pro-monthly") // What service level to grant
+  maxUses        Int       @default(1) // How many times this code can be used
+  usedCount      Int       @default(0) // How many times it's been used
+  expiresAt      DateTime? // Optional expiration date
+  isActive       Boolean   @default(true) // Can be disabled
+
+  // Who can use this code
+  allowedEmails String[] // Optional: restrict to specific emails
+
+  // Metadata
+  createdBy String? // Admin who created it
+  notes     String? // Internal notes
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Stores a user-provided knowledge base that the AI can draw from when generating content
+model BusinessProfile {
+  id     String @id @default(cuid())
+  userId String @unique
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  about           String? @db.Text // Free-form description of the company / offering
+  uniqueValue     String? @db.Text // What makes the product/service unique
+  targetCustomers String? @db.Text // Ideal customer profile
+  mainPainPoints  String? @db.Text // Pain points solved
+  tonePreference  String? // friendly, professional, humorous, etc.
+  callToActions   String? @db.Text // Preferred CTAs, JSON array
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+/// Fine-grained knowledge snippets provided by each user and stored with an OpenAI embedding for retrieval-augmented generation
+model KnowledgeChunk {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  content String   @db.Text
+  tags    String[] @default([])
+
+  /// 1536-dim OpenAI embedding (text-embedding-3-small)
+  embedding Bytes
+
+  createdAt DateTime @default(now())
+
+  @@index([userId])
 }

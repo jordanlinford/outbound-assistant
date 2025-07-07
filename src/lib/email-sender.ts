@@ -149,21 +149,41 @@ export class EmailSender {
     return sender.sendEmail(emailData);
   }
 
-  async sendBulkEmails(emails: EmailData[]): Promise<Array<{ success: boolean; messageId?: string; error?: string; email: string }>> {
-    const results = [];
-    
+  /**
+   * Send a batch of emails with an optional delay between each send. Returns a summary
+   * object so that callers can easily inspect how many were sent vs. failed in
+   * addition to the per-email results array.
+   */
+  async sendBulkEmails(
+    emails: EmailData[],
+    delayMs: number = 1000
+  ): Promise<{
+    sent: number;
+    failed: number;
+    results: Array<{ success: boolean; messageId?: string; error?: string; email: string }>;
+  }> {
+    const results: Array<{ success: boolean; messageId?: string; error?: string; email: string }> = [];
+    let sent = 0;
+    let failed = 0;
+
     for (const emailData of emails) {
       const result = await this.sendEmail(emailData);
-      results.push({
-        ...result,
-        email: emailData.to,
-      });
-      
-      // Add delay between emails to avoid rate limiting
-      await new Promise(resolve => setTimeout(resolve, 1000));
+
+      if (result.success) {
+        sent += 1;
+      } else {
+        failed += 1;
+      }
+
+      results.push({ ...result, email: emailData.to });
+
+      // Respect rate limits between sends if a delay is specified
+      if (delayMs > 0) {
+        await new Promise((resolve) => setTimeout(resolve, delayMs));
+      }
     }
-    
-    return results;
+
+    return { sent, failed, results };
   }
 }
 

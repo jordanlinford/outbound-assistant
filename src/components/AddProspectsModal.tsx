@@ -1,6 +1,6 @@
 'use client';
 
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from './ui/button';
 
 interface AddProspectsModalProps {
@@ -10,7 +10,7 @@ interface AddProspectsModalProps {
 }
 
 export default function AddProspectsModal({ campaignId, onClose, onProspectsAdded }: AddProspectsModalProps) {
-  const [method, setMethod] = useState<'individual' | 'csv'>('individual');
+  const [method, setMethod] = useState<'individual' | 'csv' | 'existing'>('individual');
   const [prospect, setProspect] = useState({
     email: '',
     firstName: '',
@@ -20,6 +20,18 @@ export default function AddProspectsModal({ campaignId, onClose, onProspectsAdde
   });
   const [csvData, setCsvData] = useState('');
   const [adding, setAdding] = useState(false);
+  const [existingProspects, setExistingProspects] = useState<any[]>([]);
+  const [selectedIds, setSelectedIds] = useState<string[]>([]);
+
+  // Fetch prospects when switching to existing tab
+  useEffect(() => {
+    if (method === 'existing' && existingProspects.length === 0) {
+      fetch('/api/prospects')
+        .then(res => res.json())
+        .then(setExistingProspects)
+        .catch(console.error);
+    }
+  }, [method]);
 
   const addIndividualProspect = async () => {
     if (!prospect.email) return;
@@ -90,6 +102,40 @@ export default function AddProspectsModal({ campaignId, onClose, onProspectsAdde
     }
   };
 
+  const addExistingProspects = async () => {
+    if (selectedIds.length === 0) return;
+
+    const prospectsToAdd = existingProspects
+      .filter(p => selectedIds.includes(p.id))
+      .map((p: any) => ({
+        email: p.email,
+        firstName: p.firstName || p.name?.split(' ')[0] || '',
+        lastName: p.lastName || p.name?.split(' ').slice(1).join(' ') || '',
+        company: p.company || '',
+        title: p.title || '',
+      }));
+
+    setAdding(true);
+    try {
+      const response = await fetch(`/api/campaigns/${campaignId}/prospects`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ prospects: prospectsToAdd }),
+      });
+      if (response.ok) {
+        onProspectsAdded();
+        onClose();
+      } else {
+        alert('Failed to add prospects');
+      }
+    } catch (e) {
+      console.error(e);
+      alert('Failed to add prospects');
+    } finally {
+      setAdding(false);
+    }
+  };
+
   return (
     <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
       <div className="bg-white rounded-lg p-6 max-w-2xl w-full mx-4 max-h-[90vh] overflow-y-auto">
@@ -122,6 +168,15 @@ export default function AddProspectsModal({ campaignId, onClose, onProspectsAdde
               }`}
             >
               Import CSV
+            </button>
+            <button
+              onClick={() => setMethod('existing')}
+              className={`px-4 py-2 rounded-md ${method === 'existing' 
+                ? 'bg-blue-100 text-blue-700 border border-blue-300' 
+                : 'bg-gray-100 text-gray-700 border border-gray-300'
+              }`}
+            >
+              From Existing
             </button>
           </div>
         </div>
@@ -207,7 +262,7 @@ export default function AddProspectsModal({ campaignId, onClose, onProspectsAdde
               </Button>
             </div>
           </div>
-        ) : (
+        ) : method === 'csv' ? (
           <div className="space-y-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-2">
@@ -235,6 +290,46 @@ export default function AddProspectsModal({ campaignId, onClose, onProspectsAdde
                 className="bg-blue-600 hover:bg-blue-700"
               >
                 {adding ? 'Adding...' : 'Import Prospects'}
+              </Button>
+            </div>
+          </div>
+        ) : (
+          <div className="space-y-4">
+            {existingProspects.length === 0 ? (
+              <div>Loading prospects...</div>
+            ) : (
+              <div className="max-h-64 overflow-y-auto border rounded-md">
+                <table className="min-w-full text-sm">
+                  <thead className="sticky top-0 bg-gray-50">
+                    <tr>
+                      <th className="p-2 text-left"><input type="checkbox" aria-label="Select all prospects" checked={selectedIds.length === existingProspects.length} onChange={e => setSelectedIds(e.target.checked ? existingProspects.map(p => p.id) : [])} /></th>
+                      <th className="p-2 text-left">Name</th>
+                      <th className="p-2 text-left">Email</th>
+                      <th className="p-2 text-left">Company</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {existingProspects.map((p: any) => (
+                      <tr key={p.id} className="border-t">
+                        <td className="p-2"><input type="checkbox" aria-label={`Select prospect ${p.email}`} checked={selectedIds.includes(p.id)} onChange={e => setSelectedIds(e.target.checked ? [...selectedIds, p.id] : selectedIds.filter(id => id !== p.id))} /></td>
+                        <td className="p-2">{p.name || '-'}</td>
+                        <td className="p-2">{p.email}</td>
+                        <td className="p-2">{p.company || '-'}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            )}
+
+            <div className="flex justify-end space-x-3 pt-4">
+              <Button variant="outline" onClick={onClose}>Cancel</Button>
+              <Button
+                onClick={addExistingProspects}
+                disabled={selectedIds.length === 0 || adding}
+                className="bg-blue-600 hover:bg-blue-700"
+              >
+                {adding ? 'Adding...' : 'Add Selected'}
               </Button>
             </div>
           </div>

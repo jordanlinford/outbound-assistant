@@ -30,7 +30,11 @@ const steps: OnboardingStep[] = [
   },
 ];
 
-export function OnboardingFlow() {
+interface Props {
+  onComplete?: () => void;
+}
+
+export function OnboardingFlow({ onComplete }: Props) {
   const [currentStep, setCurrentStep] = useState(1);
   const [selectedProvider, setSelectedProvider] = useState<'gmail' | 'outlook' | null>(null);
   const [selectedTemplate, setSelectedTemplate] = useState<string>('');
@@ -49,13 +53,35 @@ export function OnboardingFlow() {
 
   const handleNext = () => {
     if (currentStep < steps.length) {
-      setCurrentStep(currentStep + 1);
+      setCurrentStep((s) => s + 1);
     }
   };
 
   const handleBack = () => {
     if (currentStep > 1) {
-      setCurrentStep(currentStep - 1);
+      setCurrentStep((s) => s - 1);
+    }
+  };
+
+  const launchCampaign = async () => {
+    try {
+      const res = await fetch('/api/campaigns', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: 'My First Campaign',
+          description: 'Generated from onboarding wizard',
+          template: selectedTemplate || 'saas',
+        }),
+      });
+      if (res.ok) {
+        const campaign = await res.json();
+        alert('🎉 Campaign created! Let\'s add prospects next.');
+        onComplete?.();
+        window.location.href = `/dashboard/campaigns/${campaign.id}`;
+      }
+    } catch (e) {
+      console.error('Launch campaign failed', e);
     }
   };
 
@@ -153,7 +179,7 @@ export function OnboardingFlow() {
                 </div>
               </div>
             </Card>
-            <Button className="w-full" onClick={() => console.log('Launch campaign')}>
+            <Button className="w-full" onClick={launchCampaign}>
               Launch Campaign
             </Button>
           </div>

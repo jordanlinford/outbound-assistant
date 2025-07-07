@@ -8,6 +8,7 @@ import EmailWarmupDashboard from '@/components/EmailWarmupDashboard';
 import SubscriptionManager from '@/components/SubscriptionManager';
 import { EmailProviderStatus } from '@/components/EmailProviderStatus';
 import { DashboardOnboarding } from '@/components/DashboardOnboarding';
+import { OnboardingFlow } from '@/components/OnboardingFlow';
 
 const enableAutoProspectFinder = process.env.NEXT_PUBLIC_ENABLE_AUTO_PROSPECT_FINDER === 'true';
 
@@ -16,6 +17,8 @@ export default function DashboardPageClient() {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [showAuthSuccess, setShowAuthSuccess] = useState(false);
+  const [onboardingStatus, setOnboardingStatus] = useState<{providerConnected:boolean;hasCampaign:boolean;hasProspects:boolean}|null>(null);
+  const [showWizard, setShowWizard] = useState(false);
 
   useEffect(() => {
     if (searchParams.get('auth') === 'success' && session) {
@@ -25,6 +28,19 @@ export default function DashboardPageClient() {
       setTimeout(() => setShowAuthSuccess(false), 5000);
     }
   }, [searchParams, session]);
+
+  useEffect(() => {
+    async function fetchStatus() {
+      try {
+        const res = await fetch('/api/onboarding/status');
+        if (!res.ok) return;
+        const data = await res.json();
+        setOnboardingStatus(data);
+        setShowWizard(!data.providerConnected);
+      } catch {}
+    }
+    if (status === 'authenticated') fetchStatus();
+  }, [status]);
 
   if (status === 'unauthenticated') {
     return (
@@ -77,6 +93,14 @@ export default function DashboardPageClient() {
         {enableAutoProspectFinder && <AutoProspectFinder />}
         <EmailWarmupDashboard />
       </div>
+
+      {showWizard && (
+        <div className="fixed inset-0 z-50 bg-white/80 backdrop-blur-md flex items-center justify-center">
+          <div className="bg-white shadow-lg rounded-lg w-full max-w-3xl p-6">
+            <OnboardingFlow onComplete={() => setShowWizard(false)} />
+          </div>
+        </div>
+      )}
     </div>
   );
 } 

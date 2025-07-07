@@ -14,7 +14,9 @@ const EmailStepSchema = z.object({
 
 const CreateCampaignSchema = z.object({
   name: z.string().min(1),
-  template: z.string(),
+  description: z.string().optional().default(''),
+  template: z.string().optional(),
+  callToAction: z.string().optional(),
   emailList: z.array(z.object({
     email: z.string().email(),
     firstName: z.string().optional(),
@@ -22,7 +24,7 @@ const CreateCampaignSchema = z.object({
     company: z.string().optional(),
     title: z.string().optional(),
     industry: z.string().optional(),
-  })),
+  })).optional(),
 });
 
 export async function GET(request: Request) {
@@ -68,37 +70,46 @@ export async function POST(request: Request) {
     const body = await request.json();
     const validatedData = CreateCampaignSchema.parse(body);
 
-    // Generate email steps for the first contact to use as template
-    const templateContact = validatedData.emailList[0];
-    const emailSteps = await generateEmailSteps(validatedData.template, templateContact);
+    let sequencesData = undefined;
+    let prospectsData = undefined;
 
-    // Create campaign with sequences
+    if (validatedData.template && validatedData.emailList && validatedData.emailList.length > 0) {
+      const templateContact = validatedData.emailList[0];
+      const emailSteps = await generateEmailSteps(validatedData.template, templateContact);
+
+      sequencesData = {
+        create: emailSteps.map((step, index) => ({
+          name: `Step ${index + 1}`,
+          type: 'EMAIL',
+          content: step.body,
+          subject: step.subject,
+          delay: step.delay,
+          order: index,
+        })),
+      } as const;
+
+      prospectsData = {
+        create: validatedData.emailList.map((prospect) => ({
+          email: prospect.email,
+          firstName: prospect.firstName || '',
+          lastName: prospect.lastName || '',
+          company: prospect.company || '',
+          title: prospect.title || '',
+          status: 'PENDING',
+        })),
+      } as const;
+    }
+
     const campaign = await prisma.campaign.create({
       data: {
         name: validatedData.name,
+        description: validatedData.description,
+        callToAction: validatedData.callToAction || '',
         userId: session.user.id,
         status: 'DRAFT',
-        sequences: {
-          create: emailSteps.map((step, index) => ({
-            name: `Step ${index + 1}`,
-            type: 'EMAIL',
-            content: step.body,
-            subject: step.subject,
-            delay: step.delay,
-            order: index,
-          })),
-        },
-        prospects: {
-          create: validatedData.emailList.map((prospect) => ({
-            email: prospect.email,
-            firstName: prospect.firstName || '',
-            lastName: prospect.lastName || '',
-            company: prospect.company || '',
-            title: prospect.title || '',
-            status: 'PENDING',
-          })),
-        },
-      },
+        ...(sequencesData ? { sequences: sequencesData } : {}),
+        ...(prospectsData ? { prospects: prospectsData } : {}),
+      } as any,
       include: {
         sequences: true,
         prospects: true,

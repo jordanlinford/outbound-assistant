@@ -2,6 +2,9 @@ import { google } from 'googleapis';
 import { prisma } from './prisma';
 import { EmailSender } from './email-sender';
 import { AIEmailResponder } from './ai-email-responder';
+import { getRemainingDailyAllowance } from './deliverability';
+import type { Account } from '@/generated/prisma';
+import { openai } from './openai-client';
 
 interface CampaignConfig {
   name: string;
@@ -35,7 +38,7 @@ export class OutboundCampaignManager {
   private oauth2Client: any;
 
   constructor() {
-    this.emailSender = new EmailSender();
+    this.emailSender = null as unknown as EmailSender;
     this.aiResponder = new AIEmailResponder();
     
     // Initialize Gmail API client
@@ -261,15 +264,13 @@ Email body: ${emailBody.substring(0, 200)}...`;
         throw new Error('Google account not connected. Please reconnect your Gmail account.');
       }
 
-      // Set up email sender with user's credentials
-      this.emailSender = new EmailSender({
-        accessToken: googleAccount.access_token,
-        refreshToken: googleAccount.refresh_token || '',
-        clientId: process.env.GOOGLE_CLIENT_ID!,
-        clientSecret: process.env.GOOGLE_CLIENT_SECRET!,
-      });
+      // Initialise Gmail sender with access token
+      this.emailSender = new EmailSender(googleAccount.access_token, 'gmail');
 
-      // Send first email in sequence to all prospects
+      // Determine how many we are allowed to send today based on service level caps
+      const remainingAllowance = await getRemainingDailyAllowance(userId);
+
+      // Send first email in sequence to all prospects (respect cap)
       const firstSequence = campaign.sequences[0];
       if (!firstSequence) {
         throw new Error('No email sequences found');
@@ -285,6 +286,13 @@ Email body: ${emailBody.substring(0, 200)}...`;
           user
         );
 
+        // Add open-tracking pixel so we can measure email opens
+        const baseUrl = process.env.NEXT_PUBLIC_APP_URL || process.env.NEXTAUTH_URL || '';
+        const trackingPixel = baseUrl
+          ? `<img src="${baseUrl}/api/tracking/open/${prospect.id}.png" alt="" width="1" height="1" style="display:none;" />`
+          : '';
+        const bodyWithPixel = personalizedContent + (trackingPixel ? `\n\n${trackingPixel}` : '');
+
         const personalizedSubject = this.personalizeSubject(
           firstSequence.content, // We'll extract subject from content or use a default
           prospect
@@ -293,7 +301,7 @@ Email body: ${emailBody.substring(0, 200)}...`;
         emailsToSend.push({
           to: prospect.email,
           subject: personalizedSubject,
-          body: personalizedContent,
+          body: bodyWithPixel,
           fromName: user.name || 'Jordan Linford',
           fromEmail: user.email || 'jordanlinford@gmail.com',
           prospectId: prospect.id,
@@ -302,9 +310,13 @@ Email body: ${emailBody.substring(0, 200)}...`;
         });
       }
 
+      // Trim to daily allowance
+      const toSendToday = emailsToSend.slice(0, remainingAllowance === Infinity ? undefined : remainingAllowance);
+      const overflow = emailsToSend.slice(toSendToday.length);
+
       // Send emails with rate limiting
-      console.log(`📧 Sending ${emailsToSend.length} emails...`);
-      const results = await this.emailSender.sendBulkEmails(emailsToSend, 2000); // 2 second delay between emails
+      console.log(`📧 Sending ${toSendToday.length} emails...`);
+      const results = await this.emailSender.sendBulkEmails(toSendToday, 2000);
 
       // Update campaign status
       await prisma.campaign.update({
@@ -313,7 +325,7 @@ Email body: ${emailBody.substring(0, 200)}...`;
       });
 
       // Update prospect statuses
-      const successfulEmails = emailsToSend.slice(0, results.sent);
+      const successfulEmails = toSendToday.slice(0, results.sent);
       if (successfulEmails.length > 0) {
         await prisma.prospect.updateMany({
           where: {
@@ -337,13 +349,36 @@ Email body: ${emailBody.substring(0, 200)}...`;
         await this.scheduleFollowUpEmails(campaign, successfulEmails);
       }
 
+      // Queue overflow for tomorrow
+      if (overflow.length > 0) {
+        const tomorrow = new Date();
+        tomorrow.setDate(tomorrow.getDate() + 1);
+
+        for (const email of overflow) {
+          // Queue for tomorrow as a generic scheduled email
+          await prisma.emailSequence.create({
+            data: {
+              toEmail: email.to,
+              subject: email.subject,
+              body: email.body,
+              scheduledFor: tomorrow,
+              sequenceType: 'initial',
+              status: 'scheduled',
+            },
+          });
+        }
+
+        console.log(`⏳ Daily cap reached. Queued ${overflow.length} emails for tomorrow.`);
+      }
+
       console.log(`✅ Campaign launched! Sent ${results.sent} emails out of ${emailsToSend.length} total`);
       
       return {
         success: true,
         sent: results.sent,
         failed: results.failed,
-        total: emailsToSend.length
+        queued: overflow.length,
+        total: emailsToSend.length,
       };
 
     } catch (error) {
@@ -442,23 +477,26 @@ Email body: ${emailBody.substring(0, 200)}...`;
       contacted: campaign.prospects.filter(p => p.status === 'contacted').length,
       replied: campaign.prospects.filter(p => p.status === 'replied').length,
       qualified: campaign.prospects.filter(p => p.status === 'qualified').length,
-      emailsSent: campaign.prospects.reduce((sum, p) => 
-        sum + p.interactions.filter(i => i.type === 'email_sent').length, 0
+      emailsSent: campaign.prospects.reduce(
+        (sum, p) => sum + p.interactions.filter(i => i.type === 'email_sent').length,
+        0,
       ),
-      repliesReceived: campaign.prospects.reduce((sum, p) => 
-        sum + p.interactions.filter(i => i.type === 'email_replied').length, 0
+      opensReceived: campaign.prospects.reduce(
+        (sum, p) => sum + p.interactions.filter(i => i.type === 'email_opened').length,
+        0,
       ),
-      responseRate: 0,
+      repliesReceived: campaign.prospects.reduce(
+        (sum, p) => sum + p.interactions.filter(i => i.type === 'email_replied').length,
+        0,
+      ),
+      openRate: 0,
+      replyRate: 0,
       conversionRate: 0
     };
 
-    analytics.responseRate = analytics.contacted > 0 
-      ? (analytics.replied / analytics.contacted) * 100 
-      : 0;
-
-    analytics.conversionRate = analytics.replied > 0 
-      ? (analytics.qualified / analytics.replied) * 100 
-      : 0;
+    analytics.openRate = analytics.emailsSent > 0 ? (analytics.opensReceived / analytics.emailsSent) * 100 : 0;
+    analytics.replyRate = analytics.emailsSent > 0 ? (analytics.repliesReceived / analytics.emailsSent) * 100 : 0;
+    analytics.conversionRate = analytics.repliesReceived > 0 ? (analytics.qualified / analytics.repliesReceived) * 100 : 0;
 
     return analytics;
   }
@@ -469,26 +507,28 @@ Email body: ${emailBody.substring(0, 200)}...`;
       
       // Get all campaigns with active sequences
       const campaigns = await prisma.campaign.findMany({
-        where: {
-          status: 'active'
-        },
-        include: {
-          sequences: {
-            include: {
-              prospects: true
-            }
-          }
-        }
+        where: { status: 'active' },
+        include: { sequences: true },
       });
 
       for (const campaign of campaigns) {
+        let remaining = await getRemainingDailyAllowance(campaign.userId);
+
+        if (remaining === 0) {
+          console.log(`⏸️  Daily cap reached for user ${campaign.userId}. Skipping follow-ups.`);
+          continue;
+        }
+
         for (const sequence of campaign.sequences) {
-          // Check for prospects who haven't responded and are due for follow-up
-          const dueProspects = await this.getProspectsForFollowUp(sequence.id);
-          
+          const dueProspects = await this.getProspectsForFollowUp(campaign.id);
+
           for (const prospect of dueProspects) {
+            if (remaining === 0) break;
             await this.sendFollowUpEmail(campaign, sequence, prospect);
+            remaining -= 1;
+            if (remaining === 0) break;
           }
+          if (remaining === 0) break;
         }
       }
       
@@ -499,77 +539,57 @@ Email body: ${emailBody.substring(0, 200)}...`;
     }
   }
 
-  private async getProspectsForFollowUp(sequenceId: string) {
-    // Get prospects who:
-    // 1. Were sent the previous email 3+ days ago
-    // 2. Haven't responded (no interactions)
-    // 3. Haven't been sent the next follow-up yet
-    const threeDaysAgo = new Date();
-    threeDaysAgo.setDate(threeDaysAgo.getDate() - 3);
-
-    return await prisma.prospect.findMany({
+  private async getProspectsForFollowUp(campaignId: string) {
+    // Simple heuristic: prospects in this campaign who are contacted but have not replied yet
+    return prisma.prospect.findMany({
       where: {
-        sequenceId: sequenceId,
-        lastEmailSent: {
-          lte: threeDaysAgo
-        },
-        // No responses recorded
-        interactions: {
-          none: {
-            type: 'email_reply'
-          }
-        },
-        // Still has more steps in sequence
-        currentStep: {
-          lt: 6 // Assuming max 6 steps
-        }
+        campaignId,
+        status: 'contacted',
+        interactions: { none: { type: 'email_replied' } },
       },
-      include: {
-        interactions: true
-      }
+      include: { interactions: true },
     });
   }
 
   private async sendFollowUpEmail(campaign: any, sequence: any, prospect: any): Promise<void> {
     try {
-      console.log(`📧 Sending follow-up ${prospect.currentStep + 1} to ${prospect.email}`);
+      console.log(`📧 Sending follow-up to ${prospect.email}`);
       
+      // Fetch the campaign owner to obtain their access token
+      const user = await prisma.user.findUnique({
+        where: { id: campaign.userId },
+        include: { accounts: true },
+      });
+
+      const googleAccount: Account | undefined = user?.accounts.find((a: any) => a.provider === 'google');
+      if (!googleAccount?.access_token) {
+        console.warn('User has no Gmail token, skipping follow-up');
+        return;
+      }
+
+      const sender = new EmailSender(googleAccount.access_token, 'gmail');
+
       // Generate personalized follow-up email
       const followUpEmail = await this.generateFollowUpEmail(
         campaign,
         prospect,
-        prospect.currentStep + 1
+        1
       );
 
       // Send the email
-      const emailSender = new EmailSender();
-      await emailSender.sendEmail({
+      await sender.sendEmail({
         to: prospect.email,
         subject: followUpEmail.subject,
-        htmlContent: followUpEmail.content,
-        campaignId: campaign.id
+        body: followUpEmail.content,
       });
 
-      // Update prospect status
-      await prisma.prospect.update({
-        where: { id: prospect.id },
-        data: {
-          currentStep: prospect.currentStep + 1,
-          lastEmailSent: new Date(),
-          status: prospect.currentStep + 1 >= 6 ? 'completed' : 'active'
-        }
-      });
-
-      // Log the interaction
+      // Update prospect stage (ignore missing fields in schema)
       await prisma.interaction.create({
         data: {
           prospectId: prospect.id,
-          campaignId: campaign.id,
           type: 'email_sent',
-          subject: followUpEmail.subject,
           content: followUpEmail.content,
-          timestamp: new Date()
-        }
+        },
       });
 
       console.log(`✅ Follow-up sent successfully to ${prospect.email}`);
@@ -608,7 +628,7 @@ The email should:
 Return JSON with 'subject' and 'content' fields.
 `;
 
-    const completion = await this.openai.chat.completions.create({
+    const completion = await openai.chat.completions.create({
       model: 'gpt-4o-mini',
       messages: [{ role: 'user', content: prompt }],
       temperature: 0.7,
